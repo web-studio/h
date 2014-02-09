@@ -1,8 +1,0 @@
-2014/02/09 13:54:34 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in /home/hunter/www/h/framework/framework/web/CWebApplication.php:286
-Stack trace:
-#0 /home/hunter/www/h/framework/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
-#1 /home/hunter/www/h/framework/framework/base/CApplication.php(184): CWebApplication->processRequest()
-#2 /home/hunter/www/h/public_html/index.php(13): CApplication->run()
-#3 {main}
-REQUEST_URI=/favicon.ico
----
