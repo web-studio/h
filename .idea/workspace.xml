@@ -2,113 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb4675a2-0320-4139-a0ca-47f5959e9231" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/autocomplete/indicator.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/autocomplete/jquery.autocomplete.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.ajaxqueue.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.autocomplete.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.ba-bbq.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.ba-bbq.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.bgiframe.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.cookie.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.history.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.maskedinput.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.maskedinput.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.metadata.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.multifile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.rating.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.treeview.async.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.treeview.edit.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.treeview.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.yii.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.yiiactiveform.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jquery.yiitab.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_flat_0_aaaaaa_40x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_flat_75_ffffff_40x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_glass_55_fbf9ee_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_glass_65_ffffff_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_glass_75_dadada_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_glass_75_e6e6e6_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_glass_95_fef1ec_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-icons_222222_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-icons_2e83ff_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-icons_454545_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-icons_888888_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/images/ui-icons_cd0a0a_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery-ui.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.accordion.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.autocomplete.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.button.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.core.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.datepicker.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.dialog.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.menu.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.progressbar.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.resizable.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.selectable.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.slider.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.spinner.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.tabs.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/css/base/jquery.ui.tooltip.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/js/jquery-ui-i18n.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/jui/js/jquery-ui.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/punycode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/punycode.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/rating/delete.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/rating/jquery.rating.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/rating/star.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/ajax-loader.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/file.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/folder-closed.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/folder.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/minus.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/plus.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-black-line.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-black.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-default-line.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-default.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-famfamfam-line.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-famfamfam.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-gray-line.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-gray.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-red-line.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/images/treeview-red.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/treeview/jquery.treeview.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/480c64ac/yiitab/jquery.yiitab.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/d9d842ec/checked.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/d9d842ec/unchecked.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/css/bootstrap-responsive.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/css/bootstrap-responsive.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/css/bootstrap-yii.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/img/glyphicons-halflings-white.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/img/glyphicons-halflings.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/img/loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/js/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/js/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f18b7e50/less/bootstrap-yii.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/detailview/styles.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/bg.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/delete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/down.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/jquery.yiigridview.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/styles.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/up.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/update.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/gridview/view.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/listview/down.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/listview/jquery.yiilistview.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/listview/loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/listview/styles.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/assets/f9f17dd5/listview/up.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/protected/runtime/application.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/protected/runtime/cache/4364fe7aa74080b66dde998f026e3c73.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/protected/runtime/cache/453414857c71e752b7d5faa9a5b7496b.bin" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="h.iws" />
@@ -144,7 +37,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.05076142" vertical-offset="0" max-vertical-offset="591">
+            <state line="3" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.07614213" vertical-offset="0" max-vertical-offset="591">
               <folding />
             </state>
           </provider>
@@ -432,7 +325,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.05076142" vertical-offset="0" max-vertical-offset="591">
+        <state line="3" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.07614213" vertical-offset="0" max-vertical-offset="591">
           <folding />
         </state>
       </provider>

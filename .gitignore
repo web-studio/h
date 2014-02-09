@@ -1,4 +1,5 @@
 /public_html/protected/config/main.php
 /public_html/protected/config/console.php
-
+/public_html/assets/
+/public_html/protected/runtime/
 /.idea
