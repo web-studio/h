@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends AdminController {
+class PagesController extends AdminController {
 
     public function actionCreate()
     {
