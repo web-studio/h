@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table '{{users}}':
  * @property integer $id
- * @property integer $role
+ * @property integer $role_id
  * @property string $login
  * @property string $email
  * @property string $password
@@ -17,13 +17,18 @@
  * @property string $street
  * @property string $activekey
  * @property string $createtime
+ * @property string $updatetime
  * @property string $last_visit
  * @property string $internal_purse
  * @property string $perfect_purse
  * @property string $secret
+ * @property integer $status
  */
 class User extends CActiveRecord
 {
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOACTIVE = 0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,12 +45,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role', 'numerical', 'integerOnly'=>true),
+			array('role_id, status', 'numerical', 'integerOnly'=>true),
 			array('login, email, password, mobile, first_name, last_name, city, country, street, activekey, internal_purse, perfect_purse, secret', 'length', 'max'=>255),
-			array('createtime, last_visit', 'safe'),
+			array('createtime, updatetime, last_visit', 'safe'),
+            array('login, email, mobile', 'unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, role, login, email, password, mobile, first_name, last_name, city, country, street, activekey, createtime, last_visit, internal_purse, perfect_purse, secret', 'safe', 'on'=>'search'),
+			array('id, role_id, status, login, email, password, mobile, first_name, last_name, city, country, street, activekey, createtime, updatetime, last_visit, internal_purse, perfect_purse, secret', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +62,9 @@ class User extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+        return array(
+            'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+        );
 	}
 
 	/**
@@ -67,7 +74,7 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'role' => 'Role',
+			'role_id' => 'Role',
 			'login' => 'Login',
 			'email' => 'Email',
 			'password' => 'Password',
@@ -79,6 +86,7 @@ class User extends CActiveRecord
 			'street' => 'Street',
 			'activekey' => 'Activekey',
 			'createtime' => 'Createtime',
+            'updatetime' => 'Updatetime',
 			'last_visit' => 'Last Visit',
 			'internal_purse' => 'Internal Purse',
 			'perfect_purse' => 'Perfect Purse',
@@ -86,6 +94,47 @@ class User extends CActiveRecord
 		);
 	}
 
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'createtime',
+                'updateAttribute' => 'updatetime',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('NOW()'),
+            ),
+
+        );
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public static function cryptPassword($password, $salt=185023) {
+        return crypt($password, $salt);
+    }
+
+    public static function correctMobileNumber($mobile) {
+        return str_replace(['+','-'],'',$mobile);
+    }
+
+    protected function beforeSave() {
+
+        if ( $this->getIsNewRecord() ) {
+            $this->password = self::cryptPassword($this->password);
+            $this->status = User::STATUS_ACTIVE;
+            $this->internal_purse = strrev(time()) + (mt_rand(10, 99) . mt_rand(10, 99));
+        } else {
+            $old_password = self::model()->findByPk($this->id)->password;
+            if ( $old_password != $this->password ) {
+                $this->password = self::cryptPassword($this->password);
+            }
+            $this->mobile = self::correctMobileNumber($this->mobile);
+        }
+        return parent::beforeSave();
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -105,7 +154,7 @@ class User extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('role',$this->role);
+		$criteria->compare('role_id',$this->role_id);
 		$criteria->compare('login',$this->login,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('password',$this->password,true);
@@ -117,6 +166,7 @@ class User extends CActiveRecord
 		$criteria->compare('street',$this->street,true);
 		$criteria->compare('activekey',$this->activekey,true);
 		$criteria->compare('createtime',$this->createtime,true);
+        $criteria->compare('updatetime',$this->updatetime,true);
 		$criteria->compare('last_visit',$this->last_visit,true);
 		$criteria->compare('internal_purse',$this->internal_purse,true);
 		$criteria->compare('perfect_purse',$this->perfect_purse,true);

@@ -10,7 +10,7 @@ class UserIdentity extends CUserIdentity
 
     protected $_id;
 
-    public $login;
+    public $email;
 
     const ERROR_EMAIL_INVALID = 10;
 
@@ -20,9 +20,9 @@ class UserIdentity extends CUserIdentity
      * @param string $username username
      * @param string $password password
      */
-    public function __construct($login,$password)
+    public function __construct($email,$password)
     {
-        $this->login=$login;
+        $this->email=$email;
         $this->password=$password;
     }
 	/**
@@ -35,11 +35,11 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-        $record = User::model()->findByAttributes(array('login'=>$this->login));
+        $record = User::model()->findByAttributes(array('email'=>$this->email));
 
         if ( null === $record ) {
             $this->errorCode = self::ERROR_EMAIL_INVALID;
-        } elseif (crypt($this->password, 567657) !== $record->password ) {
+        } elseif (crypt($this->password, 185023) !== $record->password ) {
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         } else {
             $this->_id = $record->id;
@@ -66,7 +66,7 @@ class UserIdentity extends CUserIdentity
         return $this->_id;
     }
 
-    public function getLogin() {
-        return $this->login;
+    public function getEmail() {
+        return $this->email;
     }
 }

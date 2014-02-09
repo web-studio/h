@@ -10,9 +10,19 @@ class m140209_101757_create extends CDbMigration
             'title'=>'string'
         ]);
 
+        $this->insert('{{user_roles}}', array(
+            'name' => 'admin',
+            'title' => 'Администратор'
+        ));
+
+        $this->insert('{{user_roles}}', array(
+            'name' => 'user',
+            'title' => 'Пользователь'
+        ));
+
         $this->createTable('{{users}}', [
             'id'=>'pk',
-            'role'=>'int',
+            'role_id'=>'int',
             'login'=>'string',
             'email'=>'string',
             'password'=>'string',

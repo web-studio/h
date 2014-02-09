@@ -2,10 +2,45 @@
 
 class SiteController extends Controller {
 
-	public function actionIndex()
+	public function actionIndex($referral=null)
 	{
+        if ( Yii::app()->user->getState('referral') == null && $referral != null ) {
+            Yii::app()->user->setState('referral', $referral);
+            //$this->redirect('/');
+        }
+        //var_dump(Yii::app()->user->getState('role'));die;
 		$this->render('index');
 	}
+
+    public function actionRegister() {
+
+        if ( Yii::app()->user->id ) {
+            $this->redirect(Yii::app()->createAbsoluteUrl('/private/'));
+        } else {
+            $register = new RegisterForm();
+
+            if ( Yii::app()->user->getState('referral') != null ) {
+                $referrer = User::model()->find(['select'=>'id, login','condition'=>'login=:referral','params'=>[':referral'=>Yii::app()->user->getState('referral')]]);
+                if ( $referrer != null ) {
+                    $register->referral_id = $referrer->id;
+                    $register->referral = $referrer->login;
+                }
+            }
+
+            if(isset($_POST['RegisterForm']))
+            {
+                $register->attributes=$_POST['RegisterForm'];
+                if( $register->validate() && $register->register() ) {
+                    Yii::app()->user->setFlash('successMessage', 'Registration was successful');
+                    $this->redirect(Yii::app()->user->returnUrl);
+                }
+            }
+            $this->render('register', array(
+                'register' => $register,
+            ));
+        }
+
+    }
 
     public function actionLogin()
     {

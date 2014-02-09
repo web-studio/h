@@ -10,6 +10,8 @@
  */
 class UserRole extends CActiveRecord
 {
+    const ADMIN_ROLE = 1;
+    const USER_ROLE = 2;
 	/**
 	 * @return string the associated database table name
 	 */
