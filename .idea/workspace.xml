@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb4675a2-0320-4139-a0ca-47f5959e9231" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/protected/config/console.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public_html/protected/config/main.php" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public_html/protected/config/console.example.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public_html/protected/config/main.example.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/protected/config/console.php" afterPath="$PROJECT_DIR$/public_html/protected/config/console.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="h.iws" />
@@ -37,10 +37,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="20" selection-start="101" selection-end="101" vertical-scroll-proportion="0.048701297" vertical-offset="0" max-vertical-offset="616">
+            <state line="2" column="20" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public_html/protected/config/main.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="14" selection-start="0" selection-end="2401" vertical-scroll-proportion="-10.625" vertical-offset="360" max-vertical-offset="1305">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public_html/protected/config/console.php">
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="26" selection-start="0" selection-end="856" vertical-scroll-proportion="-8.931034" vertical-offset="26" max-vertical-offset="630">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console.example.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public_html/protected/config/console.example.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="2" selection-start="1066" selection-end="1066" vertical-scroll-proportion="-22.375" vertical-offset="3" max-vertical-offset="630">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.example.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public_html/protected/config/main.example.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="2" selection-start="2401" selection-end="2401" vertical-scroll-proportion="0.94708997" vertical-offset="678" max-vertical-offset="1305">
               <folding />
             </state>
           </provider>
@@ -64,9 +103,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public_html/protected/config/main.php" />
         <option value="$PROJECT_DIR$/public_html/index.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/public_html/protected/config/main.php" />
+        <option value="$PROJECT_DIR$/public_html/protected/config/console.php" />
+        <option value="$PROJECT_DIR$/public_html/protected/config/console.example.php" />
+        <option value="$PROJECT_DIR$/public_html/protected/config/main.example.php" />
       </list>
     </option>
   </component>
@@ -277,7 +319,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="20" selection-start="101" selection-end="101" vertical-scroll-proportion="0.048701297" vertical-offset="0" max-vertical-offset="616">
+        <state line="2" column="20" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/protected/config/console.php">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="26" selection-start="0" selection-end="856" vertical-scroll-proportion="-8.931034" vertical-offset="26" max-vertical-offset="630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/protected/config/console.example.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="2" selection-start="1066" selection-end="1066" vertical-scroll-proportion="-22.375" vertical-offset="3" max-vertical-offset="630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/protected/config/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="14" selection-start="0" selection-end="2401" vertical-scroll-proportion="-10.625" vertical-offset="360" max-vertical-offset="1305">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/protected/config/main.example.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="2" selection-start="2401" selection-end="2401" vertical-scroll-proportion="0.94708997" vertical-offset="678" max-vertical-offset="1305">
           <folding />
         </state>
       </provider>
