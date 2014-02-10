@@ -10,44 +10,32 @@
     <title><?php echo CHtml::encode($this->metaTitle) ?></title>
     <meta name="description" content="<?php echo CHtml::encode($this->metaDescription) ?>">
     <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords) ?>">
+    <?php Yii::app()->clientScript->registerCoreScript('cookie'); ?>
+    <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link media="screen" charset="utf-8" rel="stylesheet" href="css/base.css" />
-    <link media="screen" charset="utf-8" rel="stylesheet" href="css/skeleton.css" />
-    <link media="screen" charset="utf-8" rel="stylesheet" href="css/layout.css" />
-    <link media="screen" charset="utf-8" rel="stylesheet" href="css/child.css" />
-    <link rel="stylesheet" href="css/animate.min.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/jquery.onebyone.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" charset="utf-8" />
+    <link media="screen" charset="utf-8" rel="stylesheet" href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/css/base.css" />
+    <link media="screen" charset="utf-8" rel="stylesheet" href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/css/skeleton.css" />
+    <link media="screen" charset="utf-8" rel="stylesheet" href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/css/layout.css" />
+    <link media="screen" charset="utf-8" rel="stylesheet" href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/css/child.css" />
     <!--[if (IE 6)|(IE 7)]>
-    <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/css/ie.css" type="text/css" media="screen" />
     <![endif]-->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]--><script type="text/javascript" language="javascript" src="js/jquery-1-8-2.js"></script>
-    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="js/jquery.carousel.js"></script>
-    <script type="text/javascript" src="js/jquery.color.animation.js"></script>
-    <script type="text/javascript" src="js/jquery.prettyPhoto.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/default.js"></script>
-    <script type="text/javascript" src="js/jquery.onebyone.min.js"></script>
-    <script type="text/javascript" src="js/jquery.touchwipe.min.js"></script>
+    <![endif]-->
+    <!--script type="text/javascript" language="javascript" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/js/jquery-1-8-2.js"></script-->
+    <script type="text/javascript" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/js/default.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/js/jquery.carousel.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/js/jquery.color.animation.js"></script>
 
-    <!-- color pickers -->
-    <link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
-    <script type="text/javascript" src="js/colorpicker.js"></script>
-    <!-- end of color pickers -->
 
 </head>
 
-<body>
-
-<div class="page-wrapper">
-<div class="slug-pattern slider-expand">
-    <div class="background-image" id="1"></div>
-    <div class="overlay"><div class="slug-cut"></div>
-    </div></div>
-<div class="header slider-expand">
+<body><div class="page-wrapper">
+<div class="slug-pattern"><div class="overlay"><div class="slug-cut"></div></div></div>
+<div class="header">
     <div class="nav">
 
 
@@ -58,7 +46,7 @@
 
                 <div class="five column alpha">
                     <div class="logo">
-                        <a href="index.html"><img src="images/logo.png" /></a><!-- Large Logo -->
+                        <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Large Logo -->
                     </div>
                 </div>
 
@@ -67,83 +55,26 @@
                         <ul class="tabs menu">
                             <li>
                                 <a href="index.html" class="active"><span>Home</span></a>
-                                <ul class="child">
-                                    <li><a href="index-nivo.html">Alternate</a></li>
-                                    <li><a href="index-async.html">Alternate 2</a></li>
-                                    <li><a href="index-flex.html">Alternate 3</a></li>
-                                    <li><a href="index-style-5.html">Alternate 4</a></li>
-                                    <li><a href="index-style-6.html">Alternate 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Pages</a>
-                                <ul class="child">
-                                    <li><a href="index.html">Homepages</a>
-                                        <ul>
-                                            <li><a href="index-nivo.html">Alternate</a></li>
-                                            <li><a href="index-async.html">Alternate 2</a></li>
-                                            <li><a href="index-flex.html">Alternate 3</a></li>
-                                            <li><a href="index-style-5.html">Alternate 4</a></li>
-                                            <li><a href="index-style-6.html">Alternate 5</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="portfolio-standard-3.html">Portfolios</a>
-                                        <ul>
-
-                                            <li><a href="portfolio-standard-1.html">Standard 1 Column</a></li>
-                                            <li><a href="portfolio-standard-2.html">Standard 2 Columns</a></li>
-                                            <li><a href="portfolio-standard-3.html">Standard 3 Columns</a></li>
-                                            <li><a href="portfolio-standard-3-alternate.html">Standard 3 Alternate</a></li><li><a href="portfolio-standard-4.html">Standard 4 Columns</a></li>
-                                            <li><a href="portfolio-standard-5.html">Standard 5 Columns</a></li>
-                                            <li><a href="portfolio-info.html">Info Style</a></li>
-                                            <li><a href="portfolio-basic-1.html">Basic Style</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="blog.html">Blog Pages</a>
-                                        <ul>
-                                            <li><a href="blog.html">Standard Blog</a></li>
-                                            <li><a href="blog-style-2.html">Blog Style 2</a></li>
-                                            <li><a href="blog-style-3.html">Blog Style 3</a></li>
-                                            <li><a href="blog-style-4.html">Blog Style 4</a></li>
-                                            <li><a href="blog-post.html">Blog Post (Single)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact Pages</a>
-                                        <ul>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="contact-style-2.html">Contact 2</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="sidebar-right.html">Sidebar Right</a></li>
-                                    <li><a href="sidebar-left.html">Sidebar Left</a></li>
-                                </ul>
                             </li>
                             <li>
-                                <a href="blog.html">Blog</a>
-                                <ul class="child">
-                                    <li><a href="blog.html">Standard Blog</a></li>
-                                    <li><a href="blog-style-2.html">Blog Style 2</a></li>
-                                    <li><a href="blog-style-3.html">Blog Style 3</a></li>
-                                    <li><a href="blog-style-4.html">Blog Style 4</a></li>
-                                    <li><a href="blog-post.html">Blog Post (Single)</a></li>
-                                </ul>
+                                <a href="#">About us</a>
+                            </li>
+                            <li>
+                                <a href="blog.html">Referral</a>
                             </li>
                             <li>
                                 <a href="portfolio-standard-3.html">
-                                    Portfolio                                        </a>
-                                <ul class="child">
-
-                                    <li><a href="portfolio-standard-1.html">Standard 1 Column</a></li>
-                                    <li><a href="portfolio-standard-2.html">Standard 2 Columns</a></li>
-                                    <li><a href="portfolio-standard-3.html">Standard 3 Columns</a></li>
-                                    <li><a href="portfolio-standard-3-alternate.html">Standard 3 Alternate</a></li><li><a href="portfolio-standard-4.html">Standard 4 Columns</a></li>
-                                    <li><a href="portfolio-standard-5.html">Standard 5 Columns</a></li>
-                                    <li><a href="portfolio-info.html">Info Style</a></li>
-                                    <li><a href="portfolio-basic-1.html">Basic Style</a></li>
-                                </ul>
+                                    FAQ
+                                </a>
                             </li>
                             <li>
-                                <a href="contact.html">
-                                    Contact                                        </a>                                    </li>
+                                <a href="portfolio-standard-3.html">
+                                    Contacts
+                                </a>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -153,7 +84,7 @@
             <div class="mini">
                 <div class="twelve column alpha omega mini">
                     <div class="logo">
-                        <a href="index.html"><img src="images/logoMINI.png" /></a><!-- Small Logo -->
+                        <a href="index.html"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Small Logo -->
                     </div>
                 </div>
 
@@ -169,70 +100,10 @@
     </div>
 
     <div class="shadow"></div>
+    <div class="container">
+        <div class="page-title">
+            <div class="rg"></div>
 
-    <div class="slug">
-        <div class="container">
-            <div class="onebyone-wrapper">
-                <div class="preload">
-                    <center><img src="images/design/preloader.gif" /></center>
-                </div>
-                <div class="fallback">
-                    <img src="images/fallback-image.png" class="scale-with-grid" />
-                </div>
-                <div class="outer">
-
-                    <div class="onebyone hide" id="onebyone">
-
-                        <div id="slide-01" class="oneByOne_item" data-bg="images/background-1.jpg">
-                            <div id="left">
-                                <h3>Introducing:</h3>
-                                <h1>The <strong>Ultimate</strong> Modern Website Solution!</h1>
-                                <h2>Lorem Ipsum Dolar Sit Amet.</h2>
-                            </div>
-                            <div class="button">
-                                <a href="#"><img src="images/button-slider.png" /></a>
-                            </div>
-                            <img src="images/imac-2.png" class="monitor" />
-                            <img src="images/iphone-2.png" class="iphone" />
-                            <img src="images/ipad.png" class="ipad" />
-                        </div>
-
-                        <div id="slide-02" class="oneByOne_item" data-bg="images/background-2.jpg">
-                            <div id="right">
-                                <h2>Slider Feature:</h2>
-                                <h1>Touch Screen Slider</h1>
-                                <h3>Swipe This Slider With a Touchscreen Device!</h3>
-                            </div>
-                            <div class="button">
-                                <a href="#"><img src="images/button-slider.png" /></a>
-                            </div>
-                            <img src="images/ipad.png" class="iphone" />
-                            <img src="images/laptop.png" class="laptop" />
-                            <img src="images/monitor.png" class="monitor" />
-
-                        </div>
-
-                        <div id="slide-03" class="oneByOne_item" data-bg="images/background-1.jpg">
-                            <div id="left">
-                                <h3>Enzyme Is A</h3>
-                                <h1><strong>Unique</strong> and <strong>Clean</strong> Design</h1>
-                                <h2>With Over 30 Responsive Pages!</h2>
-                            </div>
-                            <div class="button">
-                                <a href="#"><img src="images/button-slider.png" /></a>
-                            </div>
-                            <img src="images/onebyone/1_laptop.png" class="laptop" />
-                            <img src="images/onebyone/1_ipad.png" class="ipad" />
-                            <img src="images/onebyone/1_iphone.png" class="iphone" />
-                            <img src="images/onebyone/lens_1.png" class="lens" id="one" />
-                            <img src="images/onebyone/lens_2.png" class="lens" id="two" />
-                            <img src="images/onebyone/lens_3.png" class="lens" id="three" />
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -240,193 +111,38 @@
 <div class="body">
 <div class="body-round"></div>
 <div class="body-wrapper">
-    <div class="side-shadows"></div>
-    <div class="content">
-        <div class="container callout">
+<div class="side-shadows"></div>
+<div class="content">
+<div class="container callout standard">
 
-            <div class="twelve columns">
-                <h4>Welcome to <span>Enzyme</span> - We Build <span>Professional</span> Website Designs!</h4>
-                <p class="subtitle">Enzyme is a unique and responsive theme. Sed volutpat lacinia fringilla.</p>
-            </div>
+    <div class="twelve columns">
+        <h4>Company’s Latest News</h4>
+        <p class="link-location">You are here: <a href="index.html">Home</a> / <a href="#">Some Link</a> / <a href="#">Current Page</a></p>
+    </div>
 
-            <div class="four columns button-wrap">
-                <div class="wrapper"><a href="#" class="medium-button"><span>Buy Enzyme!</span></a></div>
-            </div>
-        </div>
-        <div class="callout-hr"></div>
-        <div class="container">
-
-
-            <div class="sixteen columns">
-                <!-- carousel starts -->
-                <div class="slidewrap">
-                    <div class="title-wrapper">
-                        <div class="section-title">
-                            <h4 class="title"><strong>Recent</strong> Projects</h4>
-                        </div>
-                        <ul class="slidecontrols">
-                            <li><a href="#sliderName" class="next">Next</a></li>
-                            <li><a href="#sliderName" class="prev">Prev</a></li>
-                        </ul>
-                        <span class="divider"></span>
-                        <div class="clear"></div>
-                    </div>
-                    <ul class="slider carousel" id="sliderName">
-                        <li class="slide"><!-- slide starts -->
-                            <div class="one-third column alpha portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-woman-executives.jpg" />
-                                        <a href="images/untouched/woman-executives.jpg" class="prettyPhoto zoom"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                            <div class="one-third column portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-business-model.jpg" />
-                                        <a href="images/untouched/business-model.jpg" class="prettyPhoto zoom"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                            <div class="one-third column omega portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-woman-laptop.jpg" />
-                                        <a class="zoom prettyPhoto" href="images/untouched/woman-laptop.jpg"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                        </li><!-- slide ends -->
-                        <li class="slide"><!-- slide starts -->
-                            <div class="one-third column alpha portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-business-model.jpg" />
-                                        <a href="images/untouched/business-model.jpg" class="prettyPhoto zoom"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                            <div class="one-third column portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-woman-executives.jpg" />
-                                        <a href="images/untouched/woman-executives.jpg" class="prettyPhoto zoom"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                            <div class="one-third column omega portfolio-item">
-                                <div class="content">
-                                    <div class="border">
-                                        <img class="scale-with-grid" src="images/thirds-woman-laptop.jpg" />
-                                        <a href="images/untouched/woman-laptop.jpg" class="zoom prettyPhoto"></a>
-                                        <a class="link" href="portfolio-standard-3.html"></a>
-                                    </div>
-                                    <center><h5 class="noline"><a href="#">Integer Viverra Ante</a></h5></center>
-                                </div>
-                                <div class="shadow"></div>
-                            </div>
-
-                        </li><!-- slide ends -->
-                    </ul>
-                </div><!-- end of carousel -->
-
-                <div class="clear"></div>
-                <span class="hr"></span>
-
-                <div class="callout intext">
-
-                    <div class="alpha twelve columns">
-                        <div class="content">
-                            <h4>We are About to Manifest our Empirical Revolution!</h4>
-                            <p class="subtitle">Pellentesque nec tortor nunc, id adipiscing orci.</p>
-                        </div>
-                    </div>
-
-                    <div class="omega four columns">
-                        <div class="intext-button">
-                            <a href="#" class="big-button"><span>Check it Out!</span></a>
-                        </div>
-                    </div>
-
-                    <div class="clear"></div>
-                </div>
-                <div class="title-wrapper">
-                    <div class="section-title">
-                        <h4 class="title"><strong>Our</strong> Clients</h4>
-                    </div>
-                    <ul class="slidecontrols">
-                        <li><a href="#clientSlider" class="next">Next</a></li>
-                        <li><a href="#clientSlider" class="prev">Prev</a></li>
-                    </ul>
-                    <span class="divider"></span>
-                    <div class="clear"></div>
-                </div>
-            </div>
-
-            <div class="clients columns sixteen slidewrap2">
-                <ul class="slider carousel" id="clientSlider">
-                    <li class="slide">
-                        <div class="client alpha">
-                            <a href="#"><img id="transparent" src="images/logo1.png" /></a>
-                        </div>
-                        <div class="client beta">
-                            <a href="#"><img id="transparent" src="images/logo2.png" /></a>
-                        </div>
-                        <div class="client delta">
-                            <a href="#"><img id="transparent" src="images/logo3.png" /></a>
-                        </div>
-                        <div class="client omega">
-                            <a href="#"><img id="transparent" src="images/logo4.png" /></a>
-                        </div>
-                    </li>
-
-                    <li class="slide">
-                        <div class="client alpha">
-                            <a href="#"><img id="transparent" src="images/logo2.png" /></a>
-                        </div>
-                        <div class="client beta">
-                            <a href="#"><img id="transparent" src="images/logo3.png" /></a>
-                        </div>
-                        <div class="client delta">
-                            <a href="#"><img id="transparent" src="images/logo4.png" /></a>
-                        </div>
-                        <div class="client omega">
-                            <a href="#"><img id="transparent" src="images/logo1.png" /></a>
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-            <div class="clear"></div>
-            <div class="sixteen columns">
-                <span class="hr lip-quote"></span>
-                <blockquote class="standard bottom">
-                    "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity" <br />- Charles Mingus
-                </blockquote>
-            </div>
+    <div class="four columns button-wrap">
+        <div class="wrapper search">
+            <form action="">
+                <input type="text" class="search-box" name="" value="" placeholder='Search...' />
+                <input type="image" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/design/search-icon.png" class="searchbox-submit" value=""/>
+            </form>
         </div>
     </div>
+</div>
+<div class="callout-hr"></div>
+<div class="container">
+<?php echo $content ?>
+
+
+
+    <div class="sixteen columns">
+        <span class="hr lip-quote"></span>
+        <blockquote class="standard bottom">
+            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity" <br />- Charles Mingus
+        </blockquote>
+    </div>
+</div>
+</div>
 </div><div class="footer style-2">
     <div class="background"><div class="stitch"></div></div>
     <div class="foot-nav-bg"></div>
@@ -501,23 +217,8 @@
 </div>
 
 <script type="text/javascript">
-    <!--
-    $(window).load(function(){
-        // Setup Slider
-        $(".onebyone.hide").fadeIn(1000);
-        $('.onebyone').oneByOne({
-            className: 'oneByOne1',
-            easeType: 'random',
-            autoHideButton: false,
-            width: 960,
-            height: 840,
-            minWidth: 680,
-            slideShow: true
-        });
-        $("a[class^='prettyPhoto']").prettyPhoto({social_tools: '' });
-    });
     $(document).ready(function() {
-        $('.slidewrap, .slidewrap2').carousel({
+        $('.slidewrap2').carousel({
             slider: '.slider',
             slide: '.slide',
             slideHed: '.slidehed',
@@ -526,15 +227,9 @@
             addPagination: false,
             addNav : false
         });
-        $('.slide.testimonials').contentSlide();
-        $('.bbss').contentSlide();
     });
-    // -->
 </script>
-<script type="text/javascript" src="http://twitter.com/javascripts/blogger.js"></script>
-<script type="text/javascript" src="http://api.twitter.com/1/statuses/user_timeline/EmpiricalThemes.json?callback=twitterCallback2&count=2"></script>
 </div>
 </body>
 
 </html>
-

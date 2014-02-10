@@ -670,3 +670,31 @@
 	}
 
 
+    .form {
+        text-align: center;
+    }
+    .form .rememberMe label
+    {
+        display: inline;
+    }
+    .form .submit_button {
+        margin: 10px 0 15px 0;
+        font-size: 15px;
+        font-family: "Open Sans";
+        font-weight: 600;
+        font-style: italic;
+        color: #ffffff;
+        border: none;
+        padding: 4px 19px 6px 22px;
+        background-color: #3aa9d2;
+
+    }
+
+    .form .submit_button:hover {
+        background-color: rgb(64, 64, 64);
+    }
+
+    .errorMessage {
+        color: red;
+        margin-bottom: 5px;
+    }

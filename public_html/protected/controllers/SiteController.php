@@ -4,6 +4,8 @@ class SiteController extends Controller {
 
 	public function actionIndex($referral=null)
 	{
+        $this->layout = '//layouts/home_column1';
+
         if ( Yii::app()->user->getState('referral') == null && $referral != null ) {
             Yii::app()->user->setState('referral', $referral);
             //$this->redirect('/');
@@ -42,11 +44,31 @@ class SiteController extends Controller {
 		$this->render('index');
 	}
 
-    public function actionRegister() {
 
+
+    public function actionEnter() {
+        $this->layout = '//layouts/column1';
         if ( Yii::app()->user->id ) {
             $this->redirect(Yii::app()->createAbsoluteUrl('/private/'));
         } else {
+            $loginForm=new LoginForm;
+
+            // if it is ajax validation request
+            if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+            {
+                echo CActiveForm::validate($loginForm);
+                Yii::app()->end();
+            }
+
+            // collect user input data
+            if(isset($_POST['LoginForm']))
+            {
+                $loginForm->attributes=$_POST['LoginForm'];
+                // validate user input and redirect to the previous page if valid
+                if($loginForm->validate() && $loginForm->login())
+                    $this->redirect(Yii::app()->user->returnUrl);
+            }
+
             $register = new RegisterForm();
 
             if ( Yii::app()->user->getState('referral') != null ) {
@@ -65,48 +87,24 @@ class SiteController extends Controller {
                     $this->redirect(Yii::app()->user->returnUrl);
                 }
             }
-            $this->render('register', array(
+
+            $restore = new RestoreForm();
+
+            if(isset($_POST['RestoreForm'])) {
+                $restore->attributes=$_POST['RestoreForm'];
+                // validate user input and redirect to the previous page if valid
+                if( $restore->validate() && $restore->restore() ) {
+                    $this->redirect(Yii::app()->user->returnUrl);
+                }
+            }
+            $this->render('enter', array(
+                'loginForm' => $loginForm,
                 'register' => $register,
+                'restore' => $restore,
             ));
         }
     }
 
-    public function actionPasswordRecovery() {
-        $restore = new RestoreForm();
-
-        if(isset($_POST['RestoreForm'])) {
-            $restore->attributes=$_POST['RestoreForm'];
-            // validate user input and redirect to the previous page if valid
-            if( $restore->validate() && $restore->restore() ) {
-                $this->redirect(Yii::app()->user->returnUrl);
-            }
-        }
-        $this->render('restore',array('restore'=>$restore));
-    }
-
-
-    public function actionLogin()
-    {
-        $model=new LoginForm;
-
-        // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-
-        // collect user input data
-        if(isset($_POST['LoginForm']))
-        {
-            $model->attributes=$_POST['LoginForm'];
-            // validate user input and redirect to the previous page if valid
-            if($model->validate() && $model->login())
-                $this->redirect(Yii::app()->user->returnUrl);
-        }
-        // display the login form
-        $this->render('login',array('model'=>$model));
-    }
 
     public function actionLogout()
     {

@@ -1,5 +1,5 @@
-<? $this->beginContent('//layouts/main') ?>
-	<div class="span12">
-		<?= $content ?>
-	</div>
-<? $this->endContent() ?>
+<?php $this->beginContent('//layouts/main') ?>
+
+<?php echo $content ?>
+
+<?php $this->endContent() ?>

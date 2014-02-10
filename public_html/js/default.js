@@ -212,6 +212,7 @@ $('document').ready(function() {
 			$(this).blur();		
 		});
 	}
+    var toColor = "";
 	$("a.big-button,a.medium-button").mouseenter(function() {
 		if($(this).hasClass('color') || $(this).parent('a').hasClass('color') )
 			return;
@@ -244,24 +245,7 @@ $('document').ready(function() {
 			$(this).animate({padding:'-=4'}, 100);
 		});
 	})
-	/////////////////////////////////////////////
-	// Input Field Placeholder
-	/////////////////////////////////////////////
-	$("input[placeholder]").each(function() {			  
-		$(this).val( $(this).attr('placeholder') ).css('font-style', 'italic');
-		$(this).focus(function() {
-			// if the placeholder value is the same as the text
-			if( $(this).val() === $(this).attr('placeholder') ) {
-				$(this).val('');	// clear the text
-				$(this).css('font-style', 'normal'); // no italic
-			}
-		}).blur(function() {
-			// if the user left the input field with the field blank
-			if( $(this).val().length <= 0 || $(this).val().length == 'undefined' )
-				// set the value to the placeholder
-				$(this).val( $(this).attr('placeholder') ).css('font-style', 'italic');
-		});
-	});
+
 	
 	/////////////////////////////////////////////
 	// Accordion
