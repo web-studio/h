@@ -8,7 +8,37 @@ class SiteController extends Controller {
             Yii::app()->user->setState('referral', $referral);
             //$this->redirect('/');
         }
-        //var_dump(Yii::app()->user->getState('role'));die;
+/*
+        Yii::import('application.extensions.mailer.EMailer');
+        $mailer = new EMailer();
+
+
+        $mailer->IsSMTP();
+        $mailer->SMTPAuth = true;
+
+        $mailer->Host = 'smtp.gmail.com';
+        $mailer->Port = 465;
+
+        $mailer->Username = 'yborschev';  // SMTP login
+        $mailer->Password = ''; // SMTP password
+
+        $mailer->From = 'yborschev@gmail.com';
+        $mailer->FromName = 'administrator';
+
+        $mailer->AddAddress('yborschev@gmail.com');
+
+        $mailer->Subject = 'тест';
+        $mailer->Body = 'текст';
+        $mailer->IsHTML(true);
+
+        $mailer->XMailer = ' ';
+        $mailer->CharSet = 'UTF-8';
+
+        if ($mailer->Send()){
+            echo 1;
+        } else {
+            echo 0;
+        }*/
 		$this->render('index');
 	}
 
@@ -39,8 +69,21 @@ class SiteController extends Controller {
                 'register' => $register,
             ));
         }
-
     }
+
+    public function actionPasswordRecovery() {
+        $restore = new RestoreForm();
+
+        if(isset($_POST['RestoreForm'])) {
+            $restore->attributes=$_POST['RestoreForm'];
+            // validate user input and redirect to the previous page if valid
+            if( $restore->validate() && $restore->restore() ) {
+                $this->redirect(Yii::app()->user->returnUrl);
+            }
+        }
+        $this->render('restore',array('restore'=>$restore));
+    }
+
 
     public function actionLogin()
     {

@@ -7,8 +7,9 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name'=>'Pages Module Demo',
-    'language'=>'ru',
+    'name'=>'New project',
+    'language'=>'en',
+    'theme' => 'profit',
 
     // preloading 'log' component
     'preload'=>array('log','bootstrap'),
@@ -17,18 +18,35 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
+        'application.extensions.*',
     ),
 
     'modules'=>array(
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'gii',
+            // If removed, Gii defaults to localhost only. Edit carefully to taste.
+            'ipFilters'=>array('127.0.0.1','::1'),
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            )
+        ),
         'pages'=>array(
             'cacheId'=>'pagesPathsMap',
         ),
+        'admin',
+        'private',
     ),
 
     // application components
     'components'=>array(
         'user'=>array(
+            // enable cookie-based authentication
             'allowAutoLogin'=>true,
+        ),
+        'authManager'=>array(
+            'class'=>'PhpAuthManager',
+            'defaultRoles' => array('guest'),
         ),
         'urlManager'=>array(
             'urlFormat'=>'path',
@@ -43,10 +61,19 @@ return array(
         ),
         'db'=>array(
             'connectionString'=>'mysql:host=localhost;dbname=hyi',
-            'emulatePrepare'=>true,
-            'username'=>'root',
-            'password'=>'root',
-            'charset'=>'utf8',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => 'root',
+            'charset' => 'utf8',
+            'tablePrefix' => 'tbl_',
+        ),
+        /*'mailer' => array(
+            'class' => 'application.extensions.mailer.EMailer',
+            'pathViews' => 'application.views.email',
+            'pathLayouts' => 'application.views.email.layouts'
+        ),*/
+        'mailer' => array(
+            'class' => 'application.extensions.mailer.EMailer',
         ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
@@ -78,5 +105,18 @@ return array(
     // using Yii::app()->params['paramName']
     'params'=>array(
         'adminEmail'=>'webmaster@example.com',
+        'smtp' => array(
+            "host" => "smtp.yandex.ru", //smtp сервер
+            "debug" => 1, //отображение информации дебаггера (0 - нет вообще)
+            "auth" => true, //сервер требует авторизации
+            "port" => 25, //порт (по-умолчанию - 25)
+            "username" => "rangeweb", //имя пользователя на сервере
+            "password" => "82zczrnhw", //пароль
+            "addreply" => "rangeweb@yandex.ru", //ваш е-mail
+            "replyto" => "yborschev@gmail.com", //e-mail ответа
+            "fromname" => "", //имя
+            "from" => "yborschev@gmail.com", //от кого
+            "charset" => "utf-8", //от кого
+        )
     ),
 );
