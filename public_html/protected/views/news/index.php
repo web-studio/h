@@ -1,15 +1,15 @@
 <?php
 $this->breadcrumbs=array(
-	'Users',
+	'News',
 );
 
 $this->menu=array(
-	array('label'=>'Create User','url'=>array('create')),
-	array('label'=>'Manage User','url'=>array('admin')),
+	array('label'=>'Create News','url'=>array('create')),
+	array('label'=>'Manage News','url'=>array('admin')),
 );
 ?>
 
-<h1>Users</h1>
+<h1>News</h1>
 
 <?php $this->widget('bootstrap.widgets.TbListView',array(
 	'dataProvider'=>$dataProvider,

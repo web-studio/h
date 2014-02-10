@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends AdminController
+class DepositTypeController extends AdminController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -25,14 +25,14 @@ class UserController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new DepositType;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['DepositType']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['DepositType'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -54,9 +54,9 @@ class UserController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['DepositType']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['DepositType'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -86,16 +86,15 @@ class UserController extends AdminController
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
-
 	/**
 	 * Manages all models.
 	 */
 	public function actionIndex()
 	{
-		$model=new User('search');
+		$model=new DepositType('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['DepositType']))
+			$model->attributes=$_GET['DepositType'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -109,7 +108,7 @@ class UserController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=DepositType::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -121,7 +120,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='deposit-type-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

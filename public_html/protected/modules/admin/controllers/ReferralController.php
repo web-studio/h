@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends AdminController
+class ReferralController extends AdminController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -8,10 +8,7 @@ class UserController extends AdminController
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
+
 	public function actionView($id)
 	{
 		$this->render('view',array(
@@ -25,14 +22,14 @@ class UserController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new Referral;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Referral']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Referral'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -54,9 +51,9 @@ class UserController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Referral']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Referral'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -87,15 +84,12 @@ class UserController extends AdminController
 	}
 
 
-	/**
-	 * Manages all models.
-	 */
 	public function actionIndex()
 	{
-		$model=new User('search');
+		$model=new Referral('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['Referral']))
+			$model->attributes=$_GET['Referral'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -109,7 +103,7 @@ class UserController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=Referral::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -121,7 +115,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='referral-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

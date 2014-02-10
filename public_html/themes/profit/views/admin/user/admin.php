@@ -10,7 +10,9 @@ $this->menu=array(
 	array('label'=>'Create User','url'=>array('create')),
 );
 ?>
-
+<div class="btn-toolbar">
+    <?php echo CHtml::link('Create user', array('create'), array('class' => 'btn')) ?>
+</div>
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'user-grid',
 	'dataProvider'=>$model->search(),

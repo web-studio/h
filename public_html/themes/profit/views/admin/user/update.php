@@ -1,4 +1,5 @@
 <?php
+$this->pageTitle = 'Update User ' . $model->id;
 $this->breadcrumbs=array(
 	'Users'=>array('index'),
 	$model->id=>array('view','id'=>$model->id),
@@ -12,7 +13,5 @@ $this->menu=array(
 	array('label'=>'Manage User','url'=>array('admin')),
 );
 ?>
-
-<h1>Update User <?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

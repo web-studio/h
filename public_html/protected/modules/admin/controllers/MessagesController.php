@@ -1,12 +1,48 @@
 <?php
 
-class UserController extends AdminController
+class MessagesController extends AdminController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
+
+	/**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.
@@ -25,14 +61,14 @@ class UserController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new Messages;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Messages']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Messages'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -54,9 +90,9 @@ class UserController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Messages']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Messages'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -86,16 +122,12 @@ class UserController extends AdminController
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
-
-	/**
-	 * Manages all models.
-	 */
 	public function actionIndex()
 	{
-		$model=new User('search');
+		$model=new Messages('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['Messages']))
+			$model->attributes=$_GET['Messages'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -109,7 +141,7 @@ class UserController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=Messages::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -121,7 +153,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='messages-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

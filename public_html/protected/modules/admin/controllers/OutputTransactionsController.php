@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends AdminController
+class OutputTransactionsController extends AdminController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -18,21 +18,18 @@ class UserController extends AdminController
 			'model'=>$this->loadModel($id),
 		));
 	}
+/*
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new OutputTransactions;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['OutputTransactions']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['OutputTransactions'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -42,11 +39,7 @@ class UserController extends AdminController
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
+
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
@@ -54,9 +47,9 @@ class UserController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['OutputTransactions']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['OutputTransactions'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -66,11 +59,7 @@ class UserController extends AdminController
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
+
 	public function actionDelete($id)
 	{
 		if(Yii::app()->request->isPostRequest)
@@ -85,17 +74,16 @@ class UserController extends AdminController
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
-
-
+*/
 	/**
 	 * Manages all models.
 	 */
 	public function actionIndex()
 	{
-		$model=new User('search');
+		$model=new OutputTransactions('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['OutputTransactions']))
+			$model->attributes=$_GET['OutputTransactions'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -109,7 +97,7 @@ class UserController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=OutputTransactions::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -121,7 +109,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='output-transactions-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

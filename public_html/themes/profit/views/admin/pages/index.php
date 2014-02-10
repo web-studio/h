@@ -11,6 +11,11 @@ $('.table').treeTable({
 	initialState: 'expanded'
 });
 ");
+$this->menu=array(
+    array('label'=>'Pages','url'=>array('/admin/pages')),
+    array('label'=>'Users','url'=>array('/admin/user')),
+    array('label'=>'Settings','url'=>array('/admin/user')),
+);
 ?>
 
 <div class="btn-toolbar">
