@@ -1,5 +1,5 @@
-<?
-$this->pageTitle = 'Статические страницы';
+<?php
+$this->pageTitle = 'Pages Module';
 $this->breadcrumbs = array(
 	$this->pageTitle,
 );
@@ -11,16 +11,10 @@ $('.table').treeTable({
 	initialState: 'expanded'
 });
 ");
-$this->menu = [
-    ['label'=> 'Pages','url'=>['/admin/pages'],'linkOptions'=>[]],
-    ['label'=> 'Users','url'=>['/gallery/'],'linkOptions'=>[]],
-    ['label'=> 'Deposits','url'=>['/shipping'],'linkOptions'=>[]],
-    ['label'=> 'Money','url'=>['/contacts'],'linkOptions'=>[]],
-];
 ?>
 
 <div class="btn-toolbar">
-	<?= CHtml::link('Создать страницу', array('create'), array('class' => 'btn')) ?>
+	<?php echo CHtml::link('Создать страницу', array('create'), array('class' => 'btn')) ?>
 </div>
 
 <? $this->widget('TbGridViewTree', array(

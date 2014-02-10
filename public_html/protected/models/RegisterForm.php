@@ -12,7 +12,6 @@ class RegisterForm extends CFormModel
     public $mobile;
     public $secret;
 
-    public $login;
     public $email;
     public $password;
     public $password_repeat;
@@ -21,7 +20,6 @@ class RegisterForm extends CFormModel
     public $country;
     public $street;
 
-    public $referral;
     public $referral_id;
 
     private $_identity;
@@ -35,7 +33,7 @@ class RegisterForm extends CFormModel
     {
         return array(
             // username and password are required
-            array('first_name, last_name, login, password, password_repeat, email', 'required'),
+            array('first_name, last_name, password, password_repeat, email', 'required'),
             array('email', 'email'),
             array('password_repeat', 'compare', 'compareAttribute'=>'password'),
             array('mobile, city, country, street, referral', 'safe')
@@ -72,7 +70,6 @@ class RegisterForm extends CFormModel
         $user = new User();
         $user->first_name = $this->first_name;
         $user->last_name = $this->last_name;
-        $user->login = $this->login;
         $user->email = $this->email;
         $user->password = $this->password;
         $user->mobile = $this->mobile;
@@ -80,7 +77,7 @@ class RegisterForm extends CFormModel
         $user->country = $this->country;
         $user->city = $this->city;
         $user->street = $this->street;
-        $user->role = UserRole::USER_ROLE;
+        $user->role_id = UserRole::USER_ROLE;
 
         $result = $user->save();
 
@@ -91,7 +88,7 @@ class RegisterForm extends CFormModel
             return false;
         }
 
-        if ( $this->referral != null ) {
+        if ( $this->referral_id != null ) {
             $referral = new Referral();
             $referral->user_id = $this->referral_id;
             $referral->ref_id = $user->id;

@@ -75,6 +75,16 @@
                             <li>
                                 <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
                             </li>
+                            <?php if ( !Yii::app()->user->isGuest ) : ?>
+                                <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
+                                    </li>
+                                    <li>
+                                        <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+                                    </li>
+                                <?php endif ?>
+                            <?php endif ?>
                         </ul>
                     </div>
                 </div>

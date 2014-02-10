@@ -75,6 +75,16 @@
                             <li>
                                 <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
                             </li>
+                            <?php if ( !Yii::app()->user->isGuest ) : ?>
+                                <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
+                                    </li>
+                                    <li>
+                                        <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+                                    </li>
+                                <?php endif ?>
+                            <?php endif ?>
                         </ul>
                     </div>
                 </div>
@@ -90,7 +100,7 @@
 
                 <div class="twelve column alpha omega navagation-wrapper">
                     <select class="navagation">
-                        <option value="" selected="selected">Site Navagation</option>
+                        <option value="" selected="selected">Site Navigation</option>
                     </select>
                 </div>
             </div>
@@ -116,18 +126,10 @@
 <div class="container callout standard">
 
     <div class="twelve columns">
-        <h4>Company’s Latest News</h4>
-        <p class="link-location">You are here: <a href="index.html">Home</a> / <a href="#">Some Link</a> / <a href="#">Current Page</a></p>
+        <h4><?php echo $this->pageTitle ?></h4>
+        <p class="link-location"><a href="index.html">Home</a> / <a href="#">My account</a></p>
     </div>
 
-    <div class="four columns button-wrap">
-        <div class="wrapper search">
-            <form action="">
-                <input type="text" class="search-box" name="" value="" placeholder='Search...' />
-                <input type="image" src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/design/search-icon.png" class="searchbox-submit" value=""/>
-            </form>
-        </div>
-    </div>
 </div>
 <div class="callout-hr"></div>
 <div class="container">

@@ -7,7 +7,7 @@ class SiteController extends Controller {
         $this->layout = '//layouts/home_column1';
 
         if ( Yii::app()->user->getState('referral') == null && $referral != null ) {
-            Yii::app()->user->setState('referral', $referral);
+            Yii::app()->user->setState('referral', (int)$referral);
             //$this->redirect('/');
         }
 /*
@@ -71,11 +71,10 @@ class SiteController extends Controller {
 
             $register = new RegisterForm();
 
-            if ( Yii::app()->user->getState('referral') != null ) {
-                $referrer = User::model()->find(['select'=>'id, login','condition'=>'login=:referral','params'=>[':referral'=>Yii::app()->user->getState('referral')]]);
+            if ( Yii::app()->user->getState('referral') > 0 ) {
+                $referrer = User::model()->find(['select'=>'id, login','condition'=>'id=:referral','params'=>[':referral'=>Yii::app()->user->getState('referral')]]);
                 if ( $referrer != null ) {
                     $register->referral_id = $referrer->id;
-                    $register->referral = $referrer->login;
                 }
             }
 
