@@ -16,6 +16,14 @@
  */
 class UserTransactions extends CActiveRecord
 {
+    const AMOUNT_TYPE_RECHARGE = 1; //Пополнение счета
+    const AMOUNT_TYPE_INVESTMENT = 2; //Инвестирование
+    const AMOUNT_TYPE_EARNINGS = 3; //Проценты от инвестиций
+    const AMOUNT_TYPE_OUTPUT = 4; //Вывод
+    const AMOUNT_TYPE_REFERRAL = 5; //Реферальные проценты
+    const AMOUNT_TYPE_TRANSFER = 6; //Перевод средств
+    const AMOUNT_TYPE_BACK_INVESTMENT = 7; // Возврат с депозита
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -71,6 +79,40 @@ class UserTransactions extends CActiveRecord
 		);
 	}
 
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'time',
+                'updateAttribute' => 'time',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('NOW()'),
+            )
+        );
+    }
+
+    public function afterSave()
+    {
+        $prev = self::model()->findBySql('
+            SELECT *
+            FROM ' . $this->tableName() . '
+            WHERE user_id=' . $this->user_id . '
+            AND id<' . $this->id . '
+            ORDER BY id DESC
+            LIMIT 1
+            ');
+        $attr = array();
+        if ( null === $prev ) {
+            $attr['amount_before'] = 0;
+            $attr['amount_after'] = $this->amount;
+        } else {
+            $attr['amount_before'] = $prev->amount_after;
+            $attr['amount_after'] = $attr['amount_before'] + $this->amount;
+        }
+        $this->setIsNewRecord(false);
+        $this->saveAttributes($attr);
+    }
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -114,4 +156,11 @@ class UserTransactions extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function replaceComma($amount) {
+
+        $amount = str_replace(',','.',$amount);
+
+        return (float)$amount;
+    }
 }

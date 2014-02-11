@@ -677,7 +677,7 @@
     {
         display: inline;
     }
-    .form .submit_button {
+    .submit_button {
         margin: 10px 0 15px 0;
         font-size: 15px;
         font-family: "Open Sans";
@@ -690,11 +690,43 @@
 
     }
 
-    .form .submit_button:hover {
+    .submit_button:hover {
         background-color: rgb(64, 64, 64);
     }
 
     .errorMessage {
         color: red;
         margin-bottom: 5px;
+    }
+    .private_menu li {
+
+        min-height: 31px;
+        padding: 14px 0 0 10px;
+        font-weight: normal;
+        font-family: "Open Sans";
+        font-size: 18px;
+        border: 1px solid #e1e0e0;
+        margin: 0;
+        background: #ecebeb;
+        cursor: pointer;
+    }
+    .private_menu li:hover {
+        background: #404040;
+        padding: 14px 15px 0 10px;
+    }
+    .private_menu li:hover a {
+        color: #fff;
+    }
+    .private_menu li a {
+        text-decoration: none;
+    }
+    .private_menu li.active {
+        background: #404040;
+        padding: 14px 15px 0 10px;
+    }
+    .private_menu li.active a {
+        color: #fff;
+    }
+    .center {
+        text-align: center;
     }

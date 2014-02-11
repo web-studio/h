@@ -30,6 +30,7 @@ class Referral extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, ref_id', 'safe', 'on'=>'search'),
+            array('id, user_id, ref_id', 'safe', 'on'=>'referralSearch'),
 		);
 	}
 
@@ -56,6 +57,20 @@ class Referral extends CActiveRecord
 		);
 	}
 
+    public function getSumReferrals() {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT SUM(id)
+                AS id
+                FROM " . self::tableName() . "
+                WHERE user_id=" . Yii::app()->user->id ."
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -82,7 +97,20 @@ class Referral extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+    public function referralSearch()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('ref_id',$this->ref_id);
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

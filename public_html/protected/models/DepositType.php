@@ -69,6 +69,16 @@ class DepositType extends CActiveRecord
 		);
 	}
 
+    public function getNameById($id) {
+        $result = Yii::app()->db->createCommand("
+        SELECT name
+        FROM " . self::tableName() . "
+        WHERE id=" . $id . "
+        ")->queryScalar();
+
+        return $result;
+    }
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

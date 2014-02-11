@@ -2,6 +2,7 @@
 
 class PrivateController extends Controller
 {
+    public $layout='//layouts/private_column2';
 
     public function filters()
     {

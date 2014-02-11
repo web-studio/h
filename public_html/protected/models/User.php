@@ -135,6 +135,43 @@ class User extends CActiveRecord
         }
         return parent::beforeSave();
     }
+
+    public static function formatDate($date) {
+        return date("M d, Y", strtotime($date));
+    }
+
+    public function getAmount() {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT amount_after
+                FROM " . UserTransactions::model()->tableName() . "
+                WHERE user_id=" . Yii::app()->user->id . "
+                ORDER BY id DESC
+                LIMIT 1
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
+    public static function getСropNameById($id) {
+        $result = Yii::app()->db->createCommand()
+            ->select('first_name, last_name')
+            ->from(User::model()->tableName())
+            ->where('id=:id', array(':id'=>$id))
+            ->queryRow();
+
+        if ( strlen($result['last_name']) > 1 ) {
+            $delStr = -1*(strlen($result['last_name'])-1);
+            $last_name = substr_replace($result['last_name'],'.', $delStr);
+        } else {
+            $last_name = $result['last_name'].'.';
+        }
+
+        return $result['first_name'] . ' ' . $last_name;
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

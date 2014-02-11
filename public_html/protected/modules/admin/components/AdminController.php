@@ -2,6 +2,7 @@
 
 class AdminController extends Controller
 {
+    public $layout='//layouts/admin_column2';
 
     public function filters()
     {

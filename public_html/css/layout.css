@@ -655,7 +655,14 @@
 		width:100%;
 		position:relative;
 		margin-bottom:45px;
+        border:1px solid transparent;
+        cursor: pointer;
 	}
+
+    ul.pricing:hover {
+        border:1px solid #404040;
+    }
+
 	ul.pricing .recommended {
 		background:url(../images/design/pricing-table.png) right top no-repeat transparent;
 		width:100px;
@@ -670,7 +677,7 @@
 		border:1px solid #e3e2e2;
 		border-bottom:none;
 		margin:0;
-		padding:0;
+		padding:0 13px 0 13px;
 		text-align:center;
 		font-size:12px;
 		line-height:28px;
@@ -698,7 +705,7 @@
 	}
 	ul.pricing li.price span {
 		font-size:46px;
-		line-height:63px;
+        padding-top: 10px;
 		color:#3aa9d2;
 		font-family:"Open Sans";
 		font-weight:600;
@@ -729,8 +736,6 @@
 	ul.pricing li.price span.rate {
 		font-size:15px;
 		color:#828282;
-		top:-17px;
-		margin-left:2px;
 		position:relative;
 		font-weight:600;
 		font-family:"Open Sans";
