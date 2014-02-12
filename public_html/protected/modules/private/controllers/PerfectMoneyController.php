@@ -50,6 +50,7 @@ class PerfectMoneyController extends PrivateController
     }
 
     public function actionSuccess() {
+        var_dump($_POST);die;
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
             $transaction = new UserTransactionsIncomplete();
