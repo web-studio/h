@@ -16,6 +16,8 @@
  */
 class DepositType extends CActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOACTIVE = 0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -77,6 +79,16 @@ class DepositType extends CActiveRecord
         ")->queryScalar();
 
         return $result;
+    }
+
+    public function getMinDepositAmount() {
+        $minAmount = Yii::app()->db->createCommand()
+            ->select('MIN(min_amount) as minAmount')
+            ->from(self::tableName())
+            ->where('status=:status',[':status'=>self::STATUS_ACTIVE])
+            ->queryScalar();
+
+        return $minAmount;
     }
 
 	/**

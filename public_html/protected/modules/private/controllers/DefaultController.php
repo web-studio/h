@@ -6,9 +6,22 @@ class DefaultController extends PrivateController
 	{
         $user = User::model()->findByPk(Yii::app()->user->id);
 
+        $refill = new RefillAccountForm();
+
+        $refill->PAYEE_ACCOUNT = Yii::app()->params['payee_account'];
+        $refill->PAYEE_NAME = Yii::app()->name;
+        $refill->PAYMENT_ID = Yii::app()->user->id .'P'. time();
+        $refill->PAYMENT_UNITS = Yii::app()->params['payment_units'];
+        $refill->PAYMENT_AMOUNT = DepositType::model()->getMinDepositAmount();
+        $refill->STATUS_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/status');
+        $refill->PAYMENT_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/success');
+        $refill->PAYMENT_URL_METHOD = 'POST';
+        $refill->NOPAYMENT_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/fail');
+        $refill->PAYMENT_URL_METHOD = 'POST';
 
 		$this->render('index', [
-            'user'=>$user
+            'user'=>$user,
+            'refill'=>$refill
         ]);
 	}
 
