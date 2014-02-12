@@ -5,7 +5,7 @@ class PerfectMoneyController extends PrivateController
     public function actionStatus() {
         $transactionInComlete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
 
-        define('ALTERNATE_PHRASE_HASH',  'S7cnmaT786kURd');
+        define('ALTERNATE_PHRASE_HASH',  Yii::app()->params['PassPhrase']);
         // Path to directory to save logs. Make sure it has write permissions.
         define('PATH_TO_LOG',  'protected/runtime/deposit/');
         $alternate = strtoupper(md5(ALTERNATE_PHRASE_HASH));

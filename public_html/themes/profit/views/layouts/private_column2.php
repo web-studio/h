@@ -14,6 +14,18 @@
             <br>
         </div>
     <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash('warningMessage')): ?>
+        <div class="form-result message" style="">
+            <p class="note warning"><?php echo Yii::app()->user->getFlash('warningMessage'); ?></p>
+            <br>
+        </div>
+    <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash('infoMessage')): ?>
+        <div class="form-result message" style="">
+            <p class="note info"><?php echo Yii::app()->user->getFlash('infoMessage'); ?></p>
+            <br>
+        </div>
+    <?php endif; ?>
 
     <script>
         $(document).ready(function () {
