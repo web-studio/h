@@ -64,7 +64,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             'name'=>'amount',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'$data->amount'
+            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount'
         ],
         [
             'name'=>'time',
@@ -77,7 +77,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             'name'=>'amount_after',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'$data->amount_after'
+            'value'=>'"$" . $data->amount_after'
         ],
         [
             'name'=>'reason',

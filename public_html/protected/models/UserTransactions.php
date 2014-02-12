@@ -14,7 +14,7 @@
  * @property string $amount_after
  * @property string $amount_before
  * @property integer $ref_id
- * @property integer receiver_id
+ * @property integer $receiver_id
  */
 class UserTransactions extends CActiveRecord
 {
@@ -163,7 +163,7 @@ class UserTransactions extends CActiveRecord
         $criteria->compare('user_id',$this->user_id);
         $criteria->compare('ref_id',$this->ref_id);
         $criteria->compare('amount',$this->amount,true);
-        $criteria->compare('amount_type',$this->amount_type);
+        $criteria->compare('amount_type',$this->amount_type,true);
         $criteria->compare('payment_id',$this->payment_id,true);
         $criteria->compare('reason',$this->reason,true);
         $criteria->compare('time',$this->time,true);
@@ -173,7 +173,32 @@ class UserTransactions extends CActiveRecord
 
         $criteria->addCondition('amount_type =' .self::AMOUNT_TYPE_TRANSFER .
             ' AND user_id =' . Yii::app()->user->id);
-        $criteria->order = 'ID DESC';
+       // $criteria->order = 'ID DESC';
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
+
+    public function transactionSearch()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('ref_id',$this->ref_id);
+        $criteria->compare('amount',$this->amount,true);
+        $criteria->compare('amount_type',$this->amount_type,true);
+        $criteria->compare('payment_id',$this->payment_id,true);
+        $criteria->compare('reason',$this->reason,true);
+        $criteria->compare('time',$this->time,true);
+        $criteria->compare('amount_after',$this->amount_after,true);
+        $criteria->compare('amount_before',$this->amount_before,true);
+        $criteria->compare('receiver_id',$this->receiver_id,true);
+
+      //  $criteria->order = 'ID DESC';
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -197,4 +222,42 @@ class UserTransactions extends CActiveRecord
 
         return (float)$amount;
     }
+
+    public static function getAmountTypeName($amount_type){
+        if ( $amount_type == self::AMOUNT_TYPE_RECHARGE ){
+            return 'Refill account';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_INVESTMENT ){
+            return 'Investment';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_EARNINGS ){
+            return 'Earnings';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_OUTPUT ){
+            return 'Output';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_REFERRAL ){
+            return 'Referral';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_TRANSFER ){
+            return 'Transfer';
+
+        } elseif ( $amount_type == self::AMOUNT_TYPE_BACK_INVESTMENT ){
+            return 'Back from investment';
+
+        }
+    }
+
+    public static function getListAmountTypeName(){
+        return [
+            self::AMOUNT_TYPE_RECHARGE => 'Refill account',
+            self::AMOUNT_TYPE_INVESTMENT => 'Investment',
+            self::AMOUNT_TYPE_EARNINGS => 'Earnings',
+            self::AMOUNT_TYPE_OUTPUT => 'Output',
+            self::AMOUNT_TYPE_REFERRAL => 'Referral',
+            self::AMOUNT_TYPE_TRANSFER => 'Transfer',
+            self::AMOUNT_TYPE_BACK_INVESTMENT => 'Back from investment',
+        ];
+    }
+
 }

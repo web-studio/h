@@ -105,15 +105,6 @@ class DefaultController extends PrivateController
         if(isset($_GET['UserTransactions'])) {
             $userTransfers->attributes=$_GET['UserTransactions'];
         }
-       /* $transaction_transfer = Yii::app()->db->createCommand()
-            ->from(UserTransactions::model()->tableName())
-            ->where('amount_type =:amount_type AND user_id =:user_id OR receiver_id =:user_id',
-                [
-                    ':amount_type'=>UserTransactions::AMOUNT_TYPE_TRANSFER,
-                    ':user_id'=>Yii::app()->user->id,
-                    ':receiver_id'=>Yii::app()->user->id,
-                ])
-            ->queryAll();*/
         if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
             if ( $_POST['amount'] > 0 && $user != null){
@@ -154,8 +145,12 @@ class DefaultController extends PrivateController
     }
 
     public function actionTransactions() {
+        $userTransactions = new UserTransactions('transactionSearch');
+        if(isset($_GET['UserTransactions'])) {
+            $userTransactions->attributes=$_GET['UserTransactions'];
+        }
         $this->render('transactions', [
-            //'user'=>$user
+            'userTransactions'=>$userTransactions,
         ]);
     }
 }
