@@ -1,3 +1,11 @@
+<?php if (Yii::app()->user->hasFlash('successMessage')): ?>
+    <div class="form-result message" style="">
+        <p class="note success"><?php echo Yii::app()->user->getFlash('successMessage'); ?></p>
+        <br>
+    </div>
+
+<?php endif; ?>
+
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'internalTransfers-form',
     'enableClientValidation'=>true,
@@ -29,12 +37,66 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     ),
 ));
 ?>
-    <span style="font-weight: bold; font-size: 24px">Internal purse: </span>
+<div id="transfer_alert"></div>
 
-    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
+<span style="font-weight: bold; font-size: 24px">Internal purse: </span>
+    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="internal_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
 
-    <div class="clear"></div>
+<div class="clear"></div>
     <div class="center">
         <?php echo CHtml::submitButton('Transfer', ['class'=>'submit_button', 'id'=>'transfer', 'confirm'=>'Сonfirm operation']); ?>
     </div>
 <?php $this->endWidget(); ?>
+<div class="title-wrapper">
+    <div class="section-title">
+        <h4 class="title">My transfers</h4>
+    </div>
+    <span class="divider"></span>
+    <div class="clear"></div>
+</div>
+<?php $this->widget('bootstrap.widgets.TbGridView',array(
+    'id'=>'user-transfer-grid',
+    'dataProvider'=>$userTransfers->transferSearch(),
+    'template' => '{items}{pager}',
+    'columns'=>array(
+
+        [
+            'name'=>'amount',
+            'headerHtmlOptions' => ['style' => 'text-align:center;'],
+            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+            'value'=>'$data->amount'
+        ],
+        [
+            'name'=>'time',
+            'headerHtmlOptions' => ['style' => 'text-align:center;'],
+            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+            'value'=>'User::formatDate($data->time,true)'
+        ],
+
+        [
+            'name'=>'amount_after',
+            'headerHtmlOptions' => ['style' => 'text-align:center;'],
+            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+            'value'=>'$data->amount_after'
+        ],
+        [
+            'name'=>'reason',
+            'headerHtmlOptions' => ['style' => 'text-align:center;'],
+            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+            'value'=>'$data->reason'
+        ],
+
+
+        /*array(
+            'class'=>'bootstrap.widgets.TbButtonColumn',
+        ),*/
+    ),
+)); ?>
+<script>
+    $("#transfer").on("click", function(){
+        if ( $('#internal_purse').val() == 0 ) {
+            $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
+            return false;
+        }
+    })
+</script>

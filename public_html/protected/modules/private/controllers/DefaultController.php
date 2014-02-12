@@ -100,6 +100,20 @@ class DefaultController extends PrivateController
     }
     //перевод средств на внутренний кошелек
     public function actionInternalTransfers() {
+        //Получаем полученные при переводе и переведенные средства авторизованного пользователя
+        $userTransfers = new UserTransactions('transferSearch');
+        if(isset($_GET['UserTransactions'])) {
+            $userTransfers->attributes=$_GET['UserTransactions'];
+        }
+       /* $transaction_transfer = Yii::app()->db->createCommand()
+            ->from(UserTransactions::model()->tableName())
+            ->where('amount_type =:amount_type AND user_id =:user_id OR receiver_id =:user_id',
+                [
+                    ':amount_type'=>UserTransactions::AMOUNT_TYPE_TRANSFER,
+                    ':user_id'=>Yii::app()->user->id,
+                    ':receiver_id'=>Yii::app()->user->id,
+                ])
+            ->queryAll();*/
         if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
             if ( $_POST['amount'] > 0 && $user != null){
@@ -116,18 +130,20 @@ class DefaultController extends PrivateController
                     $transaction_sender->amount = -$_POST['amount'];
                     $transaction_sender->amount_type = UserTransactions::AMOUNT_TYPE_TRANSFER;
                     $transaction_sender->reason = 'Transfer to ' . User::getСropNameById($user->id);
+                    $transaction_sender->receiver_id = $user->id;
                     if ( $transaction_sender->save() ){
-                        echo Yii::app()->user->setFlash('successMessage', 'Operation successful');
+                       Yii::app()->user->setFlash('successMessage', 'Operation was successful');
+                    } else {
+                       Yii::app()->user->setFlash('failMessage', 'Operation was not successful');
+
                     }
                 }
             }else {
-                echo 'Incorrect amount or internal purse';
+                Yii::app()->user->setFlash('failMessage', 'Incorrect amount or internal purse');
             }
-
-
         }
         $this->render('internalTransfers', [
-            'transaction'=>$transaction
+            'userTransfers'=>$userTransfers,
         ]);
     }
 

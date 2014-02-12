@@ -153,6 +153,33 @@ class UserTransactions extends CActiveRecord
 		));
 	}
 
+    public function transferSearch()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('ref_id',$this->ref_id);
+        $criteria->compare('amount',$this->amount,true);
+        $criteria->compare('amount_type',$this->amount_type);
+        $criteria->compare('payment_id',$this->payment_id,true);
+        $criteria->compare('reason',$this->reason,true);
+        $criteria->compare('time',$this->time,true);
+        $criteria->compare('amount_after',$this->amount_after,true);
+        $criteria->compare('amount_before',$this->amount_before,true);
+        $criteria->compare('receiver_id',$this->receiver_id,true);
+
+        $criteria->addCondition('amount_type =' .self::AMOUNT_TYPE_TRANSFER .
+            ' AND user_id =' . Yii::app()->user->id);
+        $criteria->order = 'ID DESC';
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

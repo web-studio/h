@@ -150,8 +150,12 @@ class User extends CActiveRecord
         }
     }
 
-    public static function formatDate($date) {
-        return date("M d, Y", strtotime($date));
+    public static function formatDate($date,$time=false) {
+        if ( $time == false ) {
+            return date("M d, Y", strtotime($date));
+        } else {
+            return date("H:i M d, Y", strtotime($date));
+        }
     }
 
     public function getAmount() {
