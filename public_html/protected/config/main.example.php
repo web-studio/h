@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name'=>'New project',
+    'name'=>'YES-PROFIT',
     'language'=>'en',
     'theme' => 'profit',
 
@@ -117,6 +117,13 @@ return array(
             "fromname" => "", //имя
             "from" => "yborschev@gmail.com", //от кого
             "charset" => "utf-8", //от кого
-        )
+        ),
+        'CronSecretPhrase' => '7g65dwrh78wc6r7wgxr637TY6xhYUGYTYf9867HGVhghj',
+        'perfectPayUrl' => 'https://perfectmoney.is/api/step1.asp', // URL для оплаты перфектмани
+        'AccountID' => '3696152',
+        'payee_account' => 'U5478531',
+        'PassPhrase' => '5djhidijay53merlo',
+        'payment_units' => 'USD',
+        'max_amount_output' => '300',//максимальная сумма для вывода
     ),
 );
