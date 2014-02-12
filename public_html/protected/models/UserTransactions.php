@@ -14,6 +14,7 @@
  * @property string $amount_after
  * @property string $amount_before
  * @property integer $ref_id
+ * @property integer receiver_id
  */
 class UserTransactions extends CActiveRecord
 {
@@ -41,7 +42,7 @@ class UserTransactions extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, ref_id, amount_type', 'numerical', 'integerOnly'=>true),
+			array('user_id, ref_id, amount_type, receiver_id', 'numerical', 'integerOnly'=>true),
 			array('amount, amount_after, amount_before', 'length', 'max'=>10),
 			array('payment_id, reason', 'length', 'max'=>255),
 			array('time', 'safe'),
@@ -77,7 +78,8 @@ class UserTransactions extends CActiveRecord
 			'time' => 'Time',
 			'amount_after' => 'Amount After',
 			'amount_before' => 'Amount Before',
-            'ref_id'=>'Referral id'
+            'ref_id'=>'Referral id',
+            'receiver_id'=>'Receiver Id',
 		);
 	}
 
@@ -143,8 +145,10 @@ class UserTransactions extends CActiveRecord
 		$criteria->compare('time',$this->time,true);
 		$criteria->compare('amount_after',$this->amount_after,true);
 		$criteria->compare('amount_before',$this->amount_before,true);
+        $criteria->compare('receiver_id',$this->receiver_id,true);
 
-		return new CActiveDataProvider($this, array(
+
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}

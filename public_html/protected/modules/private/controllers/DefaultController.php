@@ -85,6 +85,38 @@ class DefaultController extends PrivateController
             'userDeposits'=>$userDeposits,
         ]);
     }
+    //перевод средств на внутренний кошелек
+    public function actionInternalTransfers() {
+        if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+            $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
+            if ( $_POST['amount'] > 0 && $user != null){
+                //Транзакции получателя
+            $transaction_receiver = new UserTransactions();
+            $transaction_receiver->user_id = $user->id;
+            $transaction_receiver->amount = $_POST['amount'];
+            $transaction_receiver->amount_type = UserTransactions::AMOUNT_TYPE_TRANSFER;
+            $transaction_receiver->reason = 'Transfer from ' . User::getСropNameById(Yii::app()->user->id);
+                if  ( $transaction_receiver->save() ) {
+                    //Транзакции отправителя
+                    $transaction_sender = new UserTransactions();
+                    $transaction_sender->user_id = Yii::app()->user->id;
+                    $transaction_sender->amount = -$_POST['amount'];
+                    $transaction_sender->amount_type = UserTransactions::AMOUNT_TYPE_TRANSFER;
+                    $transaction_sender->reason = 'Transfer to ' . User::getСropNameById($user->id);
+                    if ( $transaction_sender->save() ){
+                        echo Yii::app()->user->setFlash('successMessage', 'Operation successful');
+                    }
+                }
+            }else {
+                echo 'Incorrect amount or internal purse';
+            }
+
+
+        }
+        $this->render('internalTransfers', [
+            'transaction'=>$transaction
+        ]);
+    }
 
     public function actionWithdraw() {
         $this->render('withdraw', [
