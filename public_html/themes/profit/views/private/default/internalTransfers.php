@@ -98,5 +98,6 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
             return false;
         }
+
     })
 </script>

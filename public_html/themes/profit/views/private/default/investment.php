@@ -165,3 +165,5 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 
 
 </script>
+
+
