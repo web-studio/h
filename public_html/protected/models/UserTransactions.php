@@ -13,6 +13,7 @@
  * @property string $time
  * @property string $amount_after
  * @property string $amount_before
+ * @property integer $ref_id
  */
 class UserTransactions extends CActiveRecord
 {
@@ -40,13 +41,13 @@ class UserTransactions extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, amount_type', 'numerical', 'integerOnly'=>true),
+			array('user_id, ref_id, amount_type', 'numerical', 'integerOnly'=>true),
 			array('amount, amount_after, amount_before', 'length', 'max'=>10),
 			array('payment_id, reason', 'length', 'max'=>255),
 			array('time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, amount, amount_type, payment_id, reason, time, amount_after, amount_before', 'safe', 'on'=>'search'),
+			array('id, user_id, ref_id, amount, amount_type, payment_id, reason, time, amount_after, amount_before', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,6 +77,7 @@ class UserTransactions extends CActiveRecord
 			'time' => 'Time',
 			'amount_after' => 'Amount After',
 			'amount_before' => 'Amount Before',
+            'ref_id'=>'Referral id'
 		);
 	}
 
@@ -133,6 +135,7 @@ class UserTransactions extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
+        $criteria->compare('ref_id',$this->ref_id);
 		$criteria->compare('amount',$this->amount,true);
 		$criteria->compare('amount_type',$this->amount_type);
 		$criteria->compare('payment_id',$this->payment_id,true);

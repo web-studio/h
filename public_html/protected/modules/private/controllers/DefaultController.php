@@ -16,10 +16,17 @@ class DefaultController extends PrivateController
 
         $user = User::model()->findByPk(Yii::app()->user->id);
 
-        $referrals = new Referral('referralSearch');
+        /*$referrals = new Referral('referralSearch');
         if(isset($_GET['Referral'])) {
             $referrals->attributes=$_GET['Referral'];
-        }
+        }*/
+
+        $referrals = Yii::app()->db->createCommand()
+            ->select('ref_id')
+            ->from(Referral::model()->tableName())
+            ->where('user_id=:user_id', array(':user_id'=>Yii::app()->user->id))
+            ->queryAll();
+
 
         $this->render('referrals', [
             'user'=>$user,

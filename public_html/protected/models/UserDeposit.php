@@ -99,6 +99,23 @@ class UserDeposit extends CActiveRecord
         }
     }
 
+    public function getAmountFirstDeposit($user_id) {
+        if ( !$this->isNewRecord ) {
+
+            $result = Yii::app()->db->createCommand("
+                SELECT deposit_amount
+                FROM " . UserDeposit::model()->tableName() . "
+                WHERE user_id=" . $user_id . "
+                ORDER BY id DESC
+                LIMIT 1
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
     public function getStatus($status) {
         switch ( $status ) {
             case self::STATUS_ACTIVE:

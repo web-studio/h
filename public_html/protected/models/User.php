@@ -136,6 +136,20 @@ class User extends CActiveRecord
         return parent::beforeSave();
     }
 
+    public function isReferral() {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT user_id
+                FROM " . Referral::model()->tableName() . "
+                WHERE ref_id=" . Yii::app()->user->id . "
+                ")->queryRow();
+
+            return $result;
+        } else {
+            return [];
+        }
+    }
+
     public static function formatDate($date) {
         return date("M d, Y", strtotime($date));
     }

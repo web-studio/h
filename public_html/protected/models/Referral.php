@@ -71,6 +71,36 @@ class Referral extends CActiveRecord
             return 0;
         }
     }
+
+    public function getReferralProfit($ref_id) {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT amount
+                FROM " . UserTransactions::model()->tableName() . "
+                WHERE user_id=" . Yii::app()->user->id ." AND ref_id=" . $ref_id . "
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getTotalReferralProfit($ref_id) {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT amount
+                FROM " . UserTransactions::model()->tableName() . "
+                WHERE user_id=" . Yii::app()->user->id ." AND amount_type=" . UserTransactions::AMOUNT_TYPE_REFERRAL . "
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
