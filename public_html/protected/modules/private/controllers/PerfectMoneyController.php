@@ -3,6 +3,36 @@
 class PerfectMoneyController extends PrivateController
 {
     public function actionStatus() {
+        $str = implode(",", $_POST);
+
+        Yii::import('application.extensions.mailer.EMailer');
+        $mailer = new EMailer();
+
+
+        $mailer->IsSMTP();
+        $mailer->SMTPAuth = true;
+
+        $mailer->Host = 'smtp.yandex.ru';
+        $mailer->Port = 25;
+
+        $mailer->Username = 'rangeweb';  // SMTP login
+        $mailer->Password = 'Djcnjxysq915'; // SMTP password
+
+        $mailer->From = 'rangeweb@yandex.ru';
+        $mailer->FromName = 'administrator';
+
+        $mailer->AddAddress('yborschev@gmail.com');
+
+        $mailer->Subject = 'тест';
+        $mailer->Body = $str;
+        $mailer->IsHTML(true);
+
+        $mailer->XMailer = ' ';
+        $mailer->CharSet = 'UTF-8';
+
+        $mailer->Send();
+
+        die;
         $transactionInComlete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
 
         define('ALTERNATE_PHRASE_HASH',  Yii::app()->params['PassPhrase']);
@@ -54,7 +84,7 @@ class PerfectMoneyController extends PrivateController
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
             $transaction = new UserTransactionsIncomplete();
-            $transaction->amount = $_POST['PAYMENT_AMOUNT'];
+            $transaction->amount = 0.1;
             $transaction->payer = $_POST['PAYER_ACCOUNT'];
             $transaction->hash = $_POST['V2_HASH'];
             $transaction->user_id = Yii::app()->user->id;

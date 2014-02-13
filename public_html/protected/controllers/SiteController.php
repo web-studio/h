@@ -10,37 +10,31 @@ class SiteController extends Controller {
             Yii::app()->user->setState('referral', (int)$referral);
             //$this->redirect('/');
         }
-/*
-        Yii::import('application.extensions.mailer.EMailer');
         $mailer = new EMailer();
 
 
         $mailer->IsSMTP();
         $mailer->SMTPAuth = true;
 
-        $mailer->Host = 'smtp.gmail.com';
-        $mailer->Port = 465;
+        $mailer->Host = 'smtp.yandex.ru';
+        $mailer->Port = 25;
 
-        $mailer->Username = 'yborschev';  // SMTP login
-        $mailer->Password = ''; // SMTP password
+        $mailer->Username = 'rangeweb';  // SMTP login
+        $mailer->Password = 'Djcnjxysq915'; // SMTP password
 
-        $mailer->From = 'yborschev@gmail.com';
+        $mailer->From = 'rangeweb@yandex.ru';
         $mailer->FromName = 'administrator';
 
         $mailer->AddAddress('yborschev@gmail.com');
 
         $mailer->Subject = 'тест';
-        $mailer->Body = 'текст';
+        $mailer->Body = 'тест';
         $mailer->IsHTML(true);
 
         $mailer->XMailer = ' ';
         $mailer->CharSet = 'UTF-8';
 
-        if ($mailer->Send()){
-            echo 1;
-        } else {
-            echo 0;
-        }*/
+        $mailer->Send();
 		$this->render('index');
 	}
 
