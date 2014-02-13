@@ -5,32 +5,9 @@ class PerfectMoneyController extends PrivateController
     public function actionStatus() {
         $str = implode(",", $_POST);
 
-        Yii::import('application.extensions.mailer.EMailer');
-        $mailer = new EMailer();
-
-
-        $mailer->IsSMTP();
-        $mailer->SMTPAuth = true;
-
-        $mailer->Host = 'smtp.yandex.ru';
-        $mailer->Port = 25;
-
-        $mailer->Username = 'rangeweb';  // SMTP login
-        $mailer->Password = '82zczrnhw'; // SMTP password
-
-        $mailer->From = 'rangeweb@yandex.ru';
-        $mailer->FromName = 'administrator';
-
-        $mailer->AddAddress('yborschev@gmail.com');
-
-        $mailer->Subject = 'тест';
-        $mailer->Body = $str;
-        $mailer->IsHTML(true);
-
-        $mailer->XMailer = ' ';
-        $mailer->CharSet = 'UTF-8';
-
-        $mailer->Send();
+        $fp = fopen(Yii::getPathOfAlias('webroot.upload') . '/status.csv', 'a');
+        fwrite ($fp, $str . "\r\n");
+        fclose ($fp);
 
         die;
         $transactionInComlete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
