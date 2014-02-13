@@ -49,6 +49,10 @@ class PerfectMoneyController extends Controller
                         fclose ($fp);
                     }
                 }
+            } else {
+                $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
+                fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST).";");
+                fclose ($fp);
             }
 
         } else {
