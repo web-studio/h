@@ -10,7 +10,7 @@ class SiteController extends Controller {
             Yii::app()->user->setState('referral', (int)$referral);
             //$this->redirect('/');
         }
-        $mailer = new EMailer();
+       /* $mailer = new EMailer();
 
 
         $mailer->IsSMTP();
@@ -34,7 +34,7 @@ class SiteController extends Controller {
         $mailer->XMailer = ' ';
         $mailer->CharSet = 'UTF-8';
 
-        $mailer->Send();
+        $mailer->Send();*/
 		$this->render('index');
 	}
 
