@@ -25,7 +25,8 @@
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
             'value'=>'UserTransactions::getAmountTypeName($data->amount_type)',
             'filter' => CHtml::activeDropDownList($userTransactions, 'amount_type',
-                UserTransactions::getListAmountTypeName(), ['empty'=>'All transactions']),
+                UserTransactions::getListAmountTypeName(), ['empty'=>'All transactions',
+                    'style'=>'border:1px solid #d3d3d3; color:#217b9d; font-size:11px; font-weight:bold; width:170px;  background-color: transparent']),
         ],
         [
             'name'=>'time',

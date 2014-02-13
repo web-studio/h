@@ -12,6 +12,7 @@
  * @property string $hash
  * @property string $reason
  * @property string $time
+ * @property string $batch_num
  */
 class UserTransactionsIncomplete extends CActiveRecord
 {
@@ -32,12 +33,12 @@ class UserTransactionsIncomplete extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('payment_id, payer, hash, reason', 'length', 'max'=>255),
+			array('payment_id, payer, hash, reason, batch_num', 'length', 'max'=>255),
 			array('amount', 'length', 'max'=>10),
 			array('time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, payment_id, amount, payer, hash, reason, time', 'safe', 'on'=>'search'),
+			array('id, user_id, payment_id, amount, payer, hash, reason, time, batch_num', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class UserTransactionsIncomplete extends CActiveRecord
 			'hash' => 'Hash',
 			'reason' => 'Reason',
 			'time' => 'Time',
+            'batch_num' => 'Batch num'
 		);
 	}
 
@@ -95,6 +97,7 @@ class UserTransactionsIncomplete extends CActiveRecord
 		$criteria->compare('hash',$this->hash,true);
 		$criteria->compare('reason',$this->reason,true);
 		$criteria->compare('time',$this->time,true);
+        $criteria->compare('batch_num',$this->batch_num,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

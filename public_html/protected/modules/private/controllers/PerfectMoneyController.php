@@ -50,7 +50,7 @@ class PerfectMoneyController extends PrivateController
     }
 
     public function actionSuccess() {
-        var_dump($_POST);die;
+
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
             $transaction = new UserTransactionsIncomplete();
@@ -59,6 +59,8 @@ class PerfectMoneyController extends PrivateController
             $transaction->hash = $_POST['V2_HASH'];
             $transaction->user_id = Yii::app()->user->id;
             $transaction->payment_id = $_POST['PAYMENT_ID'];
+            $transaction->batch_num = $_POST['PAYMENT_BATCH_NUM'];
+            $transaction->time = $_POST['TIMESTAMPGMT'];
 
             $user = User::model()->findByPk(Yii::app()->user->id);
 
