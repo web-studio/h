@@ -1,7 +1,9 @@
 <?php
 
-class PerfectMoneyController extends PrivateController
+class PerfectMoneyController extends Controller
 {
+
+
     public function actionStatus() {
         $str = implode(",", $_POST);
 
@@ -61,7 +63,7 @@ class PerfectMoneyController extends PrivateController
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
             $transaction = new UserTransactionsIncomplete();
-            $transaction->amount = 0.1;
+            $transaction->amount = $_POST['PAYMENT_AMOUNT'];
             $transaction->payer = $_POST['PAYER_ACCOUNT'];
             $transaction->hash = $_POST['V2_HASH'];
             $transaction->user_id = Yii::app()->user->id;
