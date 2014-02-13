@@ -53,7 +53,7 @@ class PerfectMoneyController extends Controller
 
         } else {
             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."URL:".Yii::app()->getRequest()->getPathInfo()."\n");
+            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."\n");
             fclose ($fp);
             $this->redirect(Yii::app()->createAbsoluteUrl('/'));
         }
@@ -89,7 +89,7 @@ class PerfectMoneyController extends Controller
             $this->redirect($this->createUrl('/private'));
         } else {
             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."URL:".Yii::app()->getRequest()->getPathInfo()."\n");
+            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."\n");
             fclose ($fp);
             $this->redirect(Yii::app()->createAbsoluteUrl('/'));
         }
