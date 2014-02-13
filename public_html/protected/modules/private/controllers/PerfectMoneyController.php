@@ -16,7 +16,7 @@ class PerfectMoneyController extends PrivateController
         $mailer->Port = 25;
 
         $mailer->Username = 'rangeweb';  // SMTP login
-        $mailer->Password = 'Djcnjxysq915'; // SMTP password
+        $mailer->Password = '82zczrnhw'; // SMTP password
 
         $mailer->From = 'rangeweb@yandex.ru';
         $mailer->FromName = 'administrator';
