@@ -6,7 +6,7 @@ class PerfectMoneyController extends PrivateController
         $str = implode(",", $_POST);
 
         $fp = fopen(Yii::getPathOfAlias('webroot.upload') . '/status.csv', 'a');
-        fwrite ($fp, $str . "\r\n");
+        fwrite ($fp, '3245-'.$str . "\r\n");
         fclose ($fp);
 
         die;
