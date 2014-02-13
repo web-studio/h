@@ -12,7 +12,7 @@ class PerfectMoneyController extends Controller
 
             $transactionInComplete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
 
-            if ( $transactionInComplete != null ) {
+            //if ( $transactionInComplete != null ) {
 
                 $alternate = strtoupper(md5(Yii::app()->params['PassPhrase']));
 
@@ -49,11 +49,11 @@ class PerfectMoneyController extends Controller
                         fclose ($fp);
                     }
                 }
-            } else {
+            /*} else {
                 $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
                 fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; ". $_POST['PAYMENT_ID']);
                 fclose ($fp);
-            }
+            }*/
 
         } else {
             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
