@@ -4,8 +4,7 @@ class DefaultController extends PrivateController
 {
 	public function actionIndex()
 	{
-        $transactionInComplete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => '5P1392326070'));
-        var_dump($transactionInComplete);die;
+
         $user = User::model()->findByPk(Yii::app()->user->id);
 
         $refill = new RefillAccountForm();
