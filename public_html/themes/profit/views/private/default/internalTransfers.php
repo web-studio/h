@@ -1,11 +1,3 @@
-<?php if (Yii::app()->user->hasFlash('successMessage')): ?>
-    <div class="form-result message" style="">
-        <p class="note success"><?php echo Yii::app()->user->getFlash('successMessage'); ?></p>
-        <br>
-    </div>
-
-<?php endif; ?>
-
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'internalTransfers-form',
     'enableClientValidation'=>true,
@@ -32,7 +24,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
-        'style'=>'height:12px;width:300px;margin-bottom: 20px',
+        'style'=>'height:12px;width:325px;margin-bottom: 20px',
         //'class'=>'five columns'
     ),
 ));

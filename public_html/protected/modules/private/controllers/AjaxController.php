@@ -2,23 +2,55 @@
 
 class AjaxController extends PrivateController
 {
-    public function actionGetInvestAmount() {
+    public function actionRefillAmount() {
+
+        $transaction_id = strstr($_POST['payment_id'], 'R', true);
+        $transactionInComplete = UserTransactionsIncomplete::model()->find(['condition'=>'id=:id AND user_id=:user_id', 'params'=>[':id'=>$transaction_id,':user_id'=>Yii::app()->user->id]]);
+
+        $transactionInComplete->amount = $_POST['amount'];
+
+        if ( $transactionInComplete->save() ) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        echo CJSON::encode(
+            array(
+                'status'=> $status,
+            ));
+
+    }
+
+    public function actionRefillTransaction() {
+
+        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+        Yii::app()->clientScript->scriptMap['jquery-ui.min.js'] = false;
         Yii::app()->clientScript->scriptMap['bootstrap.css'] = false;
         Yii::app()->clientScript->scriptMap['bootstrap-yii.css'] = false;
-        Yii::app()->clientScript->scriptMap['jquery-ui.js'] = true;
-        //Yii::app()->clientScript->scriptMap['jquery.js'] = true;
-        //Yii::app()->clientScript->scriptMap['jquery-ui.css'] = false;
-        //Yii::app()->clientScript->scriptMap['jquery.css'] = false;
 
-        $deposit_id = (int)$_POST['deposit_id'];
-        $deposit = Yii::app()->db->createCommand()
-            ->select('min_amount, max_amount')
-            ->from('{{deposit_types}} dep')
-            ->where('dep.id=:id', [':id'=>$deposit_id])
-            ->queryAll();
+        $transactionInComplete = new UserTransactionsIncomplete();
+        $transactionInComplete->user_id = Yii::app()->user->id;
 
-        $this->renderPartial('_invest_amount', [
-            'deposit' => $deposit,
-        ], null, true);
+        if ( $transactionInComplete->save() ) {
+            $refill = new RefillAccountForm();
+
+            $transactionInComplete->payment_id = $transactionInComplete->id .'R'. time();
+            $transactionInComplete->save();
+
+            $refill->PAYEE_ACCOUNT = Yii::app()->params['payee_account'];
+            $refill->PAYEE_NAME = Yii::app()->name;
+            $refill->PAYMENT_ID = $transactionInComplete->payment_id;
+            $refill->PAYMENT_UNITS = Yii::app()->params['payment_units'];
+            $refill->PAYMENT_AMOUNT = DepositType::model()->getMinDepositAmount();
+            $refill->STATUS_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/status');
+            $refill->PAYMENT_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/success');
+            $refill->PAYMENT_URL_METHOD = 'POST';
+            $refill->NOPAYMENT_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/fail');
+            $refill->PAYMENT_URL_METHOD = 'POST';
+        }
+
+        $this->renderPartial('refill',
+            ['refill'=>$refill]);
     }
 }

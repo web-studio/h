@@ -1,51 +1,77 @@
 <?php
 
-class PerfectMoneyController extends PrivateController
+class PerfectMoneyController extends Controller
 {
+
+
     public function actionStatus() {
-        $transactionInComlete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
 
-        define('ALTERNATE_PHRASE_HASH',  Yii::app()->params['PassPhrase']);
-        // Path to directory to save logs. Make sure it has write permissions.
-        define('PATH_TO_LOG',  'protected/runtime/deposit/');
-        $alternate = strtoupper(md5(ALTERNATE_PHRASE_HASH));
-        $string=
-            $_POST['PAYMENT_ID'].':'.$_POST['PAYEE_ACCOUNT'].':'.
-            $_POST['PAYMENT_AMOUNT'].':'.$_POST['PAYMENT_UNITS'].':'.
-            $_POST['PAYMENT_BATCH_NUM'].':'.
-            $_POST['PAYER_ACCOUNT'].':'. $alternate .':'.
-            $_POST['TIMESTAMPGMT'];
-        //mail('cronojhon@gmail.com','test',$string);
-        $hash=strtoupper(md5($string));
+        if ( isset($_POST['PAYMENT_ID']) && isset($_POST['PAYEE_ACCOUNT']) && isset($_POST['PAYMENT_AMOUNT']) &&
+            isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
+            isset($_POST['TIMESTAMPGMT'])) {
 
-        if($hash==$_POST['V2_HASH']){ // proccessing payment if only hash is valid
-            /* In section below you must implement comparing of data you recieved
-            with data you sent. This means to check if $_POST['PAYMENT_AMOUNT'] is
-            particular amount you billed to client and so on. */
-            if($_POST['PAYMENT_AMOUNT']==$transactionInComlete->amount && $_POST['PAYEE_ACCOUNT']==Yii::app()->params['payee_account'] && $_POST['PAYMENT_UNITS']==Yii::app()->params['payment_units']){
+            $transaction_id = strstr($_POST['PAYMENT_ID'], 'R', true);
+            $transactionInComplete = UserTransactionsIncomplete::model()->findByPk($transaction_id);
 
-                $transaction = new UserTransactions();
-                $transaction->amount = $_POST['PAYMENT_AMOUNT'];
-                $transaction->user_id = $transactionInComlete->user_id;
-                $transaction->payment_id = $transactionInComlete->payment_id;
-                $transaction->reason = 'Add balance';
-                $transaction->amount_type = UserTransactions::AMOUNT_TYPE_RECHARGE;
-                $transaction->save();
+            if ( $transactionInComplete != null ) {
 
-                $f=fopen(PATH_TO_LOG."good.log", "ab+");
-                fwrite($f, date("d.m.Y H:i")."; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
-                fclose($f);
+                $alternate = strtoupper(md5(Yii::app()->params['PassPhrase']));
 
-                mail(Yii::app()->params->adminEmail, 'Поступил новый платеж', $_POST['PAYMENT_AMOUNT']);
+                $string=
+                    $transactionInComplete->payment_id.':'.Yii::app()->params['payee_account'].':'.
+                    $_POST['PAYMENT_AMOUNT'].':'.Yii::app()->params['payment_units'].':'.
+                    $_POST['PAYMENT_BATCH_NUM'].':'.
+                    $_POST['PAYER_ACCOUNT'].':'. $alternate .':'.
+                    $_POST['TIMESTAMPGMT'];
 
-            }else{ // you can also save invalid payments for debug purposes
+                $hash=strtoupper(md5($string));
 
-                $f=fopen(PATH_TO_LOG."bad.log", "a");
-                fwrite($f, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
-                fclose($f);
+                $transactionInComplete->payer = $_POST['PAYER_ACCOUNT'];
+                $transactionInComplete->hash = $_POST['V2_HASH'];
+                $transactionInComplete->batch_num = $_POST['PAYMENT_BATCH_NUM'];
+                $transactionInComplete->time = $_POST['TIMESTAMPGMT'];
+                $transactionInComplete->save();
 
+                if($hash==$_POST['V2_HASH']){
+
+                    if($_POST['PAYMENT_AMOUNT']==$transactionInComplete->amount && $_POST['PAYEE_ACCOUNT']==Yii::app()->params['payee_account'] && $_POST['PAYMENT_UNITS']==Yii::app()->params['payment_units']){
+
+                        $transaction = new UserTransactions();
+                        $transaction->amount = $transactionInComplete->amount;
+                        $transaction->user_id = $transactionInComplete->user_id;
+                        $transaction->payment_id = $transactionInComplete->payment_id;
+                        $transaction->reason = 'Add balance';
+                        $transaction->amount_type = UserTransactions::AMOUNT_TYPE_RECHARGE;
+                        $transaction->save();
+
+                        $user = User::model()->findByPk($transactionInComplete->user_id);
+
+                        if ( $user->perfect_purse == null ) {
+                            $user->perfect_purse = $transactionInComplete->payer;
+                            $user->save();
+                        }
+
+                        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/good_payment.log', 'ab+');
+                        fwrite($fp, date("d.m.Y H:i")."; REASON: success payment; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
+                        fclose ($fp);
+
+                    }else{
+                        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
+                        fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
+                        fclose ($fp);
+                    }
+                }
+            } else {
+                $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
+                fwrite($fp, date("d.m.Y H:i")."; REASON: no payment id; POST: ".serialize($_POST)."; \n");
+                fclose ($fp);
             }
 
+        } else {
+            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."\n");
+            fclose ($fp);
+            $this->redirect(Yii::app()->createAbsoluteUrl('/'));
         }
     }
 
@@ -53,7 +79,7 @@ class PerfectMoneyController extends PrivateController
 
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
-            $transaction = new UserTransactionsIncomplete();
+            /*$transaction = new UserTransactionsIncomplete();
             $transaction->amount = $_POST['PAYMENT_AMOUNT'];
             $transaction->payer = $_POST['PAYER_ACCOUNT'];
             $transaction->hash = $_POST['V2_HASH'];
@@ -70,17 +96,148 @@ class PerfectMoneyController extends PrivateController
                 $user->save();
             }
 
-            if ( $transaction->save() ) {
+            if ( $transaction->save() ) {*/
                 Yii::app()->user->setFlash('successMessage', 'The payment has been successfully completed');
-            } else {
+            /*} else {
                 Yii::app()->user->setFlash('failMessage', 'Error');
-            }
+            }*/
+
+            $this->redirect($this->createUrl('/private'));
+        } else {
+            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+            fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."\n");
+            fclose ($fp);
+            $this->redirect(Yii::app()->createAbsoluteUrl('/'));
         }
-        $this->redirect($this->createUrl('/private'));
     }
 
     public function actionFail() {
         Yii::app()->user->setFlash('failMessage', 'Payment has not been completed or an error in the payment process.');
         $this->redirect($this->createUrl('/private'));
+    }
+
+    public function actionWithdraw() {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
+        if ( $user->status == 1 ) {
+
+            if ( !empty($_POST['amount']) && $_POST['amount'] > 0 ) {
+
+                $amount = User::model()->getAmount();
+
+                //сумма вывода не больше суммы на кошельке
+                if ( $_POST['amount'] <= $amount ) {
+                    //ограничиваем сумму максимального вывода
+                    /*if (  $_POST['output_money'] > Yii::app()->params['max_amount_output'] ) {
+
+                        $subject = 'Новая заявка на вывод!';
+                        $message = 'От пользователя <strong>' . CHtml::link($user->username, $this->createAbsoluteUrl('/user/admin/view/', array('id' => $user->id))) .
+                            '</strong> Поступила заявка на вывод Perfect Money<br />
+                            <strong>Сумма вывода:</strong> ' . $_POST['output_money'] . '$<br />
+                                <strong>Кошелек Perfect Money:</strong> ' . $user->perfect_purse;
+
+                        mail(Yii::app()->params->adminEmail, $subject, $message);
+
+                        User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+
+                        Yii::app()->user->setFlash('profileMessage', 'To ensure safety, the withdrawal of more than ' . Yii::app()->params['max_amount_output'] . '$ is made by hand<br /><br />
+                                                    Application for withdrawal successfully adopted<br />
+                                                    Money will be transferred to your account within three hours');
+
+                        $this->redirect($this->createUrl('/user/profile'));
+                    } else {*/
+
+                        $outputTransaction = new OutputTransactions();
+                        $outputTransaction->user_id = Yii::app()->user->id;
+                        $outputTransaction->save();
+
+                        $payment_id = $outputTransaction->id .'W'. time();
+
+                        $amount = UserTransactions::model()->replaceComma($_POST['amount']);
+
+                        $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $_POST['perfect_purse'] . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
+
+                        if($f===false){
+                            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+                            fwrite($fp, date("d.m.Y H:i")."; Reason: Error reading file; User ID:".Yii::app()->user->id."\n");
+                            fclose ($fp);
+                        }
+
+                        // getting data
+                        $out=array(); $out="";
+                        while(!feof($f)) $out.=fgets($f);
+
+                        fclose($f);
+
+                        // searching for hidden fields
+                        if(!preg_match_all("/<input name='(.*)' type='hidden' value='(.*)'>/", $out, $result, PREG_SET_ORDER)){
+                            echo 'Invalid output';
+                            exit;
+                        }
+
+                        $reply="";
+                        foreach($result as $item){
+                            $key=$item[1];
+                            $reply[$key]=$item[2];
+                        }
+
+                        if ( isset($reply['ERROR']) ) {
+
+                            $outputTransaction->error = $reply['ERROR'];
+                            $outputTransaction->status = OutputTransactions::STATUS_ERROR;
+                            $outputTransaction->payment_amount = $amount;
+                            $outputTransaction->payment_id = $payment_id;
+                            $outputTransaction->payee_account = $_POST['perfect_purse'];
+                            $outputTransaction->save();
+
+                            /*$subject = 'Ошибка! Вывод PerfectMoney';
+                            $message = "Ошибка: ". $reply['ERROR'] ."\r\n
+                                    ID Пользователя: ". Yii::app()->user->id ."\r\n
+                                    Сумма вывода: ". $amount ."\r\n
+                                    ID Транзакции: ". $payment_id ."\r\n
+                                    Кошелек PerfectMoney: ". $user->perfect_purse ."\r\n
+                                    ";
+
+                            mail(Yii::app()->params->adminEmail, 'Ошибка вывода на PerfectMoney', $message);
+
+                            User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+                            */
+                            Yii::app()->user->setFlash('failMessage', 'An unexpected error <br />
+                                                    The error information sent to the site administrator<br />
+                                                    The administrator will contact you shortly');
+
+                            $this->redirect($this->createUrl('/private'));
+
+                        } else {
+
+                            $transaction = new UserTransactions();
+                            $transaction->amount = -UserTransactions::model()->replaceComma($_POST['output_money']);
+                            $transaction->user_id = $user->id;
+                            $transaction->reason = 'Withdraw to Perfect Money account';
+                            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
+                            $transaction->payment_id = $payment_id;
+                            $transaction->save();
+
+                            $outputTransaction->payee_account_name = $reply['Payee_Account_Name'];
+                            $outputTransaction->payment_batch_num = $reply['PAYMENT_BATCH_NUM'];
+                            $outputTransaction->status = OutputTransactions::STATUS_SUCCESS;
+                            $outputTransaction->payment_amount = $amount;
+                            $outputTransaction->payment_id = $payment_id;
+                            $outputTransaction->payee_account = $_POST['perfect_purse'];
+                            $outputTransaction->save();
+
+                            Yii::app()->user->setFlash('successMessage', 'Withdrawal is successfully completed');
+                        }
+                    //}
+
+                } else {
+                    Yii::app()->user->setFlash('failMessage', 'Incorrectly state the amount');
+                }
+
+            }
+        } else {
+            $this->redirect(Yii::app()->createAbsoluteUrl('/'));
+        }
+        $this->redirect(Yii::app()->createAbsoluteUrl('/private'));
     }
 }

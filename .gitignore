@@ -2,4 +2,5 @@
 /public_html/protected/config/console.php
 /public_html/assets/
 /public_html/protected/runtime/
+/public_html/protected/payment_log/
 /.idea

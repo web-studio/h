@@ -4,8 +4,9 @@ class DefaultController extends PrivateController
 {
 	public function actionIndex()
 	{
-        $user = User::model()->findByPk(Yii::app()->user->id);
 
+        $user = User::model()->findByPk(Yii::app()->user->id);
+/*
         $refill = new RefillAccountForm();
 
         $refill->PAYEE_ACCOUNT = Yii::app()->params['payee_account'];
@@ -18,10 +19,10 @@ class DefaultController extends PrivateController
         $refill->PAYMENT_URL_METHOD = 'POST';
         $refill->NOPAYMENT_URL = Yii::app()->createAbsoluteUrl('/private/perfectMoney/fail');
         $refill->PAYMENT_URL_METHOD = 'POST';
-
+*/
 		$this->render('index', [
             'user'=>$user,
-            'refill'=>$refill
+            //'refill'=>$refill
         ]);
 	}
 
@@ -139,8 +140,11 @@ class DefaultController extends PrivateController
     }
 
     public function actionWithdraw() {
+
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
         $this->render('withdraw', [
-            //'user'=>$user
+            'user'=>$user
         ]);
     }
 
