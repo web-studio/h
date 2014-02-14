@@ -5,26 +5,23 @@ class PerfectMoneyController extends Controller
 
 
     public function actionStatus() {
-        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."; time:". date('H:i:s',time())."\n");
-        fclose ($fp);
-        die;
+
         if ( isset($_POST['PAYMENT_ID']) && isset($_POST['PAYEE_ACCOUNT']) && isset($_POST['PAYMENT_AMOUNT']) &&
             isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
             isset($_POST['TIMESTAMPGMT'])) {
 
             $transactionInComplete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
 
-            //if ( $transactionInComplete != null ) {
+            if ( $transactionInComplete != null ) {
 
                 $alternate = strtoupper(md5(Yii::app()->params['PassPhrase']));
 
                 $string=
                     $transactionInComplete->payment_id.':'.Yii::app()->params['payee_account'].':'.
-                    $transactionInComplete->amount.':'.Yii::app()->params['payment_units'].':'.
-                    $transactionInComplete->batch_num.':'.
-                    $transactionInComplete->payer.':'. $alternate .':'.
-                    $transactionInComplete->time;
+                    $_POST['PAYMENT_AMOUNT'].':'.Yii::app()->params['payment_units'].':'.
+                    $_POST['PAYMENT_BATCH_NUM'].':'.
+                    $_POST['PAYER_ACCOUNT'].':'. $alternate .':'.
+                    $_POST['TIMESTAMPGMT'];
 
                 $hash=strtoupper(md5($string));
 
@@ -43,7 +40,7 @@ class PerfectMoneyController extends Controller
                         $transaction->save();
 
                         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/good_payment.log', 'ab+');
-                        fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
+                        fwrite($fp, date("d.m.Y H:i")."; REASON: success payment; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
                         fclose ($fp);
 
                     }else{ // you can also save invalid payments for debug purposes
@@ -52,11 +49,11 @@ class PerfectMoneyController extends Controller
                         fclose ($fp);
                     }
                 }
-            /*} else {
+            } else {
                 $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
-                fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; ". $_POST['PAYMENT_ID']);
+                fwrite($fp, date("d.m.Y H:i")."; REASON: no payment id; POST: ".serialize($_POST)."; \n");
                 fclose ($fp);
-            }*/
+            }
 
         } else {
             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
@@ -67,14 +64,10 @@ class PerfectMoneyController extends Controller
     }
 
     public function actionSuccess() {
-        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."; time:". date('H:i:s',time())."\n");
-        fclose ($fp);
-        die;
-        $this->redirect(Yii::app()->createAbsoluteUrl('/'));
+
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
-            $transaction = new UserTransactionsIncomplete();
+            /*$transaction = new UserTransactionsIncomplete();
             $transaction->amount = $_POST['PAYMENT_AMOUNT'];
             $transaction->payer = $_POST['PAYER_ACCOUNT'];
             $transaction->hash = $_POST['V2_HASH'];
@@ -91,11 +84,11 @@ class PerfectMoneyController extends Controller
                 $user->save();
             }
 
-            if ( $transaction->save() ) {
+            if ( $transaction->save() ) {*/
                 Yii::app()->user->setFlash('successMessage', 'The payment has been successfully completed');
-            } else {
+            /*} else {
                 Yii::app()->user->setFlash('failMessage', 'Error');
-            }
+            }*/
 
             $this->redirect($this->createUrl('/private'));
         } else {

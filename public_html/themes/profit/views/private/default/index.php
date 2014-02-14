@@ -73,7 +73,21 @@ $this->breadcrumbs=array(
             <h6 class="title"><strong>Current balance</strong></h6>
         </td>
         <td>
-            <h6>$<?php echo User::model()->getAmount() ?> <?php echo CHtml::link('Refill Account','#modal',['style'=>'margin-left:20px','class' => 'fancy-inline']) ?></h6>
+            <h6>$<?php echo User::model()->getAmount() ?>
+                <?php echo CHtml::link('Refill Account','#',[
+                        'onclick'=>'
+                            $.ajax({
+                                url: "'.Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction").'",
+                                type: "POST",
+                                success: function(html){
+                                    $("#modal").html(html);
+                                    $.fancybox.open({type: "inline", href: "#modal"})
+
+                                }
+                            });
+                        ',
+                        'style'=>'margin-left:20px','class' => '']) ?>
+            </h6>
         </td>
     </tr>
     <tr>
@@ -109,36 +123,7 @@ $this->breadcrumbs=array(
 <div id="modal" style="display: none;">
 
 
-    <h4 class="title">Refill Account</h4>
 
-
-    <div class="form">
-        <?php $form=$this->beginWidget('CActiveForm', array(
-            'id'=>'refill-form',
-            'action' => Yii::app()->params['perfectPayUrl'],
-            'enableClientValidation'=>true,
-            'clientOptions'=>array(
-                'validateOnSubmit'=>true,
-            ),
-        )); ?>
-
-        <?php echo $form->hiddenField($refill,'PAYEE_ACCOUNT', array('name' => 'PAYEE_ACCOUNT')); ?>
-        <?php echo $form->hiddenField($refill,'PAYEE_NAME', array('name' => 'PAYEE_NAME')); ?>
-        <?php echo $form->hiddenField($refill,'PAYMENT_ID', array('name' => 'PAYMENT_ID')); ?>
-        <?php echo $form->textField($refill,'PAYMENT_AMOUNT', array('name' => 'PAYMENT_AMOUNT')); ?>
-        <?php echo $form->error($refill,'PAYMENT_AMOUNT'); ?>
-        <?php echo $form->hiddenField($refill,'PAYMENT_UNITS', array('name' => 'PAYMENT_UNITS')); ?>
-        <?php echo $form->hiddenField($refill,'STATUS_URL', array('name' => 'STATUS_URL')); ?>
-        <?php echo $form->hiddenField($refill,'PAYMENT_URL', array('name' => 'PAYMENT_URL')); ?>
-        <?php echo $form->hiddenField($refill,'PAYMENT_URL_METHOD', array('name' => 'PAYMENT_URL_METHOD')); ?>
-        <?php echo $form->hiddenField($refill,'NOPAYMENT_URL', array('name' => 'NOPAYMENT_URL')); ?>
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton('Refill', ['class'=>'submit_button','onclick'=>'refill();']); ?>
-        </div>
-
-        <?php $this->endWidget(); ?>
-    </div><!-- form -->
 
 </div>
 <script>
