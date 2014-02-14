@@ -5,7 +5,10 @@ class PerfectMoneyController extends Controller
 
 
     public function actionStatus() {
-
+        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo().";time: date('H:i:s')\n");
+        fclose ($fp);
+        die;
         if ( isset($_POST['PAYMENT_ID']) && isset($_POST['PAYEE_ACCOUNT']) && isset($_POST['PAYMENT_AMOUNT']) &&
             isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
             isset($_POST['TIMESTAMPGMT'])) {
@@ -64,7 +67,11 @@ class PerfectMoneyController extends Controller
     }
 
     public function actionSuccess() {
-
+        $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo().";time: date('H:i:s')\n");
+        fclose ($fp);
+        die;
+        $this->redirect(Yii::app()->createAbsoluteUrl('/'));
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
             $transaction = new UserTransactionsIncomplete();

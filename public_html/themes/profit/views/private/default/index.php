@@ -134,10 +134,27 @@ $this->breadcrumbs=array(
         <?php echo $form->hiddenField($refill,'NOPAYMENT_URL', array('name' => 'NOPAYMENT_URL')); ?>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Refill', ['class'=>'submit_button']); ?>
+            <?php echo CHtml::submitButton('Refill', ['class'=>'submit_button','onclick'=>'refill();']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div><!-- form -->
 
 </div>
+<script>
+    function refill(){
+        $.ajax({
+            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction") ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
+            success: function(data){
+                if ( data.status == 1 ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+</script>
