@@ -6,7 +6,7 @@ class PerfectMoneyController extends Controller
 
     public function actionStatus() {
         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo().";time: date('H:i:s')\n");
+        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."; time:". date('H:i:s',time())."\n");
         fclose ($fp);
         die;
         if ( isset($_POST['PAYMENT_ID']) && isset($_POST['PAYEE_ACCOUNT']) && isset($_POST['PAYMENT_AMOUNT']) &&
@@ -68,7 +68,7 @@ class PerfectMoneyController extends Controller
 
     public function actionSuccess() {
         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
-        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo().";time: date('H:i:s')\n");
+        fwrite($fp, date("d.m.Y H:i")."; IP: ".Yii::app()->request->userHostAddress."; URL:".Yii::app()->getRequest()->getPathInfo()."; time:". date('H:i:s',time())."\n");
         fclose ($fp);
         die;
         $this->redirect(Yii::app()->createAbsoluteUrl('/'));
