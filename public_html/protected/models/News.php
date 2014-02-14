@@ -15,7 +15,8 @@
  */
 class News extends CActiveRecord
 {
-	/**
+    const PUBLIC_NEWS = 1;
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -67,6 +68,19 @@ class News extends CActiveRecord
 			'update_time' => 'Update Time',
 		);
 	}
+
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_time',
+                'updateAttribute' => 'update_time',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('NOW()'),
+            ),
+
+        );
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
