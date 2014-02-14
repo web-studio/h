@@ -175,7 +175,7 @@ class UserTransactions extends CActiveRecord
             ' AND user_id =' . Yii::app()->user->id);
 
         $criteria->order = 'ID DESC';
-        
+
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));

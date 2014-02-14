@@ -140,8 +140,11 @@ class DefaultController extends PrivateController
     }
 
     public function actionWithdraw() {
+
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
         $this->render('withdraw', [
-            //'user'=>$user
+            'user'=>$user
         ]);
     }
 

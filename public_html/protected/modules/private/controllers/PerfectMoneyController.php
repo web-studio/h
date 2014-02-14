@@ -10,7 +10,7 @@ class PerfectMoneyController extends Controller
             isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
             isset($_POST['TIMESTAMPGMT'])) {
 
-            $transaction_id = strstr($_POST['PAYMENT_ID'], 'P', true);
+            $transaction_id = strstr($_POST['PAYMENT_ID'], 'R', true);
             $transactionInComplete = UserTransactionsIncomplete::model()->findByPk($transaction_id);
 
             if ( $transactionInComplete != null ) {
@@ -114,5 +114,130 @@ class PerfectMoneyController extends Controller
     public function actionFail() {
         Yii::app()->user->setFlash('failMessage', 'Payment has not been completed or an error in the payment process.');
         $this->redirect($this->createUrl('/private'));
+    }
+
+    public function actionWithdraw() {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
+        if ( $user->status == 1 ) {
+
+            if ( !empty($_POST['amount']) && $_POST['amount'] > 0 ) {
+
+                $amount = User::model()->getAmount();
+
+                //сумма вывода не больше суммы на кошельке
+                if ( $_POST['amount'] <= $amount ) {
+                    //ограничиваем сумму максимального вывода
+                    /*if (  $_POST['output_money'] > Yii::app()->params['max_amount_output'] ) {
+
+                        $subject = 'Новая заявка на вывод!';
+                        $message = 'От пользователя <strong>' . CHtml::link($user->username, $this->createAbsoluteUrl('/user/admin/view/', array('id' => $user->id))) .
+                            '</strong> Поступила заявка на вывод Perfect Money<br />
+                            <strong>Сумма вывода:</strong> ' . $_POST['output_money'] . '$<br />
+                                <strong>Кошелек Perfect Money:</strong> ' . $user->perfect_purse;
+
+                        mail(Yii::app()->params->adminEmail, $subject, $message);
+
+                        User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+
+                        Yii::app()->user->setFlash('profileMessage', 'To ensure safety, the withdrawal of more than ' . Yii::app()->params['max_amount_output'] . '$ is made by hand<br /><br />
+                                                    Application for withdrawal successfully adopted<br />
+                                                    Money will be transferred to your account within three hours');
+
+                        $this->redirect($this->createUrl('/user/profile'));
+                    } else {*/
+
+                        $outputTransaction = new OutputTransactions();
+                        $outputTransaction->user_id = Yii::app()->user->id;
+                        $outputTransaction->save();
+
+                        $payment_id = $outputTransaction->id .'W'. time();
+
+                        $amount = UserTransactions::model()->replaceComma($_POST['amount']);
+
+                        $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $_POST['perfect_purse'] . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
+
+                        if($f===false){
+                            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+                            fwrite($fp, date("d.m.Y H:i")."; Reason: Error reading file; User ID:".Yii::app()->user->id."\n");
+                            fclose ($fp);
+                        }
+
+                        // getting data
+                        $out=array(); $out="";
+                        while(!feof($f)) $out.=fgets($f);
+
+                        fclose($f);
+
+                        // searching for hidden fields
+                        if(!preg_match_all("/<input name='(.*)' type='hidden' value='(.*)'>/", $out, $result, PREG_SET_ORDER)){
+                            echo 'Invalid output';
+                            exit;
+                        }
+
+                        $reply="";
+                        foreach($result as $item){
+                            $key=$item[1];
+                            $reply[$key]=$item[2];
+                        }
+
+                        if ( isset($reply['ERROR']) ) {
+
+                            $outputTransaction->error = $reply['ERROR'];
+                            $outputTransaction->status = OutputTransactions::STATUS_ERROR;
+                            $outputTransaction->payment_amount = $amount;
+                            $outputTransaction->payment_id = $payment_id;
+                            $outputTransaction->payee_account = $_POST['perfect_purse'];
+                            $outputTransaction->save();
+
+                            /*$subject = 'Ошибка! Вывод PerfectMoney';
+                            $message = "Ошибка: ". $reply['ERROR'] ."\r\n
+                                    ID Пользователя: ". Yii::app()->user->id ."\r\n
+                                    Сумма вывода: ". $amount ."\r\n
+                                    ID Транзакции: ". $payment_id ."\r\n
+                                    Кошелек PerfectMoney: ". $user->perfect_purse ."\r\n
+                                    ";
+
+                            mail(Yii::app()->params->adminEmail, 'Ошибка вывода на PerfectMoney', $message);
+
+                            User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+                            */
+                            Yii::app()->user->setFlash('failMessage', 'An unexpected error <br />
+                                                    The error information sent to the site administrator<br />
+                                                    The administrator will contact you shortly');
+
+                            $this->redirect($this->createUrl('/private'));
+
+                        } else {
+
+                            $transaction = new UserTransactions();
+                            $transaction->amount = -UserTransactions::model()->replaceComma($_POST['output_money']);
+                            $transaction->user_id = $user->id;
+                            $transaction->reason = 'Withdraw to Perfect Money account';
+                            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
+                            $transaction->payment_id = $payment_id;
+                            $transaction->save();
+
+                            $outputTransaction->payee_account_name = $reply['Payee_Account_Name'];
+                            $outputTransaction->payment_batch_num = $reply['PAYMENT_BATCH_NUM'];
+                            $outputTransaction->status = OutputTransactions::STATUS_SUCCESS;
+                            $outputTransaction->payment_amount = $amount;
+                            $outputTransaction->payment_id = $payment_id;
+                            $outputTransaction->payee_account = $_POST['perfect_purse'];
+                            $outputTransaction->save();
+
+                            Yii::app()->user->setFlash('successMessage', 'Withdrawal is successfully completed');
+                        }
+                    //}
+
+                } else {
+                    Yii::app()->user->setFlash('failMessage', 'Incorrectly state the amount');
+                }
+
+            }
+        } else {
+            $this->redirect(Yii::app()->createAbsoluteUrl('/'));
+        }
+        $this->redirect(Yii::app()->createAbsoluteUrl('/private'));
     }
 }

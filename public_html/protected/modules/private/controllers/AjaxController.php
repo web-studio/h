@@ -4,7 +4,7 @@ class AjaxController extends PrivateController
 {
     public function actionRefillAmount() {
 
-        $transaction_id = strstr($_POST['payment_id'], 'P', true);
+        $transaction_id = strstr($_POST['payment_id'], 'R', true);
         $transactionInComplete = UserTransactionsIncomplete::model()->find(['condition'=>'id=:id AND user_id=:user_id', 'params'=>[':id'=>$transaction_id,':user_id'=>Yii::app()->user->id]]);
 
         $transactionInComplete->amount = $_POST['amount'];
@@ -35,7 +35,7 @@ class AjaxController extends PrivateController
         if ( $transactionInComplete->save() ) {
             $refill = new RefillAccountForm();
 
-            $transactionInComplete->payment_id = $transactionInComplete->id .'P'. time();
+            $transactionInComplete->payment_id = $transactionInComplete->id .'R'. time();
             $transactionInComplete->save();
 
             $refill->PAYEE_ACCOUNT = Yii::app()->params['payee_account'];

@@ -17,6 +17,9 @@
  */
 class OutputTransactions extends CActiveRecord
 {
+
+    const STATUS_ERROR = 0;
+    const STATUS_SUCCESS = 1;
 	/**
 	 * @return string the associated database table name
 	 */
