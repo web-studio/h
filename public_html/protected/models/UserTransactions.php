@@ -173,8 +173,9 @@ class UserTransactions extends CActiveRecord
 
         $criteria->addCondition('amount_type =' .self::AMOUNT_TYPE_TRANSFER .
             ' AND user_id =' . Yii::app()->user->id);
-       // $criteria->order = 'ID DESC';
 
+        $criteria->order = 'ID DESC';
+        
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
@@ -198,7 +199,7 @@ class UserTransactions extends CActiveRecord
         $criteria->compare('amount_before',$this->amount_before,true);
         $criteria->compare('receiver_id',$this->receiver_id,true);
 
-      //  $criteria->order = 'ID DESC';
+        $criteria->order = 'ID DESC';
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
