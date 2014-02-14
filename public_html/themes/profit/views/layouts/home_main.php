@@ -269,55 +269,29 @@ fringilla blandit quis quis enim.</p>
                     <div class="one-third column omega">
                         <div class="title-wrapper">
                             <div class="section-title">
-                                <h4 class="title">Testimonials</h4>
+                                <h4 class="title">Last News</h4>
                             </div>
                             <span class="divider"></span>
                             <div class="clear"></div>
                         </div>
-                        <ul class="style-2 slide testimonials clr overlap">
-                            <li>
-                                <div class="quote">
-                                    <p>
-                                        Empirical Themes' willingness to help make the best website for us was outstanding. We highly recommend Empirical Themes!
-                                    </p>
-                                </div>
-                                <div class="source">
-                                    <img src="images/testimonial.jpg" />
-                                    <strong>Nico Tigulis
-                                        <a href="#">Contact Me</a>
-                                    </strong>
-                                    <div class="clear"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="quote">
-                                    <p>
-                                        I got the HTML files&hellip; Thank you so much, I appreciate your quick response and attention. I recommend you! A++ Service!
-                                    </p>
-                                </div>
-                                <div class="source">
-                                    <img src="images/testimonial.jpg" />
-                                    <strong>movilwebs
-                                        <a href="#">Contact Me</a>
-                                    </strong>
-                                    <div class="clear"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="quote">
-                                    <p>
-                                        Great business! Your templates are great. Strongly recommended to anyone looking for a great website.
-                                    </p>
-                                </div>
-                                <div class="source">
-                                    <img src="images/testimonial.jpg" />
-                                    <strong>Chris Fale
-                                        <a href="#">Contact Me</a>
-                                    </strong>
-                                    <div class="clear"></div>
-                                </div>
-                            </li>
-                        </ul>
+
+
+                                   <?php  $this->widget('ext.widgets.news.NewsWidget');?>
+                      <!--  <li>
+                            <div class="quote">
+                                <p>
+                                    I got the HTML files&hellip; Thank you so much, I appreciate your quick response and attention. I recommend you! A++ Service!
+                                </p>
+                            </div>
+                            <div class="source">
+                                <img src="images/testimonial.jpg" />
+                                <strong>movilwebs
+                                    <a href="#">Contact Me</a>
+                                </strong>
+                                <div class="clear"></div>
+                            </div>
+                        </li>    -->
+
                     </div>
                     <div class="clear"></div>
                 </div>
