@@ -11,15 +11,20 @@
 
 	<?php echo $form->textFieldRow($model,'description',array('class'=>'span5','maxlength'=>255)); ?>
 
-	<?php echo $form->textAreaRow($model,'text',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
+    <?php $form->labelEx($model, 'text', array('class' => 'control-label')) ?>
+        <? $this->widget('ext.imperavi-redactor.ImperaviRedactorWidget', array(
+            'model' => $model,
+            'attribute' => 'text',
+            'options' => array(
+                'lang' => 'ru',
+            ),
+        )) ?>
+
+
 
 	<?php echo $form->textFieldRow($model,'image',array('class'=>'span5','maxlength'=>255)); ?>
 
 	<?php echo $form->textFieldRow($model,'status',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'created_time',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'update_time',array('class'=>'span5')); ?>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
