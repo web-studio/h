@@ -120,9 +120,10 @@ return array(
         ),
         'CronSecretPhrase' => '7g65dwrh78wc6r7wgxr637TY6xhYUGYTYf9867HGVhghj',
         'perfectPayUrl' => 'https://perfectmoney.is/api/step1.asp', // URL для оплаты перфектмани
-        'AccountID' => '3696152',
-        'payee_account' => 'U5478531',
-        'PassPhrase' => '5djhidijay53merlo',
+        'AccountID' => '3140075',
+        'payee_account' => 'U4330448',
+        'PassPhrase' => '',
+        'AlternateCode' => '748GH678GFH896HJ465GH9ZQP',
         'payment_units' => 'USD',
         'max_amount_output' => '300',//максимальная сумма для вывода
     ),

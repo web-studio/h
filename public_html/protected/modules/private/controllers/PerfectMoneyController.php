@@ -15,7 +15,7 @@ class PerfectMoneyController extends Controller
 
             if ( $transactionInComplete != null ) {
 
-                $alternate = strtoupper(md5(Yii::app()->params['PassPhrase']));
+                $alternate = strtoupper(md5(Yii::app()->params['AlternateCode']));
 
                 $string=
                     $transactionInComplete->payment_id.':'.Yii::app()->params['payee_account'].':'.
