@@ -205,7 +205,7 @@ class PerfectMoneyController extends Controller
                             */
 
                             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
-                            fwrite($fp, date("d.m.Y H:i")."; Reason: ".serialize($reply)."; User ID:".Yii::app()->user->id."\n");
+                            fwrite($fp, date("d.m.Y H:i")."; Reason: ".$reply['ERROR']."; User ID:".Yii::app()->user->id."\n");
                             fclose ($fp);
 
                             Yii::app()->user->setFlash('failMessage', 'An unexpected error <br />
@@ -217,7 +217,7 @@ class PerfectMoneyController extends Controller
                         } else {
 
                             $transaction = new UserTransactions();
-                            $transaction->amount = -UserTransactions::model()->replaceComma($_POST['output_money']);
+                            $transaction->amount = -$amount;
                             $transaction->user_id = $user->id;
                             $transaction->reason = 'Withdraw to Perfect Money account';
                             $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
