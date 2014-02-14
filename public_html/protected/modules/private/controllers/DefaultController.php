@@ -108,7 +108,8 @@ class DefaultController extends PrivateController
         }
         if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
-            if ( $_POST['amount'] > 0 && $user != null){
+            $amount = (int)$_POST['amount'];
+            if ( $amount <= User::model()->getAmount() && $user != null ) {
                 //Транзакции получателя
             $transaction_receiver = new UserTransactions();
             $transaction_receiver->user_id = $user->id;

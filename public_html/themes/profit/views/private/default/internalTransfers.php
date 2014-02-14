@@ -8,7 +8,7 @@
     <div id="amount_alert"></div>
 <?php $amount = User::model()->getAmount(); ?>
 <?php $internal_purse = '' ?>
-
+<div id="amount_alert"></div>
     <span style="font-weight: bold; font-size: 24px">Transfer amount: </span>
     <span style="color:#217b9d; font-weight:bold;font-size: 24px;">$</span>
     <input type="text" name="amount" value="0" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
@@ -39,6 +39,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         <?php echo CHtml::submitButton('Transfer', ['class'=>'submit_button', 'id'=>'transfer', 'confirm'=>'Сonfirm operation']); ?>
     </div>
 <?php $this->endWidget(); ?>
+<?php if ( $userTransfers->transferSearch()->itemCount > 0 ):?>
 <div class="title-wrapper">
     <div class="section-title">
         <h4 class="title">My transfers</h4>
@@ -84,12 +85,23 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         ),*/
     ),
 )); ?>
+<?php endif?>
 <script>
     $("#transfer").on("click", function(){
         if ( $('#internal_purse').val() == 0 ) {
             $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
             return false;
         }
-
     })
+
+    $("#amt").on('change', function(){
+        var current_amount = <?php echo $amount ?>;
+
+        if ( $(this).val() > current_amount  ) {
+            $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
+        } else {
+            $('#amount_alert').empty();
+        }
+    })
+
 </script>
