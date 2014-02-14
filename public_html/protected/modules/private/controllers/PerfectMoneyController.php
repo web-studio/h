@@ -15,7 +15,7 @@ class PerfectMoneyController extends Controller
 
             if ( $transactionInComplete != null ) {
 
-                $alternate = strtoupper(md5(Yii::app()->params['PassPhrase']));
+                $alternate = strtoupper(md5(Yii::app()->params['AlternateCode']));
 
                 $string=
                     $transactionInComplete->payment_id.':'.Yii::app()->params['payee_account'].':'.
@@ -117,6 +117,7 @@ class PerfectMoneyController extends Controller
     }
 
     public function actionWithdraw() {
+
         $user = User::model()->findByPk(Yii::app()->user->id);
 
         if ( $user->status == 1 ) {
@@ -216,7 +217,7 @@ class PerfectMoneyController extends Controller
                         } else {
 
                             $transaction = new UserTransactions();
-                            $transaction->amount = -UserTransactions::model()->replaceComma($_POST['output_money']);
+                            $transaction->amount = -$amount;
                             $transaction->user_id = $user->id;
                             $transaction->reason = 'Withdraw to Perfect Money account';
                             $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
