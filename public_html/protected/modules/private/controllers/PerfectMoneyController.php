@@ -26,10 +26,14 @@ class PerfectMoneyController extends Controller
 
                 $hash=strtoupper(md5($string));
 
-                if($hash==$_POST['V2_HASH']){ // proccessing payment if only hash is valid
-                    /* In section below you must implement comparing of data you recieved
-                    with data you sent. This means to check if $_POST['PAYMENT_AMOUNT'] is
-                    particular amount you billed to client and so on. */
+                $transactionInComplete->payer = $_POST['PAYER_ACCOUNT'];
+                $transactionInComplete->hash = $_POST['V2_HASH'];
+                $transactionInComplete->batch_num = $_POST['PAYMENT_BATCH_NUM'];
+                $transactionInComplete->time = $_POST['TIMESTAMPGMT'];
+                $transactionInComplete->save();
+
+                if($hash==$_POST['V2_HASH']){
+
                     if($_POST['PAYMENT_AMOUNT']==$transactionInComplete->amount && $_POST['PAYEE_ACCOUNT']==Yii::app()->params['payee_account'] && $_POST['PAYMENT_UNITS']==Yii::app()->params['payment_units']){
 
                         $transaction = new UserTransactions();
@@ -40,11 +44,18 @@ class PerfectMoneyController extends Controller
                         $transaction->amount_type = UserTransactions::AMOUNT_TYPE_RECHARGE;
                         $transaction->save();
 
+                        $user = User::model()->findByPk($transactionInComplete->user_id);
+
+                        if ( $user->perfect_purse == null ) {
+                            $user->perfect_purse = $transaction->payer;
+                            $user->save();
+                        }
+
                         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/good_payment.log', 'ab+');
                         fwrite($fp, date("d.m.Y H:i")."; REASON: success payment; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
                         fclose ($fp);
 
-                    }else{ // you can also save invalid payments for debug purposes
+                    }else{ 
                         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
                         fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
                         fclose ($fp);
