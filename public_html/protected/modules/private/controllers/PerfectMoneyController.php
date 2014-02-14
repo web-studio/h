@@ -47,7 +47,7 @@ class PerfectMoneyController extends Controller
                         $user = User::model()->findByPk($transactionInComplete->user_id);
 
                         if ( $user->perfect_purse == null ) {
-                            $user->perfect_purse = $transaction->payer;
+                            $user->perfect_purse = $transactionInComplete->payer;
                             $user->save();
                         }
 
@@ -55,7 +55,7 @@ class PerfectMoneyController extends Controller
                         fwrite($fp, date("d.m.Y H:i")."; REASON: success payment; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
                         fclose ($fp);
 
-                    }else{ 
+                    }else{
                         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/fail_payment.log', 'a');
                         fwrite($fp, date("d.m.Y H:i")."; REASON: fake data; POST: ".serialize($_POST)."; STRING: $string; HASH: $hash\n");
                         fclose ($fp);
