@@ -11,7 +11,8 @@
 
 	<?php echo $form->textFieldRow($model,'description',array('class'=>'span5','maxlength'=>255)); ?>
 
-    <?php $form->labelEx($model, 'text', array('class' => 'control-label')) ?>
+    <?php echo $form->labelEx($model, 'text') ?>
+
         <? $this->widget('ext.imperavi-redactor.ImperaviRedactorWidget', array(
             'model' => $model,
             'attribute' => 'text',
