@@ -2,6 +2,7 @@
 <?php if ( $amount > 0 ) : ?>
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'internalTransfers-form',
+        'action'=> Yii::app()->createAbsoluteUrl('/private/perfectMoney/withdraw/'),
         'enableClientValidation'=>true,
         'clientOptions'=>array(
             'validateOnSubmit'=>true,

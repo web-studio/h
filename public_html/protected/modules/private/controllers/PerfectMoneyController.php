@@ -158,7 +158,7 @@ class PerfectMoneyController extends Controller
                         $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $_POST['perfect_purse'] . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
 
                         if($f===false){
-                            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
+                            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
                             fwrite($fp, date("d.m.Y H:i")."; Reason: Error reading file; User ID:".Yii::app()->user->id."\n");
                             fclose ($fp);
                         }
@@ -202,6 +202,11 @@ class PerfectMoneyController extends Controller
 
                             User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
                             */
+
+                            $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
+                            fwrite($fp, date("d.m.Y H:i")."; Reason: ".$reply['ERROR']."; User ID:".Yii::app()->user->id."\n");
+                            fclose ($fp);
+
                             Yii::app()->user->setFlash('failMessage', 'An unexpected error <br />
                                                     The error information sent to the site administrator<br />
                                                     The administrator will contact you shortly');

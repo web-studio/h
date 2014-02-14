@@ -29,7 +29,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.message').delay(3000).hide(200);
+            $('.message').delay(10000).hide(200);
         });
     </script>
 

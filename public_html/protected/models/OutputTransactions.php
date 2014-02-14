@@ -76,6 +76,17 @@ class OutputTransactions extends CActiveRecord
 		);
 	}
 
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_time',
+                'updateAttribute' => 'created_time',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('NOW()'),
+            )
+        );
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
