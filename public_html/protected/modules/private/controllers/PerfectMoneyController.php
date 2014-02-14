@@ -10,7 +10,8 @@ class PerfectMoneyController extends Controller
             isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
             isset($_POST['TIMESTAMPGMT'])) {
 
-            $transactionInComplete = UserTransactionsIncomplete::model()->findByAttributes(array('payment_id' => $_POST['PAYMENT_ID']));
+            $transaction_id = strstr($_POST['PAYMENT_ID'], 'P', true);
+            $transactionInComplete = UserTransactionsIncomplete::model()->findByPk($transaction_id);
 
             if ( $transactionInComplete != null ) {
 

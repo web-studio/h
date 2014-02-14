@@ -82,7 +82,6 @@ $this->breadcrumbs=array(
                                 success: function(html){
                                     $("#modal").html(html);
                                     $.fancybox.open({type: "inline", href: "#modal"})
-
                                 }
                             });
                         ',
@@ -120,26 +119,4 @@ $this->breadcrumbs=array(
     'target'=>'.fancy-inline',
     'config'=>array(),
 )); ?>
-<div id="modal" style="display: none;">
-
-
-
-
-</div>
-<script>
-    function refill(){
-        $.ajax({
-            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction") ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
-            success: function(data){
-                if ( data.status == 1 ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-    }
-</script>
+<div id="modal" style="display: none;"></div>

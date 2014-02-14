@@ -23,8 +23,44 @@
     <?php echo $form->hiddenField($refill,'NOPAYMENT_URL', array('name' => 'NOPAYMENT_URL')); ?>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Refill', ['class'=>'submit_button','onclick'=>'refill();']); ?>
+        <?php echo CHtml::submitButton('Refill', ['id'=>'refill_submit', 'class'=>'submit_button']); ?>
     </div>
 
     <?php $this->endWidget(); ?>
 </div><!-- form -->
+<script>
+
+    $("#refill_submit").on("click", function(evt){
+        evt.preventDefault();
+        $.ajax({
+            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillAmount") ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
+            success: function(data){
+                if ( data.status == 1 ) {
+                    $("#refill-form").submit();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+    });
+
+    function refill(){
+        $.ajax({
+            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction") ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
+            success: function(data){
+                if ( data.status == 1 ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+</script>
