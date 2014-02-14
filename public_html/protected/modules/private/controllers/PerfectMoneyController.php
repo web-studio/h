@@ -117,6 +117,7 @@ class PerfectMoneyController extends Controller
     }
 
     public function actionWithdraw() {
+
         $user = User::model()->findByPk(Yii::app()->user->id);
 
         if ( $user->status == 1 ) {
@@ -204,7 +205,7 @@ class PerfectMoneyController extends Controller
                             */
 
                             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
-                            fwrite($fp, date("d.m.Y H:i")."; Reason: ".$reply['ERROR']."; User ID:".Yii::app()->user->id."\n");
+                            fwrite($fp, date("d.m.Y H:i")."; Reason: ".serialize($reply)."; User ID:".Yii::app()->user->id."\n");
                             fclose ($fp);
 
                             Yii::app()->user->setFlash('failMessage', 'An unexpected error <br />
