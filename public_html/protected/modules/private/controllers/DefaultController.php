@@ -106,10 +106,12 @@ class DefaultController extends PrivateController
         if(isset($_GET['UserTransactions'])) {
             $userTransfers->attributes=$_GET['UserTransactions'];
         }
-        if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+        //var_dump($_POST);
+        if ( !isset ( $_POST['yt0'] ) || $_POST['yt0'] == 'yes' ){
+            if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
             $amount = (int)$_POST['amount'];
-            if ( $amount <= User::model()->getAmount() && $user != null ) {
+            if ( $amount <= User::model()->getAmount() && $amount != 0 && $user != null ) {
                 //Транзакции получателя
             $transaction_receiver = new UserTransactions();
             $transaction_receiver->user_id = $user->id;
@@ -134,6 +136,7 @@ class DefaultController extends PrivateController
             }else {
                 Yii::app()->user->setFlash('failMessage', 'Incorrect amount or internal purse');
             }
+        }
         }
         $this->render('internalTransfers', [
             'userTransfers'=>$userTransfers,

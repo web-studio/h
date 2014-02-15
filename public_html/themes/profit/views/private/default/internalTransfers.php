@@ -32,11 +32,24 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 <div id="transfer_alert"></div>
 
 <span style="font-weight: bold; font-size: 24px">Internal purse: </span>
-    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="internal_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
+    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="internal_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 147px; background-color: transparent" />
 
 <div class="clear"></div>
-    <div class="center">
-        <?php echo CHtml::submitButton('Transfer', ['class'=>'submit_button', 'id'=>'transfer', 'confirm'=>'Сonfirm operation']); ?>
+    <div class="center" style="height: 40px;margin-bottom:10px">
+        <?php echo CHtml::Button('Transfer',[
+            'id'=>'transfer',
+            'onclick'=>'
+                            $.ajax({
+                                url: "'. Yii::app()->createAbsoluteUrl("/private/ajax/confirm") .'",
+                                type: "POST",
+                                data: {amount:$("#amt").val(), internal_purse:$("#internal_purse").val()},
+                                success: function(html){
+                                    $("#modal").html(html);
+                                    $.fancybox.open({type: "inline", href: "#modal"})
+                                }
+                            });
+                        ',
+            'style'=>'margin-left:20px','class' => 'submit_button']) ?>
     </div>
 <?php $this->endWidget(); ?>
 <?php if ( $userTransfers->transferSearch()->itemCount > 0 ):?>
@@ -87,12 +100,12 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 )); ?>
 <?php endif?>
 <script>
-    $("#transfer").on("click", function(){
+   /* $("#transfer").on("click", function(){
         if ( $('#internal_purse').val() == 0 ) {
             $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
             return false;
         }
-    })
+    })*/
 
     $("#amt").on('change', function(){
         var current_amount = <?php echo $amount ?>;
@@ -104,4 +117,11 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         }
     })
 
+
+
 </script>
+<?php $this->widget('application.extensions.fancybox.EFancyBox', array(
+    'target'=>'.fancy-inline',
+    'config'=>array(),
+)); ?>
+<div id="modal" style="display: none;"></div>

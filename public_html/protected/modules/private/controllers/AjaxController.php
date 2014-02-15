@@ -53,4 +53,17 @@ class AjaxController extends PrivateController
         $this->renderPartial('refill',
             ['refill'=>$refill]);
     }
+
+    public function actionConfirm() {
+        $user = new User;
+        $userTransaction = new UserTransactions();
+
+        $userTransaction->amount = $_POST['amount'];
+        $user->internal_purse = $_POST['internal_purse'];
+        $this->renderPartial('confirm',
+            [
+                'user'=>$user,
+                'userTransaction'=>$userTransaction,
+            ]);
+    }
 }
