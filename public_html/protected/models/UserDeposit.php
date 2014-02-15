@@ -52,6 +52,7 @@ class UserDeposit extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'deposit' => array(self::HAS_MANY, 'UserDeposit', 'user_id'),
 		);
 	}
 
@@ -91,6 +92,21 @@ class UserDeposit extends CActiveRecord
                 AS id
                 FROM " . UserDeposit::model()->tableName() . "
                 WHERE user_id=" . Yii::app()->user->id . " AND status = " . self::STATUS_ACTIVE . "
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getIsDeposit() {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT SUM(id)
+                AS id
+                FROM " . UserDeposit::model()->tableName() . "
+                WHERE user_id=" . Yii::app()->user->id . "
                 ")->queryScalar();
 
             return $result ?: 0;

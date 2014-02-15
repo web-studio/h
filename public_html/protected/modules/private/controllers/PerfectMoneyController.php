@@ -1,8 +1,7 @@
 <?php
 
-class PerfectMoneyController extends Controller
+class PerfectMoneyController extends PrivateController
 {
-
 
     public function actionStatus() {
 
