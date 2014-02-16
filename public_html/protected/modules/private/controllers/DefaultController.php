@@ -103,14 +103,15 @@ class DefaultController extends PrivateController
     public function actionInternalTransfers() {
         //Получаем полученные при переводе и переведенные средства авторизованного пользователя
         $userTransfers = new UserTransactions('transferSearch');
+
         if(isset($_GET['UserTransactions'])) {
             $userTransfers->attributes=$_GET['UserTransactions'];
         }
-        //var_dump($_POST);
-        if ( !isset ( $_POST['yt0'] ) || $_POST['yt0'] == 'yes' ){
-            if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+        if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
             $amount = (int)$_POST['amount'];
+
             if ( $amount <= User::model()->getAmount() && $amount != 0 && $user != null ) {
                 //Транзакции получателя
             $transaction_receiver = new UserTransactions();
@@ -137,7 +138,7 @@ class DefaultController extends PrivateController
                 Yii::app()->user->setFlash('failMessage', 'Incorrect amount or internal purse');
             }
         }
-        }
+
         $this->render('internalTransfers', [
             'userTransfers'=>$userTransfers,
         ]);
