@@ -132,16 +132,9 @@
                 <div class="nivo hide">
                     <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                 </div>
-                <div class="nivo-crop-bottom"></div>
-            </div>
-            <div class="container callout">
-
-                <div class="twelve columns">
-                    <h4>Welcome to <span>YES-PROFIT.com</span> - We Build <span>Professional</span> Website Designs!</h4>
-                    <p class="subtitle">Enzyme is a unique and responsive theme. Sed volutpat lacinia fringilla.</p>
-                </div>
 
             </div>
+
             <div class="callout-hr"></div>
             <div class="container">
 

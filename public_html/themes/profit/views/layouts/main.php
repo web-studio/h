@@ -141,7 +141,8 @@
     <div class="sixteen columns">
         <span class="hr lip-quote"></span>
         <blockquote class="standard bottom">
-            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity" <br />- Charles Mingus
+            <?php  $this->widget('ext.widgets.statements.StatementsWidget');?>
+
         </blockquote>
     </div>
 </div>
