@@ -35,6 +35,7 @@ class RegisterForm extends CFormModel
             // username and password are required
             array('first_name, last_name, password, password_repeat, email', 'required'),
             array('email', 'email'),
+            array('password', 'length','min'=>8, 'tooShort'=> 'Minimum 8 characters', 'tooLong'=> 'Minimum 8 characters'),
             array('password_repeat', 'compare', 'compareAttribute'=>'password'),
             array('mobile, city, country, street, referral', 'safe')
         );
@@ -87,7 +88,7 @@ class RegisterForm extends CFormModel
             }
 
             if (Yii::app()->params['activationType'] == 'email') {
-                $activation_url = Yii::app()->createAbsoluteUrl('/activation',array("activekey" => $user->activekey, "email" => $user->email));
+                $activation_url = Yii::app()->createAbsoluteUrl('/activation/?activekey='. $user->activekey, '&email='. $user->email);
 
                 $message = $user->first_name . ' ' . $user->last_name .' welcome to '. Yii::app()->name . '<br />Please activate you account go to '.
                     '<a href="'.$activation_url.'">activation link</a>';

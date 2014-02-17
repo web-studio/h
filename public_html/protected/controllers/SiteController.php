@@ -98,7 +98,8 @@ class SiteController extends Controller {
         }
     }
 
-    public function actionActivation($email=null,$activekey=null) {
+    public function actionActivation($activekey=null, $email=null) {
+        var_dump($activekey);die;
         if ( $activekey != null && $email != null ) {
 
             $user = User::model()->findByAttributes(['email'=>$email]);
