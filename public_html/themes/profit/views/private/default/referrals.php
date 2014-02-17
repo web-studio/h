@@ -10,10 +10,10 @@ $this->breadcrumbs=array(
     <table class="items table">
         <tr>
             <td>
-                <h6 class="title"><strong>Referral Bonus</strong></h6>
+                <h6 class="title"><strong>Your referral Bonus</strong></h6>
             </td>
             <td>
-                8%
+                <?php echo Referral::model()->getReferralBonus() ?>
             </td>
         </tr>
         <tr>
@@ -75,7 +75,7 @@ $this->breadcrumbs=array(
                 <h6 class="title"><strong>Total Referral Earnings</strong></h6>
             </td>
             <td>
-                <h6>$<?php echo Referral::model()->getTotalReferralProfit($referral['ref_id']) ?></h6>
+                <h6>$<?php echo Referral::model()->getTotalReferralProfit() ?></h6>
             </td>
         </tr>
 

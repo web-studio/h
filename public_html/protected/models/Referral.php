@@ -63,8 +63,7 @@ class Referral extends CActiveRecord
     public function getSumReferrals() {
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
-                SELECT SUM(id)
-                AS id
+                SELECT COUNT(user_id)
                 FROM " . self::tableName() . "
                 WHERE user_id=" . Yii::app()->user->id ."
                 ")->queryScalar();
@@ -89,10 +88,10 @@ class Referral extends CActiveRecord
         }
     }
 
-    public function getTotalReferralProfit($ref_id) {
+    public function getTotalReferralProfit() {
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
-                SELECT amount
+                SELECT SUM(amount) as amount
                 FROM " . UserTransactions::model()->tableName() . "
                 WHERE user_id=" . Yii::app()->user->id ." AND amount_type=" . UserTransactions::AMOUNT_TYPE_REFERRAL . "
                 ")->queryScalar();
@@ -103,6 +102,14 @@ class Referral extends CActiveRecord
         }
     }
 
+    public function getReferralBonus() {
+        if ( UserDeposit::model()->getAllAmountActiveDeposits() >= 1000 ) {
+            return self::REF_PERCENT_PARTNER * 100 . '% (Partner)';
+        } else {
+            return self::REF_PERCENT * 100 . '% (Increased to 8% can be when the investment amount over $1000)';
+        }
+
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
