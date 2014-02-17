@@ -130,19 +130,7 @@
                     <center><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/design/preloader.gif" /></center>
                 </div>
                 <div class="nivo hide">
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/target.jpg" class="scale-with-grid" />
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/business-room.jpg" class="scale-with-grid" title="
-                                <b>Responsive Theme</b>
-                                <p>Go Ahead, try Resizing your Browser! Quisque mauris nisi, porttitor at hendrerit eu, condimentum sed nunc. Quisqe iaculis eleifend facilisis. Vivamus in nisi et ante malesuada ullamcorper. Phasellus sed erat velit, sit amet sodales neque. Morbi quis erat eros. Sed nec ligula ligula, id euismod mauris. Vestibulum in turpis metus.                  </p>
-
-                            " />
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/agent.jpg" class="scale-with-grid" />
-                    <img title="
-                                <b>The Nivo Slider</b>
-                                <p>Integer viverra ante sit amet orci rhoncus sit amet consectetur odio sollicitudi
-n. Proin luctus pharetra turpis et scelerisque. Pellentesque eget velit quis sem
-fringilla blandit quis quis enim.</p>
-                            " src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/girl.jpg" class="scale-with-grid" />
+                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                 </div>
                 <div class="nivo-crop-bottom"></div>
             </div>
@@ -229,7 +217,7 @@ fringilla blandit quis quis enim.</p>
                 <div class="sixteen columns">
                     <span class="hr remove-bottom"></span>
                     <blockquote class="standard bottom">
-                        "Persist – don’t take no for an answer. If you’re happy to sit at your desk and not take any risk, you’ll be sitting at your desk for the next 20 years." <br />- David Rubenstein (Net Worth $2.8 Billion)
+                        <?php  $this->widget('ext.widgets.statements.StatementsWidget');?>
                     </blockquote>
                 </div>
             </div>
