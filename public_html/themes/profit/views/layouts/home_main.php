@@ -130,7 +130,7 @@
                     <center><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/design/preloader.gif" /></center>
                 </div>
                 <div class="nivo hide">
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.jpg" class="scale-with-grid" />
+                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                 </div>
             </div>
 

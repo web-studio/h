@@ -99,7 +99,7 @@ class SiteController extends Controller {
     }
 
     public function actionActivation($activekey=null, $email=null) {
-        
+
         if ( $activekey != null && $email != null ) {
 
             $user = User::model()->findByAttributes(['email'=>$email]);
