@@ -54,26 +54,19 @@
                     <div class="menu-wrapper">
                         <ul class="tabs menu">
                             <li>
-                                <a href="index.html" class="active"><span>Home</span></a>
+                                <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
                             </li>
                             <li>
-                                <a href="#">About us</a>
+                                <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
                             </li>
                             <li>
-                                <a href="blog.html">Referral</a>
+                                <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    FAQ
-                                </a>
+                                <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    Contacts
-                                </a>
-                            </li>
-                            <li>
-                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
                             </li>
                             <?php if ( !Yii::app()->user->isGuest ) : ?>
                                 <?php if ( Yii::app()->user->role == 'admin' ) : ?>
@@ -84,6 +77,19 @@
                                         <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
                                     </li>
                                 <?php endif ?>
+                                <?php if ( Yii::app()->user->role == 'user' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+                                    </li>
+                                    <li>
+                                        <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+                                    </li>
+                                <?php endif ?>
+                            <?php else : ?>
+
+                                <li>
+                                    <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                </li>
                             <?php endif ?>
                         </ul>
                     </div>
@@ -245,15 +251,42 @@
                 <div class="foot-nav-bg"></div>
                 <div class="foot-nav">
                     <div class="copy">
-                        Coptyright © 2014 <?php echo ( date('Y', time()) > 2014)? ' - '.date('Y', time()):'' ?>
+                        Copyright © 2014 <?php echo ( date('Y', time()) > 2014)? ' - '.date('Y', time()):'' ?>
                         <?php echo Yii::app()->name ?>
                     </div>
                     <div class="nav">
-                        <a href="#">Home</a>
-                        <a href="#">Portfolio</a>
-                        <a href="#">Contact Us</a>
-                        <a href="#">Terms of Use</a>
-                        <a href="#">Privacy</a>
+
+                            <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
+
+                            <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
+
+                            <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
+
+                            <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
+
+                            <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
+
+                        <?php if ( !Yii::app()->user->isGuest ) : ?>
+                            <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+
+                                    <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                            <?php endif ?>
+                            <?php if ( Yii::app()->user->role == 'user' ) : ?>
+
+                                    <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                            <?php endif ?>
+                        <?php else : ?>
+
+
+                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
