@@ -132,6 +132,7 @@
                 <div class="nivo hide">
                     <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                 </div>
+
             </div>
 
             <div class="callout-hr"></div>
