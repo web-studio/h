@@ -21,13 +21,13 @@ $this->breadcrumbs=array(
                 <h6 class="title"><strong>Your referral link</strong></h6>
             </td>
             <td>
-                <?php echo CHtml::textField('ref', Yii::app()->getRequest()->getHostInfo().'/?referral='.$user->id, ['style'=>'color:#217b9d']) ?>
+                <?php echo CHtml::textField('ref', Yii::app()->getRequest()->getHostInfo().'/?referral='.$user->id, ['style'=>'color:#217b9d;width:380px']) ?>
             </td>
         </tr>
 
         <tr>
             <td>
-                <?php echo CHtml::link('Promotional materials', '#') ?>
+                <?php echo CHtml::link('Promotional materials', Yii::app()->createAbsoluteUrl('/private/default/promotionalMaterials')) ?>
             </td>
             <td>
 

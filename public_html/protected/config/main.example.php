@@ -123,7 +123,7 @@ return array(
         'perfectPayUrl' => 'https://perfectmoney.is/api/step1.asp', // URL для оплаты перфектмани
         'AccountID' => '3140075',
         'payee_account' => 'U4330448',
-        'PassPhrase' => '',
+        'PassPhrase' => 'Cecfybyj915',
         'AlternateCode' => '748GH678GFH896HJ465GH9ZQP',
         'payment_units' => 'USD',
         'max_amount_output' => '300',//максимальная сумма для вывода
