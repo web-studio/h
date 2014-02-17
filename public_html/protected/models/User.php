@@ -190,6 +190,17 @@ class User extends CActiveRecord
 
         return $result['first_name'] . ' ' . $last_name;
     }
+
+    public static function getHomeLink() {
+        if ( Yii::app()->user->role == 'admin' ) {
+            $link = Yii::app()->createAbsoluteUrl('/admin');
+        } elseif ( Yii::app()->user->role == 'user' ) {
+            $link = Yii::app()->createAbsoluteUrl('/private');
+        } else {
+            $link = Yii::app()->createAbsoluteUrl('/');
+        }
+        return $link;
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

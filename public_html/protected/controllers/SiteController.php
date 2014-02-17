@@ -60,7 +60,7 @@ class SiteController extends Controller {
                 $loginForm->attributes=$_POST['LoginForm'];
                 // validate user input and redirect to the previous page if valid
                 if($loginForm->validate() && $loginForm->login())
-                    $this->redirect(Yii::app()->user->returnUrl);
+                    $this->redirect(User::getHomeLink());
             }
 
             $register = new RegisterForm();
@@ -108,7 +108,7 @@ class SiteController extends Controller {
                 $user->activekey = md5(microtime());
                 $user->status = 1;
                 $user->save();
-                Yii::app()->user->setFlash('failMessage', 'You account is activated.');
+                Yii::app()->user->setFlash('successMessage', 'You account is activated.');
             } else {
                 Yii::app()->user->setFlash('failMessage', 'Incorrect activation URL');
             }
