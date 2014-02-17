@@ -47,7 +47,7 @@ class DefaultController extends PrivateController
             'referrals'=>$referrals
         ]);
     }
-
+    // Инвестирование
     public function actionInvestment() {
 
         //$user = User::model()->findByPk(Yii::app()->user->id);
@@ -73,6 +73,26 @@ class DefaultController extends PrivateController
                         $deposit->status = 1;
                         $deposit->reinvest = 0;
                         $deposit->save();
+
+
+
+                        if ( UserDeposit::model()->getIsDeposit() == 0 ) {
+                            $referredBy = User::model()->isReferral();
+                            if ( !empty($referredBy) ) {
+                                if ( UserDeposit::model()->getSumDeposits() >= 1000 ) {
+                                    $refAmount = $amount * Referral::REF_PERCENT_PARTNER;
+                                } else {
+                                    $refAmount = $amount * Referral::REF_PERCENT;
+                                }
+
+                                $transaction = new UserTransactions();
+                                $transaction->user_id = $referredBy['user_id'];
+                                $transaction->amount = $refAmount;
+                                $transaction->amount_type = UserTransactions::AMOUNT_TYPE_REFERRAL;
+                                $transaction->reason = 'Profit referral of ' . User::getСropNameById(Yii::app()->user->id);
+                                $transaction->save();
+                            }
+                        }
 
                         Yii::app()->user->setFlash('successMessage', 'Investing successful');
                     } else {
@@ -103,14 +123,15 @@ class DefaultController extends PrivateController
     public function actionInternalTransfers() {
         //Получаем полученные при переводе и переведенные средства авторизованного пользователя
         $userTransfers = new UserTransactions('transferSearch');
+
         if(isset($_GET['UserTransactions'])) {
             $userTransfers->attributes=$_GET['UserTransactions'];
         }
-        //var_dump($_POST);
-        if ( !isset ( $_POST['yt0'] ) || $_POST['yt0'] == 'yes' ){
-            if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+        if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
+
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
             $amount = (int)$_POST['amount'];
+
             if ( $amount <= User::model()->getAmount() && $amount != 0 && $user != null ) {
                 //Транзакции получателя
             $transaction_receiver = new UserTransactions();
@@ -137,7 +158,7 @@ class DefaultController extends PrivateController
                 Yii::app()->user->setFlash('failMessage', 'Incorrect amount or internal purse');
             }
         }
-        }
+
         $this->render('internalTransfers', [
             'userTransfers'=>$userTransfers,
         ]);

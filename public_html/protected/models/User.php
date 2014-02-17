@@ -135,7 +135,7 @@ class User extends CActiveRecord
         }
         return parent::beforeSave();
     }
-
+    // Является ли текущий пользователь чьим-нибудь рефералом
     public function isReferral() {
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
@@ -173,7 +173,7 @@ class User extends CActiveRecord
             return 0;
         }
     }
-
+    // Возвращает обрезанное имя пользователя
     public static function getСropNameById($id) {
         $result = Yii::app()->db->createCommand()
             ->select('first_name, last_name')

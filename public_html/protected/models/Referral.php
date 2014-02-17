@@ -10,6 +10,9 @@
  */
 class Referral extends CActiveRecord
 {
+
+    const REF_PERCENT = 0.05;
+    const REF_PERCENT_PARTNER = 0.08;
 	/**
 	 * @return string the associated database table name
 	 */

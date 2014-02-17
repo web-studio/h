@@ -24,7 +24,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
-        'style'=>'height:12px;width:325px;margin-bottom: 20px',
+        'style'=>'height:12px;width:325px;margin-bottom: 20чpx',
         //'class'=>'five columns'
     ),
 ));
@@ -38,17 +38,6 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     <div class="center" style="height: 40px;margin-bottom:10px">
         <?php echo CHtml::Button('Transfer',[
             'id'=>'transfer',
-            'onclick'=>'
-                            $.ajax({
-                                url: "'. Yii::app()->createAbsoluteUrl("/private/ajax/confirm") .'",
-                                type: "POST",
-                                data: {amount:$("#amt").val(), internal_purse:$("#internal_purse").val()},
-                                success: function(html){
-                                    $("#modal").html(html);
-                                    $.fancybox.open({type: "inline", href: "#modal"})
-                                }
-                            });
-                        ',
             'style'=>'margin-left:20px','class' => 'submit_button']) ?>
     </div>
 <?php $this->endWidget(); ?>
@@ -99,29 +88,68 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     ),
 )); ?>
 <?php endif?>
+
+<?php $this->widget('application.extensions.fancybox.EFancyBox', array(
+    'target'=>'.fancy-inline',
+    'config'=>array(),
+)); ?>
+<div id="modal" style="display: none;">
+    <h4 class="title">Сonfirm operation?</h4>
+    <div class="form">
+        <div>
+            <?php echo CHtml::button('Ok', ['id'=>'ok','style'=>'margin-left: 0px; margin-top:30px; margin-bottom;0px ','class'=>'submit_button']); ?>
+
+            <?php echo CHtml::button('Cancel', ['id'=>'cancel', 'style'=>'margin-left: 15px; margin-top:30px; margin-bottom;0px','class'=>'submit_button']); ?>
+        </div>
+    </div>
+</div>
 <script>
-   /* $("#transfer").on("click", function(){
-        if ( $('#internal_purse').val() == 0 ) {
-            $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
-            return false;
-        }
-    })*/
+    /* $("#transfer").on("click", function(){
+     if ( $('#internal_purse').val() == 0 ) {
+     $('#transfer_alert').html('Enter the internal purse').attr('style','color:red;margin-bottom:15px');
+     return false;
+     }
+     })*/
 
     $("#amt").on('change', function(){
         var current_amount = <?php echo $amount ?>;
 
         if ( $(this).val() > current_amount  ) {
-            $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
+            $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
         } else {
             $('#amount_alert').empty();
         }
     })
 
+    $("#transfer").on("click", function() {
+        var amount = false;
+        var purse = false;
+        if ( $("#amt").val() == 0 || $("#amt").val() == '' ) {
+            $("#amount_alert").html("Enter the amount to transfer").attr('style','color:red;margin-bottom:15px');
+        } else if ( $("#amt").val() > <?php echo $amount ?> ) {
+            $("#amount_alert").html("Incorrect amount").attr('style','color:red;margin-bottom:15px');
+        } else {
+            amount = true;
+        }
 
+        if ( $("#internal_purse").val() == '' ) {
+            $("#transfer_alert").html("Enter the number of purse").attr('style','color:red;margin-bottom:15px');
+        } else {
+            purse = true;
+        }
+
+        if ( amount == true && purse == true ) {
+            $.fancybox.open({type: "inline", href: "#modal"})
+        }
+    });
+
+    $("#ok").on("click", function() {
+        $("#internalTransfers-form").submit();
+    });
+
+    $("#cancel").on("click", function() {
+        $.fancybox.close({type: "inline", href: "#modal"})
+        return false;
+    });
 
 </script>
-<?php $this->widget('application.extensions.fancybox.EFancyBox', array(
-    'target'=>'.fancy-inline',
-    'config'=>array(),
-)); ?>
-<div id="modal" style="display: none;"></div>
