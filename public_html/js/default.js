@@ -169,18 +169,7 @@ $('document').ready(function() {
 			}, 200);
 		});
 	});
-	
-	/////////////////////////////////////////////
-	// Footer Logo Animation
-	/////////////////////////////////////////////
-	var overlay_class = '.footer .first .logo-caption-overlay';
-	$('.footer .first .left').prepend('<div class="logo-caption-overlay" />'); 		   // Add the caption overlay
-	$(overlay_class).stop().animate({opacity: 0}, 1000); 	  						   // Hide the caption overlay on page load
-	$('.footer .first').mouseenter(function() {
-		$(overlay_class).stop().animate({opacity: 1}, 200);  						   // Show caption
-	}).mouseleave(function() {
-		$(overlay_class).stop().animate({opacity: 0}, 200);  						   // Show caption
-	});
+
 	
 	/////////////////////////////////////////////
 	// Adjust Sidebar Border Height
