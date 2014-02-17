@@ -43,6 +43,7 @@ return array(
         'user'=>array(
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
+            'loginUrl'=>array('site/enter'),
         ),
         'authManager'=>array(
             'class'=>'PhpAuthManager',
