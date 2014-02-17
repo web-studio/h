@@ -124,7 +124,7 @@ class User extends CActiveRecord
 
         if ( $this->getIsNewRecord() ) {
             $this->password = self::cryptPassword($this->password);
-            $this->status = User::STATUS_ACTIVE;
+
             $this->internal_purse = strrev(time()) + (mt_rand(10, 99) . mt_rand(10, 99));
         } else {
             $old_password = self::model()->findByPk($this->id)->password;

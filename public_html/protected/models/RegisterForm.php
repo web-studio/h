@@ -78,27 +78,42 @@ class RegisterForm extends CFormModel
         $user->city = $this->city;
         $user->street = $this->street;
         $user->role_id = UserRole::USER_ROLE;
+        $user->activekey = md5($this->password.microtime());
+        $user->status = User::STATUS_NOACTIVE;
 
-        $result = $user->save();
+        if ( $user->save() ) {
+            if ( Yii::app()->params['activationType'] == 'sms' ) {
 
-        if ( false === $result ) {
+            }
+
+            if (Yii::app()->params['activationType'] == 'email') {
+                $activation_url = Yii::app()->createAbsoluteUrl('/activation',array("activekey" => $user->activekey, "email" => $user->email));
+
+                Email::sendMail($user->email,
+                    "Welcome to " . Yii::app()->name,
+                    $user->first_name . ' ' . $user->last_name .' welcome to '. Yii::app()->name . '<br />Please activate you account go to'.
+                    $activation_url
+                );
+            }
+
+            if ( $this->referral_id != null ) {
+                $referral = new Referral();
+                $referral->user_id = $this->referral_id;
+                $referral->ref_id = $user->id;
+                $referral->save();
+            }
+
+            $this->_identity=new UserIdentity($this->email,$this->password);
+            $this->_identity->authenticate();
+            $duration= 3600*24*30; // 30 days
+            Yii::app()->user->login($this->_identity, $duration);
+            return true;
+        } else {
             foreach ( $user->getErrors() as $field => $errors ) {
                 $this->addError($field, implode('<br />', $errors));
             }
             return false;
         }
 
-        if ( $this->referral_id != null ) {
-            $referral = new Referral();
-            $referral->user_id = $this->referral_id;
-            $referral->ref_id = $user->id;
-            $referral->save();
-        }
-
-        $this->_identity=new UserIdentity($this->email,$this->password);
-        $this->_identity->authenticate();
-        $duration= 3600*24*30; // 30 days
-        Yii::app()->user->login($this->_identity, $duration);
-        return true;
     }
 }
