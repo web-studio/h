@@ -88,7 +88,7 @@ class RegisterForm extends CFormModel
             }
 
             if (Yii::app()->params['activationType'] == 'email') {
-                $activation_url = Yii::app()->createAbsoluteUrl('/activation/?activekey='. $user->activekey, '&email='. $user->email);
+                $activation_url = Yii::app()->createAbsoluteUrl('/activation/?activekey='. $user->activekey. '&email='. $user->email);
 
                 $message = $user->first_name . ' ' . $user->last_name .' welcome to '. Yii::app()->name . '<br />Please activate you account go to '.
                     '<a href="'.$activation_url.'">activation link</a>';
