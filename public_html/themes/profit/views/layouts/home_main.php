@@ -217,7 +217,7 @@
                 <div class="sixteen columns">
                     <span class="hr remove-bottom"></span>
                     <blockquote class="standard bottom">
-                        "Persist – don’t take no for an answer. If you’re happy to sit at your desk and not take any risk, you’ll be sitting at your desk for the next 20 years." <br />- David Rubenstein (Net Worth $2.8 Billion)
+                        <?php  $this->widget('ext.widgets.statements.StatementsWidget');?>
                     </blockquote>
                 </div>
             </div>
