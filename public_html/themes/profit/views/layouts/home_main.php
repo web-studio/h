@@ -165,79 +165,8 @@ fringilla blandit quis quis enim.</p>
                         <span class="divider"></span>
                         <div class="clear"></div>
                     </div>
-                    <div class="four columns alpha">
-                        <ul class="pricing">
-                            <li class="title">Basic</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>13</span>
-                                <span class="decimal">99</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>16</strong> GB WebSpace</li>
-                            <li><strong>7</strong> Domain</li>
-                            <li><strong>100</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns">
-                        <ul class="pricing">
-                            <li class="title">Premium</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>19</span>
-                                <span class="decimal">97</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>19</strong> GB WebSpace</li>
-                            <li><strong>8</strong> Domain</li>
-                            <li><strong>100</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns">
-                        <ul class="pricing">
-                            <div class="recommended"></div>
-                            <li class="title">Platinum</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>69</span>
-                                <span class="decimal">95</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>25</strong> GB WebSpace</li>
-                            <li><strong>15</strong> Domain</li>
-                            <li><strong>Unlimited</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns omega">
-                        <ul class="pricing">
-                            <li class="title">Point Made :)</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>99</span>
-                                <span class="decimal">95</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>25</strong> GB WebSpace</li>
-                            <li><strong>15</strong> Domain</li>
-                            <li><strong>Unlimited</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
+                    <?php  $this->widget('ext.widgets.deposits.DepositsWidget');?>
+
                     <div class="clear"></div>
 
                     <div class="two-thirds column alpha">
