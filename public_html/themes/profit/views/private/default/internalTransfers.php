@@ -24,7 +24,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
-        'style'=>'height:12px;width:325px;margin-bottom: 20px',
+        'style'=>'height:12px;width:325px;margin-bottom: 20чpx',
         //'class'=>'five columns'
     ),
 ));
