@@ -25,7 +25,7 @@ class DefaultController extends PrivateController
             //'refill'=>$refill
         ]);
 	}
-
+    // Реферальная программа
     public function actionReferrals() {
 
         $user = User::model()->findByPk(Yii::app()->user->id);
@@ -47,6 +47,17 @@ class DefaultController extends PrivateController
             'referrals'=>$referrals
         ]);
     }
+
+    // рекламные материалы
+    public function actionPromotionalMaterials() {
+
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
+        $this->render('promotional_materials', [
+            'user'=>$user,
+        ]);
+    }
+
     // Инвестирование
     public function actionInvestment() {
 
