@@ -85,13 +85,34 @@ class UserDeposit extends CActiveRecord
         );
     }
 
-    public function getSumDeposits() {
+    public function getSumDeposits($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT SUM(id)
                 AS id
                 FROM " . UserDeposit::model()->tableName() . "
-                WHERE user_id=" . Yii::app()->user->id . " AND status = " . self::STATUS_ACTIVE . "
+                WHERE user_id=" . $user_id . " AND status = " . self::STATUS_ACTIVE . "
+                ")->queryScalar();
+
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getAllAmountActiveDeposits($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT SUM(deposit_amount)
+                AS deposit_amount
+                FROM " . UserDeposit::model()->tableName() . "
+                WHERE user_id=" . $user_id . " AND status = " . self::STATUS_ACTIVE . "
                 ")->queryScalar();
 
             return $result ?: 0;
@@ -114,7 +135,21 @@ class UserDeposit extends CActiveRecord
             return 0;
         }
     }
+    // возвращает кол-во депозитов
+    public function getCountDeposit() {
+        if ( !$this->isNewRecord ) {
+            $result = Yii::app()->db->createCommand("
+                SELECT COUNT(user_id)
+                FROM " . UserDeposit::model()->tableName() . "
+                WHERE user_id=" . Yii::app()->user->id . "
+                ")->queryScalar();
 
+            return $result ?: 0;
+        } else {
+            return 0;
+        }
+    }
+    // Сумма первого депозита
     public function getAmountFirstDeposit($user_id) {
         if ( !$this->isNewRecord ) {
 
@@ -122,7 +157,7 @@ class UserDeposit extends CActiveRecord
                 SELECT deposit_amount
                 FROM " . UserDeposit::model()->tableName() . "
                 WHERE user_id=" . $user_id . "
-                ORDER BY id DESC
+                ORDER BY id ASC
                 LIMIT 1
                 ")->queryScalar();
 
@@ -131,7 +166,7 @@ class UserDeposit extends CActiveRecord
             return 0;
         }
     }
-
+    // Статус депозита
     public function getStatus($status) {
         switch ( $status ) {
             case self::STATUS_ACTIVE:
@@ -187,7 +222,7 @@ class UserDeposit extends CActiveRecord
         $criteria->compare('date_create',$this->date_create,true);
         $criteria->compare('reinvest',$this->reinvest);
         $criteria->compare('status',$this->status);
-
+        $criteria->addCondition('user_id='. Yii::app()->user->id);
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));

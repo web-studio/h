@@ -50,8 +50,6 @@ class DefaultController extends PrivateController
     // Инвестирование
     public function actionInvestment() {
 
-        //$user = User::model()->findByPk(Yii::app()->user->id);
-
         if ( isset($_POST['deposit']) && isset($_POST['amount']) ) {
             $depositType = DepositType::model()->findByPk((int)$_POST['deposit']);
             $amount = (int)$_POST['amount'];
@@ -76,10 +74,10 @@ class DefaultController extends PrivateController
 
 
 
-                        if ( UserDeposit::model()->getIsDeposit() == 0 ) {
+                        if (  UserDeposit::model()->getCountDeposit() == 1 ) {
                             $referredBy = User::model()->isReferral();
                             if ( !empty($referredBy) ) {
-                                if ( UserDeposit::model()->getSumDeposits() >= 1000 ) {
+                                if ( UserDeposit::model()->getAllAmountActiveDeposits($referredBy['user_id']) >= 1000 ) {
                                     $refAmount = $amount * Referral::REF_PERCENT_PARTNER;
                                 } else {
                                     $refAmount = $amount * Referral::REF_PERCENT;
@@ -90,6 +88,7 @@ class DefaultController extends PrivateController
                                 $transaction->amount = $refAmount;
                                 $transaction->amount_type = UserTransactions::AMOUNT_TYPE_REFERRAL;
                                 $transaction->reason = 'Profit referral of ' . User::getСropNameById(Yii::app()->user->id);
+                                $transaction->ref_id = Yii::app()->user->id;
                                 $transaction->save();
                             }
                         }
