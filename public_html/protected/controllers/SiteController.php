@@ -76,8 +76,8 @@ class SiteController extends Controller {
             {
                 $register->attributes=$_POST['RegisterForm'];
                 if( $register->validate() && $register->register() ) {
-                    Yii::app()->user->setFlash('successMessage', 'Registration was successful');
-                    $this->redirect(Yii::app()->user->returnUrl);
+                    Yii::app()->user->setFlash('successMessage', 'Thank you for registration. To proceed, check your e-mail');
+                    $this->redirect(Yii::app()->createAbsoluteUrl('/site/enter'));
                 }
             }
 
@@ -98,6 +98,23 @@ class SiteController extends Controller {
         }
     }
 
+    public function actionActivation($email=null,$activekey=null) {
+        if ( $activekey != null && $email != null ) {
+
+            $user = User::model()->findByAttributes(['email'=>$email]);
+
+            if ( $user != null && $user->activekey == $activekey ) {
+                $user->activekey = md5(microtime());
+                $user->status = 1;
+                $user->save();
+                Yii::app()->user->setFlash('failMessage', 'You account is activated.');
+            } else {
+                Yii::app()->user->setFlash('failMessage', 'Incorrect activation URL');
+            }
+        }
+
+        $this->redirect(Yii::app()->createAbsoluteUrl('/site/enter'));
+    }
 
     public function actionLogout()
     {
