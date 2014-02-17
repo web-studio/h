@@ -47,7 +47,7 @@ class DefaultController extends PrivateController
             'referrals'=>$referrals
         ]);
     }
-
+    // Инвестирование
     public function actionInvestment() {
 
         //$user = User::model()->findByPk(Yii::app()->user->id);
@@ -73,6 +73,26 @@ class DefaultController extends PrivateController
                         $deposit->status = 1;
                         $deposit->reinvest = 0;
                         $deposit->save();
+
+
+
+                        if ( UserDeposit::model()->getIsDeposit() == 0 ) {
+                            $referredBy = User::model()->isReferral();
+                            if ( !empty($referredBy) ) {
+                                if ( UserDeposit::model()->getSumDeposits() >= 1000 ) {
+                                    $refAmount = $amount * Referral::REF_PERCENT_PARTNER;
+                                } else {
+                                    $refAmount = $amount * Referral::REF_PERCENT;
+                                }
+
+                                $transaction = new UserTransactions();
+                                $transaction->user_id = $referredBy['user_id'];
+                                $transaction->amount = $refAmount;
+                                $transaction->amount_type = UserTransactions::AMOUNT_TYPE_REFERRAL;
+                                $transaction->reason = 'Profit referral of ' . User::getСropNameById(Yii::app()->user->id);
+                                $transaction->save();
+                            }
+                        }
 
                         Yii::app()->user->setFlash('successMessage', 'Investing successful');
                     } else {

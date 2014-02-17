@@ -124,7 +124,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     $("#transfer").on("click", function() {
         var amount = false;
         var purse = false;
-        if ( $("#amt").val() == 0 ) {
+        if ( $("#amt").val() == 0 || $("#amt").val() == '' ) {
             $("#amount_alert").html("Enter the amount to transfer").attr('style','color:red;margin-bottom:15px');
         } else if ( $("#amt").val() > <?php echo $amount ?> ) {
             $("#amount_alert").html("Incorrect amount").attr('style','color:red;margin-bottom:15px');
