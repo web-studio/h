@@ -14,6 +14,9 @@
  */
 class BonusProgram extends CActiveRecord
 {
+    const STATUS_SUCCESS = 1;
+    const STATUS_FAIL = 0;
+    const STATUS_PENDING = 2;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -36,6 +39,7 @@ class BonusProgram extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, link, date_create, date_update, status', 'safe', 'on'=>'search'),
+            array('id, user_id, link, date_create, date_update, status', 'safe', 'on'=>'bonusSearch'),
 		);
 	}
 
@@ -60,12 +64,45 @@ class BonusProgram extends CActiveRecord
 			'user_id' => 'User',
             'site_id' => 'Site',
 			'link' => 'Link',
-			'date_create' => 'Date Create',
+			'date_create' => 'Added',
 			'date_update' => 'Date Update',
 			'status' => 'Status',
 		);
 	}
 
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'date_create',
+                'updateAttribute' => 'date_update',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('NOW()'),
+            ),
+
+        );
+    }
+
+    public static function todayWasBonus($bonusSite_id){
+        $bonus = BonusProgram::model()->find(['select'=>'id', 'condition'=>"site_id=:site_id AND DATE_FORMAT(date_create, '%Y-%m-%d') = DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d')", 'params'=>[':site_id'=>$bonusSite_id]]);
+        if ( $bonus != null ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getStatus($status_id) {
+        switch ($status_id) {
+            case self::STATUS_PENDING:
+                $status = 'Pending';break;
+            case self::STATUS_SUCCESS:
+                $status = 'Paid';break;
+            case self::STATUS_FAIL:
+                $status = 'Сanceled';break;
+        }
+        return $status;
+    }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -97,6 +134,24 @@ class BonusProgram extends CActiveRecord
 		));
 	}
 
+    public function bonusSearch()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('site_id',$this->site_id);
+        $criteria->compare('link',$this->link,true);
+        $criteria->compare('date_create',$this->date_create,true);
+        $criteria->compare('date_update',$this->date_update,true);
+        $criteria->compare('status',$this->status);
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
