@@ -1,4 +1,6 @@
 <?php
+$this->pageTitle = $model->title;
+
 $this->breadcrumbs=array(
 	'News'=>array('index'),
 	$model->title,
@@ -6,7 +8,6 @@ $this->breadcrumbs=array(
 
 ?>
 <div style="margin-left: 20px;margin-right: 20px">
-    <h3>View News - <?php echo $model->title; ?></h3>
 
     <span style=" text-indent: 20px;"><p><?php echo $model->text; ?></p></span>
 

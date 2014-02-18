@@ -1,3 +1,10 @@
+<?php
+$this->pageTitle = 'Internal Transfers';
+
+$this->breadcrumbs=array(
+    $this->module->id,
+);
+?>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'internalTransfers-form',
     'enableClientValidation'=>true,
