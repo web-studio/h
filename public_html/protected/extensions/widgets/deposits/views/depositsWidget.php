@@ -5,8 +5,8 @@
             <ul class="pricing" style="width: 200px; ">
                 <li class="title"><?php echo $depositType->name ?></li>
                 <li class="price">
-                    <span class="rate">Total return</span><br/>
-                    <span><?php echo $depositType->total_return ?></span>
+                    <span class="rate">Daily Profit</span><br/>
+                    <span><?php echo (float)$depositType->percent ?></span>
                     <span class="decimal">%</span>
                 </li>
                 <li><strong>Amount</strong> $<?php echo $depositType->min_amount ?> - $<?php echo $depositType->max_amount ?></li>

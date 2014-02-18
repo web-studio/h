@@ -12,11 +12,11 @@
 
     <span style="font-weight: bold; font-size: 24px">Amount for withdraw: </span>
     <span style="color:#217b9d; font-weight:bold;font-size: 24px;">$</span>
-    <input type="text" name="amount" value="0" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
+    <input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
     <div class="clear"></div>
     <?php
     $this->widget('zii.widgets.jui.CJuiSlider', array(
-        'value'=>0,
+        'value'=>$amount,
         'id'=>'amtSlider',
         // additional javascript options for the slider plugin
         'options'=>array(

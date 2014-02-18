@@ -2,12 +2,12 @@
 
 class SiteController extends Controller {
 
-	public function actionIndex($referral=null)
+	public function actionIndex($partner=null)
 	{
         $this->layout = '//layouts/home_column1';
 
-        if ( Yii::app()->user->getState('referral') == null && $referral != null ) {
-            Yii::app()->user->setState('referral', (int)$referral);
+        if ( Yii::app()->user->getState('partner') == null && $partner != null ) {
+            Yii::app()->user->setState('partner', (int)$partner);
             //$this->redirect('/');
         }
        /* $mailer = new EMailer();
@@ -65,8 +65,8 @@ class SiteController extends Controller {
 
             $register = new RegisterForm();
 
-            if ( Yii::app()->user->getState('referral') > 0 ) {
-                $referrer = User::model()->find(['select'=>'id, login','condition'=>'id=:referral','params'=>[':referral'=>Yii::app()->user->getState('referral')]]);
+            if ( Yii::app()->user->getState('partner') > 0 ) {
+                $referrer = User::model()->find(['select'=>'id, login','condition'=>'id=:referral','params'=>[':referral'=>Yii::app()->user->getState('partner')]]);
                 if ( $referrer != null ) {
                     $register->referral_id = $referrer->id;
                 }

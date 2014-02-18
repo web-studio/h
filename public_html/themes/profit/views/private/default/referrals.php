@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
                 <h6 class="title"><strong>Your referral link</strong></h6>
             </td>
             <td>
-                <?php echo CHtml::textField('ref', Yii::app()->getRequest()->getHostInfo().'/?referral='.$user->id, ['style'=>'color:#217b9d;width:380px']) ?>
+                <?php echo CHtml::textField('ref', Yii::app()->getRequest()->getHostInfo().'/?partner='.$user->id, ['style'=>'color:#217b9d;width:380px']) ?>
             </td>
         </tr>
 

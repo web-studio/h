@@ -12,10 +12,12 @@
  * @property integer $reinvest
  * @property integer $status
  * @property string $date_create
+ * @property integer $transaction_id
  */
 class UserDeposit extends CActiveRecord
 {
     const STATUS_ACTIVE = 1;
+    const STATUS_PENDING = 2;
     const STATUS_NOACTIVE = 0;
 	/**
 	 * @return string the associated database table name
@@ -33,7 +35,7 @@ class UserDeposit extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, reinvest, status', 'numerical', 'integerOnly'=>true),
+			array('user_id, reinvest, status, transaction_id', 'numerical', 'integerOnly'=>true),
 			array('deposit_type_id', 'length', 'max'=>255),
 			array('deposit_amount', 'length', 'max'=>10),
 			array('expire, date_create', 'safe'),
@@ -70,6 +72,7 @@ class UserDeposit extends CActiveRecord
             'date_create' => 'Date create',
 			'reinvest' => 'Reinvest',
 			'status' => 'Status',
+            'transaction_id' => 'Transaction ID'
 		);
 	}
 
@@ -136,12 +139,15 @@ class UserDeposit extends CActiveRecord
         }
     }
     // возвращает кол-во депозитов
-    public function getCountDeposit() {
+    public function getCountDeposit($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT COUNT(user_id)
                 FROM " . UserDeposit::model()->tableName() . "
-                WHERE user_id=" . Yii::app()->user->id . "
+                WHERE user_id=" . $user_id . "
                 ")->queryScalar();
 
             return $result ?: 0;
@@ -149,6 +155,9 @@ class UserDeposit extends CActiveRecord
             return 0;
         }
     }
+
+
+
     // Сумма первого депозита
     public function getAmountFirstDeposit($user_id) {
         if ( !$this->isNewRecord ) {
@@ -171,6 +180,8 @@ class UserDeposit extends CActiveRecord
         switch ( $status ) {
             case self::STATUS_ACTIVE:
                 $status = 'Active';break;
+            case self::STATUS_PENDING:
+                $status = 'Pending';break;
             case self::STATUS_NOACTIVE:
                 $status = 'Not active';break;
         }
@@ -222,6 +233,7 @@ class UserDeposit extends CActiveRecord
         $criteria->compare('date_create',$this->date_create,true);
         $criteria->compare('reinvest',$this->reinvest);
         $criteria->compare('status',$this->status);
+        $criteria->compare('transaction_id',$this->transaction_id);
         $criteria->addCondition('user_id='. Yii::app()->user->id);
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

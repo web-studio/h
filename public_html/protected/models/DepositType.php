@@ -34,9 +34,9 @@ class DepositType extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('days, min_amount, max_amount, status', 'numerical', 'integerOnly'=>true),
+			array('days, status', 'numerical', 'integerOnly'=>true),
 			array('name, description, total_return', 'length', 'max'=>255),
-            array('percent', 'safe'),
+            array('percent, min_amount, max_amount', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, description, days, percent, min_amount, max_amount, status, total_return', 'safe', 'on'=>'search'),
@@ -81,6 +81,7 @@ class DepositType extends CActiveRecord
 
         return $result;
     }
+
 
     public function getMinDepositAmount() {
         $minAmount = Yii::app()->db->createCommand()

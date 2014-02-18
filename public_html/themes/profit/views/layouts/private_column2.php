@@ -44,10 +44,10 @@
             'htmlOptions'=>['class'=>'private_menu'],
             'items'=> array(
                 array('label'=>'ACCOUNT INFO','url'=>array('/private'),'active'=>$this->action->id=='index'?true:false),
-                array('label'=>'INTERNAL TRANSFERS','url'=>array('/private/default/internalTransfers')),
                 array('label'=>'INVESTMENT','url'=>array('/private/default/investment')),
                 array('label'=>'WITHDRAW','url'=>array('/private/default/withdraw')),
                 array('label'=>'REFERRALS','url'=>array('/private/default/referrals')),
+                array('label'=>'INTERNAL TRANSFERS','url'=>array('/private/default/internalTransfers')),
                 array('label'=>'TRANSACTIONS','url'=>array('/private/default/transactions')),
         )));
         ?>

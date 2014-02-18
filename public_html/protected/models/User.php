@@ -135,13 +135,16 @@ class User extends CActiveRecord
         }
         return parent::beforeSave();
     }
-    // Является ли текущий пользователь чьим-нибудь рефералом
-    public function isReferral() {
+    // Является ли пользователь чьим-нибудь рефералом
+    public function isReferral($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT user_id
                 FROM " . Referral::model()->tableName() . "
-                WHERE ref_id=" . Yii::app()->user->id . "
+                WHERE ref_id=" . $user_id . "
                 ")->queryRow();
 
             return $result;
@@ -158,12 +161,15 @@ class User extends CActiveRecord
         }
     }
 
-    public function getAmount() {
+    public function getAmount($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT amount_after
                 FROM " . UserTransactions::model()->tableName() . "
-                WHERE user_id=" . Yii::app()->user->id . "
+                WHERE user_id=" . $user_id . "
                 ORDER BY id DESC
                 LIMIT 1
                 ")->queryScalar();

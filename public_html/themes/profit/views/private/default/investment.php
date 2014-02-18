@@ -12,8 +12,8 @@
             <ul class="pricing">
                 <li class="title"><?php echo $depositType->name ?></li>
                 <li class="price">
-                    <span class="rate">Total return</span><br/>
-                    <span><?php echo $depositType->total_return ?></span>
+                    <span class="rate">Daily Profit</span><br/>
+                    <span><?php echo (float)$depositType->percent ?></span>
                     <span class="decimal">%</span>
 
                 </li>
@@ -40,8 +40,9 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     'id'=>'amtSlider',
     // additional javascript options for the slider plugin
     'options'=>array(
-        'min'=>0,
-        'max'=>($amount < 1) ? 50 : $amount,
+        'min'=>10,
+        //'max'=>($amount == 0) ? 30000 : $amount,
+        'max'=>30000,
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
@@ -124,8 +125,8 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 
         //$("#amt").val(current_amount);
 
-        $( "#amtSlider" ).slider( "option", "min", min );
-        $( "#amtSlider" ).slider( "option", "max", max );
+        //$( "#amtSlider" ).slider( "option", "min", min );
+        //$( "#amtSlider" ).slider( "option", "max", max );
 
         if ( current_amount < min ) {
             $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
@@ -147,8 +148,28 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             }
         });*/
     }
+
+    function selectDeposit(amount) {
+        if ( amount >= 10.00 && amount <= 300.00  ) {
+            s_dep(1,10.00,300.00)
+        }
+        if ( amount >= 300.01 && amount <= 1500.00  ) {
+            s_dep(2,300.01,1500.00)
+        }
+        if ( amount >= 1500.01 && amount <= 3000.00  ) {
+            s_dep(3,1500.01,3000.00)
+        }
+        if ( amount >= 3000.01 && amount <= 30000.00  ) {
+            s_dep(4,3000.01,30000.00)
+        }
+    }
+
     $("#amt").on('change', function(){
         var current_amount = <?php echo $amount ?>;
+
+        selectDeposit($(this).val());
+
+        $( "#amtSlider" ).slider( "option", "value", $(this).val() );
 
         if ( $(this).val() > current_amount  ) {
             $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
@@ -157,8 +178,16 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         }
     })
     $("#invest").on("click", function(){
-        if ( $('#invest-form input[type="radio"]').is(':checked') == false ) {
+
+        selectDeposit($("#amt").val());
+
+        /*if ( $('#invest-form input[type="radio"]').is(':checked') == false ) {
             $('#deposit_alert').html('Select an investment program').attr('style','color:red;margin-bottom:15px');
+            return false;
+        }*/
+
+        if ( $("#amt").val() < 10 && $("#amt").val() > 30000 ) {
+            $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
             return false;
         }
     })
