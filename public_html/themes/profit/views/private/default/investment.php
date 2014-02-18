@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <?php $amount = User::model()->getAmount(); ?>
-<?php if ( $amount > 0 ) : ?>
+
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'invest-form',
     'enableClientValidation'=>true,
@@ -66,12 +66,6 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 </div>
     <?php $this->endWidget(); ?>
 
-<?php else : ?>
-    <div class="form-result" style="">
-        <p class="note warning">Insufficient funds to investment</p>
-        <br>
-    </div>
-<?php endif; ?>
 <?php if ( UserDeposit::model()->getIsDeposit() > 0 ) : ?>
 <div>
     <div class="title-wrapper">

@@ -239,4 +239,18 @@ class DefaultController extends PrivateController
             'userTransactions'=>$userTransactions,
         ]);
     }
+
+    public function actionBonus() {
+
+        $bonusSites =  Yii::app()->db->createCommand()
+            ->select('site.id, site.url')
+            ->from('{{bonus_sites}} site')
+            ->join('{{bonus_program}} p', 'p.site_id=site.id')
+            ->where("site.status=:status AND (DATE_FORMAT(p.date_create, '%Y-%m-%d') > DATE_FORMAT('". date('Y-m-d', time()-86400) ."', '%Y-%m-%d') AND DATE_FORMAT(p.date_create, '%Y-%m-%d') <> DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d'))",[':status'=>BonusSites::STATUS_ACTIVE])
+            ->queryAll();
+        var_dump($bonusSites);die;
+        $this->render('bonus', [
+            'bonusSites'=>$bonusSites,
+        ]);
+    }
 }
