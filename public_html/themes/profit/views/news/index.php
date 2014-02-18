@@ -1,4 +1,6 @@
 <?php
+$this->pageTitle = 'News';
+
 $this->breadcrumbs=array(
 	'News',
 );

@@ -1,3 +1,10 @@
+<?php
+$this->pageTitle = 'Investment';
+
+$this->breadcrumbs=array(
+    $this->module->id,
+);
+?>
 <?php $amount = User::model()->getAmount(); ?>
 <?php if ( $amount > 0 ) : ?>
 <?php $form=$this->beginWidget('CActiveForm', array(

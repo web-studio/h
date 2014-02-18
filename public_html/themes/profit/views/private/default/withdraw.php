@@ -1,3 +1,10 @@
+<?php
+$this->pageTitle = 'Withdraw';
+
+$this->breadcrumbs=array(
+    $this->module->id,
+);
+?>
 <?php $amount = User::model()->getAmount(); ?>
 <?php if ( $amount > 0 ) : ?>
     <?php $form=$this->beginWidget('CActiveForm', array(
@@ -48,3 +55,46 @@
         <br>
     </div>
 <?php endif; ?>
+<?php if ( $outputTransactions->outputSearch()->itemCount > 0 ):?>
+    <div class="title-wrapper">
+        <div class="section-title">
+            <h4 class="title">Pending Transactions</h4>
+        </div>
+        <span class="divider"></span>
+        <div class="clear"></div>
+    </div>
+    <?php $this->widget('bootstrap.widgets.TbGridView',array(
+        'id'=>'user-transfer-grid',
+        'dataProvider'=>$outputTransactions->outputSearch(),
+        'template' => '{items}{pager}',
+        'columns'=>array(
+
+            [
+                'name'=>'created_time',
+                'headerHtmlOptions' => ['style' => 'text-align:center;'],
+                'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+                'value'=>'User::formatDate($data->created_time,true)'
+            ],
+
+            [
+                'name'=>'payment_amount',
+                'headerHtmlOptions' => ['style' => 'text-align:center;'],
+                'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+                'value'=>'"$" . $data->payment_amount'
+            ],
+            [
+                'name'=>'payee_account',
+                'headerHtmlOptions' => ['style' => 'text-align:center;'],
+                'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+                'value'=>'$data->payee_account'
+            ],
+            [
+                'name'=>'status',
+                'headerHtmlOptions' => ['style' => 'text-align:center;'],
+                'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+                'value'=>'OutputTransactions::model()->getStatus($data->status)'
+            ],
+
+        ),
+    )); ?>
+<?php endif?>

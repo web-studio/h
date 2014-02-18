@@ -1,3 +1,10 @@
+<?php
+$this->pageTitle = 'Transactions';
+
+$this->breadcrumbs=array(
+    $this->module->id,
+);
+?>
 <div class="title-wrapper">
     <div class="section-title">
         <h4 class="title">My transactions</h4>
