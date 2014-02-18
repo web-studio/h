@@ -156,7 +156,30 @@ class UserDeposit extends CActiveRecord
         }
     }
 
+    public function getDailyProfit($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
 
+        $deposits = Yii::app()->db->createCommand()
+            ->selectDistinct('dep.id, dep.user_id, dep.deposit_type_id, dep.deposit_amount, dep.expire, type.percent')
+            ->from('{{user_deposits}} dep')
+            ->join('{{deposit_types}} type', 'type.id=dep.deposit_type_id')
+            ->where("dep.user_id=:user_id AND dep.status=:status AND DATE_FORMAT(dep.expire, '%Y-%m-%d') >= DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d')",[':user_id'=>$user_id,':status'=>UserDeposit::STATUS_ACTIVE])
+            ->queryAll();
+
+        $amount = 0;
+        foreach ( $deposits as $deposit ) {
+            if ( date('Y-m-d', strtotime($deposit['expire'])) >= date('Y-m-d', time()) ) {
+
+                $percentAmount = ( $deposit['deposit_amount'] * $deposit['percent'] ) / 100;
+                $amount +=$percentAmount;
+            }
+        }
+
+        return $amount;
+
+    }
 
     // Сумма первого депозита
     public function getAmountFirstDeposit($user_id) {

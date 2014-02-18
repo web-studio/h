@@ -25,6 +25,7 @@ class UserTransactions extends CActiveRecord
     const AMOUNT_TYPE_REFERRAL = 5; //Реферальные проценты
     const AMOUNT_TYPE_TRANSFER = 6; //Перевод средств
     const AMOUNT_TYPE_BACK_INVESTMENT = 7; // Возврат с депозита
+    const AMOUNT_TYPE_BONUS = 8; // Бонусные
 
 	/**
 	 * @return string the associated database table name
@@ -247,6 +248,9 @@ class UserTransactions extends CActiveRecord
         } elseif ( $amount_type == self::AMOUNT_TYPE_BACK_INVESTMENT ){
             return 'Back from investment';
 
+        } elseif ( $amount_type == self::AMOUNT_TYPE_BONUS ){
+            return 'Bonus program';
+
         }
     }
 
@@ -259,6 +263,7 @@ class UserTransactions extends CActiveRecord
             self::AMOUNT_TYPE_REFERRAL => 'Referral',
             self::AMOUNT_TYPE_TRANSFER => 'Transfer',
             self::AMOUNT_TYPE_BACK_INVESTMENT => 'Back from investment',
+            self::AMOUNT_TYPE_BONUS => 'Bonus program'
         ];
     }
 

@@ -16,6 +16,11 @@ Yii::import('zii.widgets.grid.CButtonColumn');
  */
 class TbButtonColumn extends CButtonColumn
 {
+    public $confirmButtonIcon = 'ok-sign';
+    public $confirm = 'ok-sign';
+
+    public $cancelButtonIcon = 'remove-sign';
+    public $cancel = 'remove-sign';
 	/**
 	 * @var string the view button icon (defaults to 'eye-open').
 	 */
@@ -35,6 +40,11 @@ class TbButtonColumn extends CButtonColumn
 	protected function initDefaultButtons()
 	{
 		parent::initDefaultButtons();
+
+        if ($this->confirmButtonIcon !== false && !isset($this->buttons['confirm']['icon']))
+            $this->buttons['confirm']['icon'] = $this->confirm;
+        if ($this->cancelButtonIcon !== false && !isset($this->buttons['cancel']['icon']))
+            $this->buttons['cancel']['icon'] = $this->cancel;
 
 		if ($this->viewButtonIcon !== false && !isset($this->buttons['view']['icon']))
 			$this->buttons['view']['icon'] = $this->viewButtonIcon;
@@ -68,6 +78,7 @@ class TbButtonColumn extends CButtonColumn
 
 		if (isset($button['icon']))
 		{
+
 			if (strpos($button['icon'], 'icon') === false)
 				$button['icon'] = 'icon-'.implode(' icon-', explode(' ', $button['icon']));
 

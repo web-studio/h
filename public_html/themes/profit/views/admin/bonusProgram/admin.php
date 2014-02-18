@@ -18,7 +18,6 @@ $this->menu=array(
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 
         [
             'name'=>'date_create',
@@ -27,12 +26,17 @@ $this->menu=array(
         [
             'name'=>'user_id',
             'type'=>'raw',
-            'value'=>'$data->user_id'
+            'value'=>'CHtml::link(User::getEmailById($data->user_id), Yii::app()->createAbsoluteUrl("/admin/user/view", ["id"=>$data->user_id]), ["target"=>"_blank"] )'
+        ],
+        [
+            'name'=>'site_id',
+            'type'=>'raw',
+            'value'=>'BonusSites::model()->getUrlById($data->site_id)'
         ],
         [
             'name'=>'link',
             'type'=>'raw',
-            'value'=>'CHtml::link($data->link, $data->link )'
+            'value'=>'CHtml::link("View Link", $data->link, ["target"=>"_blank"] )'
         ],
         [
             'name'=>'status',
@@ -40,9 +44,39 @@ $this->menu=array(
         ],
         array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
-            'template' => '{view}',
+            'template' => '{confirm}&nbsp;&nbsp;&nbsp;{cancel}',
+            'buttons' => array(
+                'confirm' => array(
+                    'label' => 'confirm',
+                    'url'=>'Yii::app()->createUrl("/admin/bonusProgram/confirm", array("id"=>$data->id, "confirm" => "ok"))',
+                    'options' => array('class'=>'arrow_image_up'),
+                    'visible' => '($data->status==2)?true:false;',
+                    'click' => "js: function() {
+                        if ( confirm('Confirm?') ) {
+                            ajaxMoveRequest($(this).attr('href'), 'bonus-program-grid');
+                         return false;
+                        } else {
+                            return false;
+                        }
 
+                    }",
+                ),
+                'cancel' => array(
+                    'label' => 'cancel',
+                    'url'=>'Yii::app()->createUrl("/admin/bonusProgram/confirm", array("id"=>$data->id, "confirm" => "cancel"))',
+                    'options' => array('class'=>'arrow_image_down'),
+                    'visible' => '($data->status==2)?true:false;',
+                    'click' => "js: function() {
+                        if ( confirm('Confirm?') ) {
+                            ajaxMoveRequest($(this).attr('href'), 'bonus-program-grid');
+                         return false;
+                        } else {
+                            return false;
+                        }
 
+                    }",
+                ),
+            )
         ),
 	),
 )); ?>

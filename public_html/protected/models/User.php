@@ -197,6 +197,17 @@ class User extends CActiveRecord
         return $result['first_name'] . ' ' . $last_name;
     }
 
+    // Возвращает обрезанное имя пользователя
+    public static function getEmailById($id) {
+        $result = Yii::app()->db->createCommand()
+            ->select('email')
+            ->from(User::model()->tableName())
+            ->where('id=:id', array(':id'=>$id))
+            ->queryRow();
+
+        return $result['email'];
+    }
+
     public static function getHomeLink() {
         if ( Yii::app()->user->role == 'admin' ) {
             $link = Yii::app()->createAbsoluteUrl('/admin');

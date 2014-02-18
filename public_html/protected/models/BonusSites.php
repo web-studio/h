@@ -49,6 +49,15 @@ class BonusSites extends CActiveRecord
 		);
 	}
 
+    public function getUrlById($id) {
+        $result = Yii::app()->db->createCommand("
+        SELECT url
+        FROM " . self::tableName() . "
+        WHERE id=" . $id . "
+        ")->queryScalar();
+
+        return $result;
+    }
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

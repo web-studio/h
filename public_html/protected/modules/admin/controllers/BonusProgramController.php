@@ -57,6 +57,32 @@ class BonusProgramController extends AdminController
 		));
 	}
 
+    public function actionConfirm($id, $confirm) {
+
+        if($confirm=='ok') {
+            $bonus = BonusProgram::model()->findByPk($id);
+            $bonus->status = BonusProgram::STATUS_SUCCESS;
+            $bonus->save();
+
+            $dailyProfit = UserDeposit::model()->getDailyProfit($bonus->user_id);
+
+            $amount = $dailyProfit * BonusProgram::BONUS_PERCENT;
+
+            $transaction = new UserTransactions();
+            $transaction->user_id = $bonus->user_id;
+            $transaction->amount = $amount;
+            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_BONUS;
+            $transaction->reason = 'Bonus program. ' .  BonusSites::model()->getUrlById($bonus->site_id) . ' ' . User::formatDate($bonus->date_create, true);
+            $transaction->save();
+        }
+
+        if($confirm=='cancel') {
+            $bonus = BonusProgram::model()->findByPk($id);
+            $bonus->status = BonusProgram::STATUS_FAIL;
+            $bonus->save();
+        }
+    }
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

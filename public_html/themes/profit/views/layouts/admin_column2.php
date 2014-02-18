@@ -66,6 +66,8 @@
     </div>
 </div>
 <div class="clear"></div>
-
+<?php
+Yii::app()->clientScript->registerScriptFile(Yii::app()->request->hostInfo.'/js/admin.js', CClientScript::POS_END);
+?>
 <?php $this->endContent() ?>
 
