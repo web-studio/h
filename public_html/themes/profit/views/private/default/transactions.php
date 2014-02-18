@@ -2,7 +2,8 @@
 $this->pageTitle = 'Transactions';
 
 $this->breadcrumbs=array(
-    $this->module->id,
+    'My account'=>array('/private'),
+    $this->pageTitle
 );
 ?>
 <div class="title-wrapper">
