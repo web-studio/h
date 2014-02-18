@@ -239,6 +239,13 @@ class PerfectMoneyController extends PrivateController
                             $outputTransaction->payee_account = $_POST['perfect_purse'];
                             $outputTransaction->save();
 
+                            $transaction = new UserTransactions();
+                            $transaction->amount = -$amount;
+                            $transaction->user_id = $user->id;
+                            $transaction->reason = 'Withdraw to Perfect Money account '. $user->perfect_purse;
+                            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
+                            $transaction->payment_id = $payment_id;
+                            $transaction->save();
                             /*$subject = 'Ошибка! Вывод PerfectMoney';
                             $message = "Ошибка: ". $reply['ERROR'] ."\r\n
                                     ID Пользователя: ". Yii::app()->user->id ."\r\n

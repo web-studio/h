@@ -219,8 +219,14 @@ class DefaultController extends PrivateController
 
         $user = User::model()->findByPk(Yii::app()->user->id);
 
+        $outputTransactions = new OutputTransactions('OutputSearch');
+        if(isset($_GET['OutputTransactions'])) {
+            $outputTransactions->attributes=$_GET['OutputTransactions'];
+        }
+
         $this->render('withdraw', [
-            'user'=>$user
+            'user'=>$user,
+            'outputTransactions'=>$outputTransactions
         ]);
     }
 

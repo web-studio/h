@@ -20,6 +20,7 @@ class OutputTransactions extends CActiveRecord
 
     const STATUS_ERROR = 0;
     const STATUS_SUCCESS = 1;
+    const STATUS_OVERDUE = 2; // Статус неактивного вывода
 	/**
 	 * @return string the associated database table name
 	 */
@@ -43,7 +44,8 @@ class OutputTransactions extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, payee_account_name, payee_account, payment_amount, payment_batch_num, payment_id, created_time, status, error', 'safe', 'on'=>'search'),
-		);
+            array('id, user_id, payee_account_name, payee_account, payment_amount, payment_batch_num, payment_id, created_time, status, error', 'safe', 'on'=>'outputSearch'),
+        );
 	}
 
 	/**
@@ -57,6 +59,8 @@ class OutputTransactions extends CActiveRecord
 		);
 	}
 
+
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -66,11 +70,11 @@ class OutputTransactions extends CActiveRecord
 			'id' => 'ID',
 			'user_id' => 'User',
 			'payee_account_name' => 'Payee Account Name',
-			'payee_account' => 'Payee Account',
-			'payment_amount' => 'Payment Amount',
+			'payee_account' => 'PM account',
+			'payment_amount' => 'Amount',
 			'payment_batch_num' => 'Payment Batch Num',
 			'payment_id' => 'Payment',
-			'created_time' => 'Created Time',
+			'created_time' => 'Last Update',
 			'status' => 'Status',
 			'error' => 'Error',
 		);
@@ -86,6 +90,16 @@ class OutputTransactions extends CActiveRecord
                 'timestampExpression' => new CDbExpression('NOW()'),
             )
         );
+    }
+
+    public function getStatus($status){
+        switch ( $status ) {
+            case self::STATUS_ERROR:
+                $status = 'Pending';break;
+            case self::STATUS_SUCCESS:
+                $status = 'Success';break;
+        }
+        return $status;
     }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -121,6 +135,28 @@ class OutputTransactions extends CActiveRecord
 		));
 	}
 
+    public function outputSearch()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('payee_account_name',$this->payee_account_name,true);
+        $criteria->compare('payee_account',$this->payee_account,true);
+        $criteria->compare('payment_amount',$this->payment_amount,true);
+        $criteria->compare('payment_batch_num',$this->payment_batch_num,true);
+        $criteria->compare('payment_id',$this->payment_id,true);
+        $criteria->compare('created_time',$this->created_time,true);
+        $criteria->compare('status',$this->status);
+        $criteria->compare('error',$this->error,true);
+        $criteria->addCondition('status='.OutputTransactions::STATUS_ERROR);
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
