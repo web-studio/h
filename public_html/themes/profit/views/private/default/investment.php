@@ -1,3 +1,5 @@
+<?php $amount = User::model()->getAmount(); ?>
+<?php if ( $amount > 0 ) : ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'invest-form',
     'enableClientValidation'=>true,
@@ -55,6 +57,14 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 <div class="center">
     <?php echo CHtml::submitButton('Invest', ['class'=>'submit_button', 'id'=>'invest']); ?>
 </div>
+    <?php $this->endWidget(); ?>
+
+<?php else : ?>
+    <div class="form-result" style="">
+        <p class="note warning">Insufficient funds to investment</p>
+        <br>
+    </div>
+<?php endif; ?>
 <?php if ( UserDeposit::model()->getIsDeposit() > 0 ) : ?>
 <div>
     <div class="title-wrapper">
@@ -109,7 +119,6 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 </div>
 <?php endif; ?>
 <?php //echo CHtml::link('<span>Invest</span>', '#', ['class'=>'medium-button']) ?>
-<?php $this->endWidget(); ?>
 <script>
     function check_deposit(){
         $(".deposit_select:not(:checked)").siblings().css("border","1px solid transparent");
