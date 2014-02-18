@@ -5,7 +5,7 @@
 
             <h5><?php echo CHtml::link(CHtml::encode($data->title),array('view','id'=>$data->id)); ?></h5>
             <div class="info">
-                DATE: <a href="#"><?php echo User::formatDate(CHtml::encode($data->created_time),true); ?></a>
+                DATE: <?php echo User::formatDate(CHtml::encode($data->created_time),true); ?>
             </div>
 
             <p><?php echo CHtml::encode($data->description); ?></p>
