@@ -128,7 +128,7 @@ class BonusProgram extends CActiveRecord
 		$criteria->compare('date_create',$this->date_create,true);
 		$criteria->compare('date_update',$this->date_update,true);
 		$criteria->compare('status',$this->status);
-
+        $criteria->order = 'ID DESC';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

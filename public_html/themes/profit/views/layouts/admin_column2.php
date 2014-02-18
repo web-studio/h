@@ -54,6 +54,10 @@
                     array('label'=>'Deposit types','url'=>array('/admin/depositType')),
                     array('label'=>'User role','url'=>array('/admin/userRole')),
                 ]),
+                array('label'=>'Bonus Program','url'=>'#', 'items'=>[
+                    array('label'=>'Moderate','url'=>array('/admin/bonusProgram')),
+                    array('label'=>'Sites','url'=>array('/admin/bonusSites')),
+                ]),
                 array('label'=>'Pages','url'=>array('/admin/pages')),
                 array('label'=>'News','url'=>array('/admin/news')),
                 array('label'=>'Messages','url'=>array('/admin/messages')),

@@ -26,3 +26,5 @@
 
 
 </div>
+
+<iframe src="<?php echo CHtml::encode($data->getAttributeLabel('link')); ?>" frameborder="0" width="512" height="110" marginwidth=0 marginheight=0 hspace=0 vspace=0 scrolling=no></iframe>
