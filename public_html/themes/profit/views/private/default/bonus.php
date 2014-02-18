@@ -2,7 +2,8 @@
 $this->pageTitle = 'Bonus Program';
 
 $this->breadcrumbs=array(
-    $this->module->id,
+    'My account'=>array('/private'),
+    $this->pageTitle
 );
 ?>
 
