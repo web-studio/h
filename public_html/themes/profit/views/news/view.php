@@ -4,27 +4,12 @@ $this->breadcrumbs=array(
 	$model->title,
 );
 
-$this->menu=array(
-	array('label'=>'List News','url'=>array('index')),
-	array('label'=>'Create News','url'=>array('create')),
-	array('label'=>'Update News','url'=>array('update','id'=>$model->id)),
-	array('label'=>'Delete News','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage News','url'=>array('admin')),
-);
 ?>
+<div style="margin-left: 20px;margin-right: 20px">
+    <h3>View News - <?php echo $model->title; ?></h3>
 
-<h1>View News #<?php echo $model->id; ?></h1>
+    <span style=" text-indent: 20px;"><p><?php echo $model->text; ?></p></span>
 
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'title',
-		'description',
-		'text',
-		'image',
-		'status',
-		'created_time',
-		'update_time',
-	),
-)); ?>
+    <span style="position: absolute; right:370px"><?php echo User::formatDate($model->created_time,true); ?></span>
+
+</div>
