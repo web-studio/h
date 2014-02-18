@@ -47,6 +47,7 @@
                 array('label'=>'INVESTMENT','url'=>array('/private/default/investment')),
                 array('label'=>'WITHDRAW','url'=>array('/private/default/withdraw')),
                 array('label'=>'REFERRALS','url'=>array('/private/default/referrals')),
+                array('label'=>'BONUS PROGRAM','url'=>array('/private/default/bonus')),
                 array('label'=>'INTERNAL TRANSFERS','url'=>array('/private/default/internalTransfers')),
                 array('label'=>'TRANSACTIONS','url'=>array('/private/default/transactions')),
         )));
