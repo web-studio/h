@@ -242,15 +242,50 @@ class DefaultController extends PrivateController
 
     public function actionBonus() {
 
+        if ( isset($_POST['yt0']) ) {
+            unset($_POST['yt0']);
+
+            foreach ( $_POST as $site_id=>$link ) {
+                $site = Yii::app()->db->createCommand()
+                    ->select('site.url')
+                    ->from('{{bonus_sites}} site')
+                    ->where("site.id=:site_id",[':site_id'=>$site_id])
+                    ->queryScalar();
+
+                $pos = strpos($link, $site);
+
+                if ( $pos === false ) {
+
+                } else {
+                    $bonusProgram = new BonusProgram();
+                    $bonusProgram->user_id = Yii::app()->user->id;
+                    $bonusProgram->site_id = $site_id;
+                    $bonusProgram->link = $link;
+                    $bonusProgram->status = BonusProgram::STATUS_PENDING;
+                    $bonusProgram->save();
+                }
+            }
+        }
+
         $bonusSites =  Yii::app()->db->createCommand()
             ->select('site.id, site.url')
             ->from('{{bonus_sites}} site')
-            ->join('{{bonus_program}} p', 'p.site_id=site.id')
-            ->where("site.status=:status AND (DATE_FORMAT(p.date_create, '%Y-%m-%d') > DATE_FORMAT('". date('Y-m-d', time()-86400) ."', '%Y-%m-%d') AND DATE_FORMAT(p.date_create, '%Y-%m-%d') <> DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d'))",[':status'=>BonusSites::STATUS_ACTIVE])
+            ->where("site.status=:status",[':status'=>BonusSites::STATUS_ACTIVE])
             ->queryAll();
-        var_dump($bonusSites);die;
+        $sites = [];
+        foreach ( $bonusSites as $site ) {
+            if ( !BonusProgram::todayWasBonus($site['id']) ) {
+                $sites[] = $site;
+            }
+        }
+
+        $bonusProgram = new BonusProgram('bonusSearch');
+        if(isset($_GET['BonusProgram'])) {
+            $bonusProgram->attributes=$_GET['BonusProgram'];
+        }
         $this->render('bonus', [
-            'bonusSites'=>$bonusSites,
+            'bonusProgram' => $bonusProgram,
+            'sites'=>$sites,
         ]);
     }
 }
