@@ -2,8 +2,9 @@
 $this->pageTitle = 'My account';
 
 $this->breadcrumbs=array(
-	$this->module->id,
+    'My account',
 );
+
 ?>
 
 <div>

@@ -2,7 +2,9 @@
 $this->pageTitle = 'Internal Transfers';
 
 $this->breadcrumbs=array(
-    $this->module->id,
+    'My account'=>array('/private'),
+    $this->pageTitle
+
 );
 ?>
 <?php $amount = User::model()->getAmount(); ?>

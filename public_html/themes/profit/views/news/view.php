@@ -9,8 +9,8 @@ $this->breadcrumbs=array(
 ?>
 <div style="margin-left: 20px;margin-right: 20px">
 
-    <span style=" text-indent: 20px;"><p><?php echo $model->text; ?></p></span>
+    <span><p><?php echo $model->text; ?></p></span>
 
-    <span style="position: absolute; right:370px"><?php echo User::formatDate($model->created_time,true); ?></span>
+    <span style="position: absolute; right:370px"><?php echo User::formatDate($model->created_time,true); ?>
 
 </div>

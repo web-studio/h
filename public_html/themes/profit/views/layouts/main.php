@@ -133,7 +133,10 @@
 
     <div class="twelve columns">
         <h4><?php echo $this->pageTitle ?></h4>
-        <p class="link-location"><a href="index.html">Home</a> / <a href="#">My account</a></p>
+        <?php $this->widget('ext.widgets.breadcrumbs.BreadcrumbsWidget', array(
+            'homeLink'=>CHtml::link('Home','/'),
+            'links'=>$this->breadcrumbs,
+        )); ?>
     </div>
 
 

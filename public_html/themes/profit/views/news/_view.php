@@ -1,38 +1,18 @@
-<div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id),array('view','id'=>$data->id)); ?>
+<div style="background-color: #f8f8f8; border: 1px solid #e3e2e2; margin: 0 20px 20px 20px;padding: 10px">
+
+
+    <h5><?php echo CHtml::link(CHtml::encode($data->title),array('view','id'=>$data->id)); ?></h5>
+
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('title')); ?>:</b>
-	<?php echo CHtml::encode($data->title); ?>
+	<span><?php echo CHtml::encode($data->description); ?></span>
+
+    <br />
+
+	 <span style="position: absolute; right:370px;"><?php echo CHtml::encode($data->created_time); ?></span>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('description')); ?>:</b>
-	<?php echo CHtml::encode($data->description); ?>
-	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('text')); ?>:</b>
-	<?php echo CHtml::encode($data->text); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('image')); ?>:</b>
-	<?php echo CHtml::encode($data->image); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
-	<?php echo CHtml::encode($data->status); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('created_time')); ?>:</b>
-	<?php echo CHtml::encode($data->created_time); ?>
-	<br />
-
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('update_time')); ?>:</b>
-	<?php echo CHtml::encode($data->update_time); ?>
-	<br />
-
-	*/ ?>
 
 </div>
