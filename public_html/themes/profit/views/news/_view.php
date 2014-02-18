@@ -10,7 +10,7 @@
 
     <br />
 
-	 <span style="position: absolute; right:370px;"><?php echo CHtml::encode($data->created_time); ?></span>
+	 <span style="position: absolute; right:370px;"><?php echo User::formatDate(CHtml::encode($data->created_time),true); ?></span>
 	<br />
 
 
