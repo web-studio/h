@@ -5,6 +5,8 @@ $this->breadcrumbs=array(
     $this->module->id,
 );
 ?>
+<?php $amount = User::model()->getAmount(); ?>
+<?php if ( $amount > 0 ) : ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'internalTransfers-form',
     'enableClientValidation'=>true,
@@ -36,6 +38,8 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     ),
 ));
 ?>
+</br>
+
 <div id="transfer_alert"></div>
 
 <span style="font-weight: bold; font-size: 24px">Internal purse: </span>
@@ -48,6 +52,12 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             'style'=>'margin-left:20px','class' => 'submit_button']) ?>
     </div>
 <?php $this->endWidget(); ?>
+<?php else : ?>
+    <div class="form-result" style="">
+        <p class="note warning">Insufficient funds to internal transfers</p>
+        <br>
+    </div>
+<?php endif; ?>
 <?php if ( $userTransfers->transferSearch()->itemCount > 0 ):?>
 <div class="title-wrapper">
     <div class="section-title">
@@ -56,6 +66,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     <span class="divider"></span>
     <div class="clear"></div>
 </div>
+
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
     'id'=>'user-transfer-grid',
     'dataProvider'=>$userTransfers->transferSearch(),
@@ -110,6 +121,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         </div>
     </div>
 </div>
+
 <script>
     /* $("#transfer").on("click", function(){
      if ( $('#internal_purse').val() == 0 ) {
