@@ -74,26 +74,19 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     'dataProvider'=>$userTransfers->transferSearch(),
     'template' => '{items}{pager}',
     'columns'=>array(
-
-        [
-            'name'=>'amount',
-            'headerHtmlOptions' => ['style' => 'text-align:center;'],
-            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount'
-        ],
         [
             'name'=>'time',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
             'value'=>'User::formatDate($data->time,true)'
         ],
-
         [
-            'name'=>'amount_after',
+            'name'=>'amount',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'"$" . $data->amount_after'
+            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount'
         ],
+
         [
             'name'=>'reason',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
