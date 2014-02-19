@@ -126,7 +126,7 @@ class SiteController extends Controller {
 
 	public function actionError()
 	{
-        $this->layout = '//layouts/error';
+        $this->layout = '//layouts/column2';
 
 
         if ($error = Yii::app()->errorHandler->error)
