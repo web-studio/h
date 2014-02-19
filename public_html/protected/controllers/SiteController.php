@@ -2,6 +2,25 @@
 
 class SiteController extends Controller {
 
+
+    public function actions()
+    {
+        return array(
+            // captcha action renders the CAPTCHA image displayed on the contact page
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'testLimit'=>2, //сколько раз капча не меняется
+                'transparent'=>false,
+                'foreColor'=>0x333333, //цвет символов
+            ),
+            // page action renders "static" pages stored under 'protected/views/site/pages'
+            // They can be accessed via: index.php?r=site/page&view=FileName
+            'page'=>array(
+                'class'=>'CViewAction',
+            ),
+        );
+    }
+
 	public function actionIndex($partner=null)
 	{
         $this->layout = '//layouts/home_column1';
@@ -123,6 +142,33 @@ class SiteController extends Controller {
         $this->redirect(Yii::app()->homeUrl);
     }
 
+    public function actionContacts()
+    {
+        $model=new ContactForm;
+
+        if(isset($_POST['ContactForm']))
+        {
+            $model->attributes=$_POST['ContactForm'];
+            if($model->validate())
+            {
+                $name='=?UTF-8?B?'.base64_encode($model->name).'?=';
+                $subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
+                $headers="From: $name <{$model->email}>\r\n".
+                    "Reply-To: {$model->email}\r\n".
+                    "MIME-Version: 1.0\r\n".
+                    "Content-Type: text/plain; charset=UTF-8";
+
+                $email = Yii::app()->params['adminEmail'];
+                //$admin = User::model()->findByPk(1);
+                //$email = $admin->email;
+
+                mail($email,$subject,$model->body,$headers);
+                Yii::app()->user->setFlash('contact','Thank you for contacting us. In the near future we will contact you.');
+                $this->refresh();
+            }
+        }
+        $this->render('contact',array('model'=>$model));
+    }
 
 	public function actionError()
 	{
