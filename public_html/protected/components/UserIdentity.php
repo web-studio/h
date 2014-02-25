@@ -35,7 +35,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-        $record = User::model()->findByAttributes(array('email'=>$this->email));
+        $record = User::model()->findByAttributes(array('email'=>$this->email,'status'=>1));
 
         if ( null === $record ) {
             $this->errorCode = self::ERROR_EMAIL_INVALID;

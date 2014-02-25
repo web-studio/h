@@ -1,3 +1,14 @@
+<?php
+$this->pageTitle = 'Internal Transfers';
+
+$this->breadcrumbs=array(
+    'My account'=>array('/private'),
+    $this->pageTitle
+
+);
+?>
+<?php $amount = User::model()->getAmount(); ?>
+<?php if ( $amount > 0 ) : ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'internalTransfers-form',
     'enableClientValidation'=>true,
@@ -24,11 +35,13 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
-        'style'=>'height:12px;width:325px;margin-bottom: 20px',
+        'style'=>'height:12px;width:325px;margin-bottom: 20чpx',
         //'class'=>'five columns'
     ),
 ));
 ?>
+</br>
+
 <div id="transfer_alert"></div>
 
 <span style="font-weight: bold; font-size: 24px">Internal purse: </span>
@@ -41,6 +54,12 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             'style'=>'margin-left:20px','class' => 'submit_button']) ?>
     </div>
 <?php $this->endWidget(); ?>
+<?php else : ?>
+    <div class="form-result" style="">
+        <p class="note warning">Insufficient funds to internal transfers</p>
+        <br>
+    </div>
+<?php endif; ?>
 <?php if ( $userTransfers->transferSearch()->itemCount > 0 ):?>
 <div class="title-wrapper">
     <div class="section-title">
@@ -49,31 +68,25 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     <span class="divider"></span>
     <div class="clear"></div>
 </div>
+
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
     'id'=>'user-transfer-grid',
     'dataProvider'=>$userTransfers->transferSearch(),
     'template' => '{items}{pager}',
     'columns'=>array(
-
-        [
-            'name'=>'amount',
-            'headerHtmlOptions' => ['style' => 'text-align:center;'],
-            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount'
-        ],
         [
             'name'=>'time',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
             'value'=>'User::formatDate($data->time,true)'
         ],
-
         [
-            'name'=>'amount_after',
+            'name'=>'amount',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'"$" . $data->amount_after'
+            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount'
         ],
+
         [
             'name'=>'reason',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
@@ -103,6 +116,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         </div>
     </div>
 </div>
+
 <script>
     /* $("#transfer").on("click", function(){
      if ( $('#internal_purse').val() == 0 ) {
@@ -124,7 +138,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     $("#transfer").on("click", function() {
         var amount = false;
         var purse = false;
-        if ( $("#amt").val() == 0 ) {
+        if ( $("#amt").val() == 0 || $("#amt").val() == '' ) {
             $("#amount_alert").html("Enter the amount to transfer").attr('style','color:red;margin-bottom:15px');
         } else if ( $("#amt").val() > <?php echo $amount ?> ) {
             $("#amount_alert").html("Incorrect amount").attr('style','color:red;margin-bottom:15px');

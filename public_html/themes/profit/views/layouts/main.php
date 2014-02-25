@@ -10,6 +10,8 @@
     <title><?php echo CHtml::encode($this->metaTitle) ?></title>
     <meta name="description" content="<?php echo CHtml::encode($this->metaDescription) ?>">
     <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords) ?>">
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <?php Yii::app()->clientScript->registerCoreScript('cookie'); ?>
     <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
     <meta name="author" content="">
@@ -54,26 +56,19 @@
                     <div class="menu-wrapper">
                         <ul class="tabs menu">
                             <li>
-                                <a href="index.html" class="active"><span>Home</span></a>
+                                <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
                             </li>
                             <li>
-                                <a href="#">About us</a>
+                                <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
                             </li>
                             <li>
-                                <a href="blog.html">Referral</a>
+                                <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    FAQ
-                                </a>
+                                <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    Contacts
-                                </a>
-                            </li>
-                            <li>
-                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
                             </li>
                             <?php if ( !Yii::app()->user->isGuest ) : ?>
                                 <?php if ( Yii::app()->user->role == 'admin' ) : ?>
@@ -84,6 +79,19 @@
                                         <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
                                     </li>
                                 <?php endif ?>
+                                <?php if ( Yii::app()->user->role == 'user' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+                                    </li>
+                                    <li>
+                                        <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+                                    </li>
+                                <?php endif ?>
+                            <?php else : ?>
+
+                                <li>
+                                    <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                </li>
                             <?php endif ?>
                         </ul>
                     </div>
@@ -127,7 +135,10 @@
 
     <div class="twelve columns">
         <h4><?php echo $this->pageTitle ?></h4>
-        <p class="link-location"><a href="index.html">Home</a> / <a href="#">My account</a></p>
+        <?php $this->widget('ext.widgets.breadcrumbs.BreadcrumbsWidget', array(
+            'homeLink'=>CHtml::link('Home','/'),
+            'links'=>$this->breadcrumbs,
+        )); ?>
     </div>
 
 
@@ -141,82 +152,84 @@
     <div class="sixteen columns">
         <span class="hr lip-quote"></span>
         <blockquote class="standard bottom">
-            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity" <br />- Charles Mingus
+            <?php  $this->widget('ext.widgets.statements.StatementsWidget');?>
+
         </blockquote>
     </div>
 </div>
 </div>
 </div><div class="footer style-2">
-    <div class="background"><div class="stitch"></div></div>
-    <div class="foot-nav-bg"></div>
-    <div class="content">
-        <div class="patch"></div>
-        <div class="blur"></div>
-        <div class="pattern">
-            <div class="container">
-                <div class="stitch"></div>
-                <div class="sixteen columns">
-                    <div class="first column alpha">
+        <div class="background"><div class="stitch"></div></div>
+        <div class="foot-nav-bg"></div>
+        <div class="content">
+            <div class="patch"></div>
+            <div class="pattern">
+                <div class="container">
+                    <div class="stitch"></div>
+                    <div class="sixteen columns">
+                        <div class="first column alpha">
 
-                        <div class="left">
-                            <div class="logo-caption"></div>
-                            <h5>Enzyme</h5>
-                            <p>
-                                Integer eu ante in arcu viverra vehicula donec tempus consequat faucibus. Donec ne thomp nibh egestas suscipit. Donec sed lacus at massa lorem
-                                pharetra id eleifend leo.
-                            </p>
-                            <p class="extra">
-                                Pellentesque quis felis neque, id adipiscing nunc. Ipsum elit, vitae tempus tellus. Class aptent taciti sociosq desis torquent per conubia nostra, per inceptos himenae dolar eget lacinia sem.
-                            </p>
+                            <div class="left">
+                                <div class="logo">
+                                    <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Large Logo -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="column ct">
-                        <h5>Recent Tweets:</h5>
-                        <ul class="twitter" id="twitter_update_list"><li>Twitter is loading</li></ul>
-                    </div>
-                    <div class="last column omega">
-                        <h5>Join our Mailing List</h5>
+                        <div class="column ct">
 
-                        <div class="input-wrapper">
-                            <input type="text" placeholder="Email..." id="email" name="email" />
                         </div>
-                        <div class="right">
-                            <a href="#" class="button color"><span>Join</span></a>
+                        <div class="last column omega">
+
                         </div>
-                        <div class="clear"></div>
-                        <span class="hr"></span>
-                        <h5>Stay in Touch</h5>
-                        <ul class="sm foot">
-                            <li class="facebook"><a href="#facebook">Facebook</a></li>
-                            <li class="twitter"><a href="#twitter">LinkedIn</a></li>
-                            <li class="linkedin"><a href="#linkedin">Pinterest</a></li>
-                            <li class="pinterest"><a href="#pinterest">Pinterest</a></li>
-                            <li class="dribbble"><a href="#dribbble">Pinterest</a></li>
-                            <li class="flickr"><a href="#flickr">Pinterest</a></li>
-                            <li class="flavors"><a href="#flavors">Pinterest</a></li>
-                        </ul>
                     </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-            </div>
-            <div class="sixteen columns alpha omega">
-                <div class="foot-nav-bg"></div>
-                <div class="foot-nav">
-                    <div class="copy">
-                        Coptyright © 2011-2012 Enzyme. By Empirical Themes - Remove upon purchase
-                    </div>
-                    <div class="nav">
-                        <a href="#">Home</a>
-                        <a href="#">Portfolio</a>
-                        <a href="#">Contact Us</a>
-                        <a href="#">Terms of Use</a>
-                        <a href="#">Privacy</a>
+                <div class="sixteen columns alpha omega">
+                    <div class="foot-nav-bg"></div>
+                    <div class="foot-nav">
+                        <div class="copy">
+                            Copyright © 2014 <?php echo ( date('Y', time()) > 2014)? ' - '.date('Y', time()):'' ?>
+                            <?php echo Yii::app()->name ?>
+                        </div>
+                        <div class="nav">
+
+                            <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
+
+                            <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
+
+                            <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
+
+                            <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
+
+                            <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
+
+                            <?php if ( !Yii::app()->user->isGuest ) : ?>
+                                <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+
+                                    <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                                <?php endif ?>
+                                <?php if ( Yii::app()->user->role == 'user' ) : ?>
+
+                                    <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                                <?php endif ?>
+                            <?php else : ?>
+
+
+                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+
+                            <?php endif ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script type="text/javascript">

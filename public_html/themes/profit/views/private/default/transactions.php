@@ -1,3 +1,11 @@
+<?php
+$this->pageTitle = 'Transactions';
+
+$this->breadcrumbs=array(
+    'My account'=>array('/private'),
+    $this->pageTitle
+);
+?>
 <div class="title-wrapper">
     <div class="section-title">
         <h4 class="title">My transactions</h4>
@@ -11,23 +19,6 @@
     'template' => '{items}{pager}',
     'filter'=>$userTransactions,
     'columns'=>array(
-
-        [
-            'name'=>'amount',
-            'headerHtmlOptions' => ['style' => 'text-align:center;'],
-            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount',
-            'filter' => false,
-        ],
-        [
-            'name'=>'amount_type',
-            'headerHtmlOptions' => ['style' => 'text-align:center;'],
-            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'UserTransactions::getAmountTypeName($data->amount_type)',
-            'filter' => CHtml::activeDropDownList($userTransactions, 'amount_type',
-                UserTransactions::getListAmountTypeName(), ['empty'=>'All transactions',
-                    'style'=>'border:1px solid #d3d3d3; color:#217b9d; font-size:11px; font-weight:bold; width:170px;  background-color: transparent']),
-        ],
         [
             'name'=>'time',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
@@ -36,10 +27,19 @@
             'filter' => false,
         ],
         [
-            'name'=>'amount_after',
+            'name'=>'amount_type',
             'headerHtmlOptions' => ['style' => 'text-align:center;'],
             'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
-            'value'=>'"$" . $data->amount_after',
+            'value'=>'UserTransactions::getAmountTypeName($data->amount_type)',
+            'filter' => CHtml::activeDropDownList($userTransactions, 'amount_type',
+                    UserTransactions::getListAmountTypeName(), ['empty'=>'All transactions',
+                        'style'=>'border:1px solid #d3d3d3; color:#217b9d; font-size:11px; font-weight:bold; width:170px;  background-color: transparent']),
+        ],
+        [
+            'name'=>'amount',
+            'headerHtmlOptions' => ['style' => 'text-align:center;'],
+            'htmlOptions' => ['style' => 'text-align:center;vertical-align:middle'],
+            'value'=>'( $data->amount < 0 ) ? "-$" . substr($data->amount,1) : "$" . $data->amount',
             'filter' => false,
         ],
         [

@@ -13,10 +13,22 @@
             <br>
         </div>
     <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash('warningMessage')): ?>
+        <div class="form-result message" style="">
+            <p class="note warning"><?php echo Yii::app()->user->getFlash('warningMessage'); ?></p>
+            <br>
+        </div>
+    <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash('infoMessage')): ?>
+        <div class="form-result message" style="">
+            <p class="note info"><?php echo Yii::app()->user->getFlash('infoMessage'); ?></p>
+            <br>
+        </div>
+    <?php endif; ?>
 
     <script>
         $(document).ready(function () {
-            $('.message').delay(3000).hide(200);
+            $('.message').delay(10000).hide(200);
         });
     </script>
     <?php echo $content ?>
@@ -42,6 +54,10 @@
                     array('label'=>'Deposit types','url'=>array('/admin/depositType')),
                     array('label'=>'User role','url'=>array('/admin/userRole')),
                 ]),
+                array('label'=>'Bonus Program','url'=>'#', 'items'=>[
+                    array('label'=>'Moderate','url'=>array('/admin/bonusProgram')),
+                    array('label'=>'Sites','url'=>array('/admin/bonusSites')),
+                ]),
                 array('label'=>'Pages','url'=>array('/admin/pages')),
                 array('label'=>'News','url'=>array('/admin/news')),
                 array('label'=>'Messages','url'=>array('/admin/messages')),
@@ -50,6 +66,8 @@
     </div>
 </div>
 <div class="clear"></div>
-
+<?php
+Yii::app()->clientScript->registerScriptFile(Yii::app()->request->hostInfo.'/js/admin.js', CClientScript::POS_END);
+?>
 <?php $this->endContent() ?>
 

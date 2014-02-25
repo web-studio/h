@@ -12,8 +12,8 @@ class PaymentDemonController extends Controller
 
     public function actionDeposit($key=null) {
 
-        //if ( $key != null && $key == Yii::app()->params['CronSecretPhrase']) {
-            if ( true ) {
+        if ( $key != null && $key == Yii::app()->params['CronSecretPhrase']) {
+            //if ( true ) {
 
 
 
@@ -43,121 +43,149 @@ class PaymentDemonController extends Controller
                 if ( date('Y-m-d', strtotime($deposit['expire'])) == date('Y-m-d', time()) ) {
                     $sql = "UPDATE {{user_deposits}} SET status=" . UserDeposit::STATUS_NOACTIVE ." WHERE id=".$deposit['id'];
                     Yii::app()->db->createCommand($sql)->execute();
-                    /*Yii::app()->db->createCommand()
-                        ->update('{{user_deposits}}', [
-                            'status' => [':status'=>UserDeposit::STATUS_NOACTIVE],
-                                ] )
-                        ->where('id=:id', [':id'=>$deposit['id']]);
-                        //->execute();*/
                 }
             }
-                echo $count;die;
-                //$users = User::model()->findAll();
-            foreach( $users as $user ) {
-                if ( isset($user->deposit) ) {
-                    $deposits = UserDeposit::model()->findAllByAttributes(array('user_id' => $user->id));
-                    $summ = 0;
-                    foreach( $deposits as $deposit ) {
 
-                        if ( $deposit->status == 1 && $deposit->expire > date('Y-m-d H:i:s', time()) ) {
-
-                            if ( $deposit->status == 1 && $deposit->date < date('Y-m-d H:i:s', time() - self::DEPOSIT_START_TIME)) {
-                                $depositType = DepositType::model()->findByPk($deposit->deposit_type_id);
-
-                                $percentAmount = ( $deposit->deposit_amount * Deposit::findTodayGeneralPercent() ) * $depositType->percent;
-
-                                $transaction = new UserTransaction();
-                                $transaction->user_id = $user->id;
-                                $transaction->amount = $percentAmount;
-                                $transaction->amount_type = UserTransaction::AMOUNT_TYPE_EARNINGS;
-                                $transaction->reason = Yii::t('demon', 'Profit of deposits #') . $deposit->id;;
-                                $transaction->save();
-                                $summ += $percentAmount;
-
-                            } else {
-                                continue;
-                            }
-                        } else {
-                            if ( $deposit->status == 1 ) {
-                                $deposit->status = 0;
-                                $deposit->save();
-
-                                $transaction = new UserTransaction();
-                                $transaction->user_id = $user->id;
-                                $transaction->amount = $deposit->deposit_amount;
-                                $transaction->amount_type = UserTransaction::AMOUNT_TYPE_BACK_INVESTMENT;
-                                $transaction->reason = Yii::t('demon', 'Refund of a deposit #') . $deposit->id;
-                                $transaction->save();
-                            }
-                        }
-                    }
-
-                    if ( $summ > 0 ) {
-                        $message = 'Esteemed ' . $user->profile->first_name . '! Percents from the deposit are received on your account in sum $' . $summ;
-                        Sms::send($user->phone, $message);
-                    }
-
-                } else {
-                    continue;
-                }
-            }
 
         } else {
             throw new CHttpException(404);
         }
     }
 
-    public function actionReferral($key=null) {
+    public function actionFailWithdraw($key=null) {
 
         if ( $key != null && $key == Yii::app()->params['CronSecretPhrase']) {
+        //if ( true ) {
 
-            $users = User::model()->findAll();
+            $outputTransactions = Yii::app()->db->createCommand()
+                ->select('output.id, output.user_id, output.payee_account, output.payment_amount, output.payment_id')
+                ->from('{{output_transactions}} output')
+                ->where("output.status=:status",[':status'=>OutputTransactions::STATUS_ERROR])
+                ->queryAll();
 
-            foreach( $users as $user ) {
-                if ( isset($user->refs) ) {
-                    $countSumm = 0;
-                    foreach( $user->refs as $referral ) {
-                        $referral = User::model()->findByPk($referral->user->id);
-                        $summ = 0;
-                        if ( isset($referral->deposit) ) {
-                            $result = Yii::app()->db->createCommand("
-                            SELECT SUM(amount)
-                            AS amount
-                            FROM " . UserTransaction::model()->tableName() . "
-                            WHERE user_id=". $referral->id ."
-                            AND amount_type=" . UserTransaction::AMOUNT_TYPE_EARNINGS . "
-                            AND time >= CURDATE()
-                            ")->queryScalar();
-                            $summ += $result;
+            foreach ( $outputTransactions as $outputTransaction ) {
+                $user = User::model()->findByPk($outputTransactions['user_id']);
+
+                if ( $user->status == 1 ) {
+
+                    if ( $outputTransactions['payment_amount'] > 0 ) {
+
+                        $amount = User::model()->getAmount($outputTransactions['user_id']);
+
+                        //сумма вывода не больше суммы на кошельке
+                        if ( $outputTransactions['payment_amount'] <= $amount ) {
+                            //ограничиваем сумму максимального вывода
+                            /*if (  $_POST['output_money'] > Yii::app()->params['max_amount_output'] ) {
+
+                                $subject = 'Новая заявка на вывод!';
+                                $message = 'От пользователя <strong>' . CHtml::link($user->username, $this->createAbsoluteUrl('/user/admin/view/', array('id' => $user->id))) .
+                                    '</strong> Поступила заявка на вывод Perfect Money<br />
+                                    <strong>Сумма вывода:</strong> ' . $_POST['output_money'] . '$<br />
+                                        <strong>Кошелек Perfect Money:</strong> ' . $user->perfect_purse;
+
+                                mail(Yii::app()->params->adminEmail, $subject, $message);
+
+                                User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+
+                                Yii::app()->user->setFlash('profileMessage', 'To ensure safety, the withdrawal of more than ' . Yii::app()->params['max_amount_output'] . '$ is made by hand<br /><br />
+                                                            Application for withdrawal successfully adopted<br />
+                                                            Money will be transferred to your account within three hours');
+
+                                $this->redirect($this->createUrl('/user/profile'));
+                            } else {*/
+
+                            $outputTransaction = new OutputTransactions();
+                            $outputTransaction->user_id = $outputTransactions['user_id'];
+                            $outputTransaction->save();
+
+                            $payment_id = $outputTransaction->id .'W'. time();
+
+                            $amount = UserTransactions::model()->replaceComma($outputTransactions['payment_amount']);
+
+                            $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $outputTransactions['payee_account'] . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
+
+                            if($f===false){
+                                $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
+                                fwrite($fp, date("d.m.Y H:i")."; Reason: Error reading file; User ID:".$outputTransactions['user_id']."\n");
+                                fclose ($fp);
+                            }
+
+                            // getting data
+                            $out=array(); $out="";
+                            while(!feof($f)) $out.=fgets($f);
+
+                            fclose($f);
+
+                            // searching for hidden fields
+                            if(!preg_match_all("/<input name='(.*)' type='hidden' value='(.*)'>/", $out, $result, PREG_SET_ORDER)){
+                                echo 'Invalid output';
+                                exit;
+                            }
+
+                            $reply="";
+                            foreach($result as $item){
+                                $key=$item[1];
+                                $reply[$key]=$item[2];
+                            }
+                            $transaction_id = strstr($outputTransactions['payment_id'], 'W', true);
+
+                            if ( isset($reply['ERROR']) ) {
+
+                                $oldTransaction = OutputTransactions::model()->findByPk($transaction_id);
+                                $oldTransaction->status = OutputTransactions::STATUS_OVERDUE;
+
+                                if ( $oldTransaction->save() ) {
+                                    $outputTransaction->error = $reply['ERROR'];
+                                    $outputTransaction->status = OutputTransactions::STATUS_ERROR;
+                                    $outputTransaction->payment_amount = $amount;
+                                    $outputTransaction->payment_id = $payment_id;
+                                    $outputTransaction->payee_account = $outputTransactions['payee_account'];
+                                    $outputTransaction->save();
+                                }
+
+                                /*$subject = 'Ошибка! Вывод PerfectMoney';
+                                $message = "Ошибка: ". $reply['ERROR'] ."\r\n
+                                        ID Пользователя: ". Yii::app()->user->id ."\r\n
+                                        Сумма вывода: ". $amount ."\r\n
+                                        ID Транзакции: ". $payment_id ."\r\n
+                                        Кошелек PerfectMoney: ". $user->perfect_purse ."\r\n
+                                        ";
+
+                                mail(Yii::app()->params->adminEmail, 'Ошибка вывода на PerfectMoney', $message);
+
+                                User::model()->sendMessage(1, $subject, $message, Message::IMPORTANCE_1 );
+                                */
+
+                                $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');
+                                fwrite($fp, date("d.m.Y H:i")."; Reason: ".$reply['ERROR']."; User ID:".$outputTransactions['user_id']."\n");
+                                fclose ($fp);
+
+
+                            } else {
+
+                                $oldTransaction = OutputTransactions::model()->findByPk($transaction_id);
+                                $oldTransaction->status = OutputTransactions::STATUS_SUCCESS;
+
+                                if ( $oldTransaction->save() ) {
+
+                                    $outputTransaction->payee_account_name = $reply['Payee_Account_Name'];
+                                    $outputTransaction->payment_batch_num = $reply['PAYMENT_BATCH_NUM'];
+                                    $outputTransaction->status = OutputTransactions::STATUS_SUCCESS;
+                                    $outputTransaction->payment_amount = $amount;
+                                    $outputTransaction->payment_id = $payment_id;
+                                    $outputTransaction->payee_account = $outputTransactions['payee_account'];
+                                    $outputTransaction->save();
+                                }
+
+                            }
+                            //}
                         }
-
-                        if ( $summ > 0 ) {
-
-                            $transaction = new UserTransaction();
-                            $transaction->amount = $summ * Referral::REFERRAL_PERCENT;
-                            $transaction->amount_type = UserTransaction::AMOUNT_TYPE_REFERRAL;
-                            $transaction->user_id = $user->id;
-                            $transaction->reason = Yii::t('demon', 'Profit referral of') . ' ' . $referral->username;
-                            $transaction->save();
-
-                        } else {
-                            continue;
-                        }
-                        $countSumm +=$summ;
                     }
-
-                    if ( $countSumm > 0 ) {
-                        $message = 'Esteemed ' . $user->profile->first_name . '! Referral percents are received on your account in sum $' . $countSumm;
-                        Sms::send($user->phone, $message);
-                    }
-
-                } else {
-                    continue;
                 }
             }
+
         } else {
             throw new CHttpException(404);
         }
-
     }
 }

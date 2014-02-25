@@ -54,4 +54,18 @@ class AjaxController extends PrivateController
             ['refill'=>$refill]);
     }
 
+    public function actionEditPerfectMoneyAccount() {
+
+        if ( isset($_POST['pm_account']) ) {
+            $user = User::model()->find(['select'=>'id, perfect_purse','condition'=>'id=:user_id', 'params'=>[':user_id'=>Yii::app()->user->id]]);
+            $user->perfect_purse = $_POST['pm_account'];
+            if ( $user->save() ) {
+                echo CJSON::encode(
+                    array(
+                        'pm'=> $user->perfect_purse,
+                    )
+                );
+            }
+        }
+    }
 }

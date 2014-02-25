@@ -10,6 +10,8 @@
     <title><?php echo CHtml::encode($this->metaTitle) ?></title>
     <meta name="description" content="<?php echo CHtml::encode($this->metaDescription) ?>">
     <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords) ?>">
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <?php Yii::app()->clientScript->registerCoreScript('cookie'); ?>
     <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
     <meta name="author" content="">
@@ -54,26 +56,19 @@
                     <div class="menu-wrapper">
                         <ul class="tabs menu">
                             <li>
-                                <a href="index.html" class="active"><span>Home</span></a>
+                                <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
                             </li>
                             <li>
-                                <a href="#">About us</a>
+                                <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
                             </li>
                             <li>
-                                <a href="blog.html">Referral</a>
+                                <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    FAQ
-                                </a>
+                                <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
                             </li>
                             <li>
-                                <a href="portfolio-standard-3.html">
-                                    Contacts
-                                </a>
-                            </li>
-                            <li>
-                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
                             </li>
                             <?php if ( !Yii::app()->user->isGuest ) : ?>
                                 <?php if ( Yii::app()->user->role == 'admin' ) : ?>
@@ -84,6 +79,19 @@
                                         <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
                                     </li>
                                 <?php endif ?>
+                                <?php if ( Yii::app()->user->role == 'user' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+                                    </li>
+                                    <li>
+                                        <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+                                    </li>
+                                <?php endif ?>
+                            <?php else : ?>
+
+                                <li>
+                                    <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+                                </li>
                             <?php endif ?>
                         </ul>
                     </div>
@@ -130,30 +138,10 @@
                     <center><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/design/preloader.gif" /></center>
                 </div>
                 <div class="nivo hide">
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/target.jpg" class="scale-with-grid" />
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/business-room.jpg" class="scale-with-grid" title="
-                                <b>Responsive Theme</b>
-                                <p>Go Ahead, try Resizing your Browser! Quisque mauris nisi, porttitor at hendrerit eu, condimentum sed nunc. Quisqe iaculis eleifend facilisis. Vivamus in nisi et ante malesuada ullamcorper. Phasellus sed erat velit, sit amet sodales neque. Morbi quis erat eros. Sed nec ligula ligula, id euismod mauris. Vestibulum in turpis metus.                  </p>
-
-                            " />
-                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/agent.jpg" class="scale-with-grid" />
-                    <img title="
-                                <b>The Nivo Slider</b>
-                                <p>Integer viverra ante sit amet orci rhoncus sit amet consectetur odio sollicitudi
-n. Proin luctus pharetra turpis et scelerisque. Pellentesque eget velit quis sem
-fringilla blandit quis quis enim.</p>
-                            " src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/nivo/girl.jpg" class="scale-with-grid" />
+                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                 </div>
-                <div class="nivo-crop-bottom"></div>
             </div>
-            <div class="container callout">
 
-                <div class="twelve columns">
-                    <h4>Welcome to <span>YES-PROFIT.com</span> - We Build <span>Professional</span> Website Designs!</h4>
-                    <p class="subtitle">Enzyme is a unique and responsive theme. Sed volutpat lacinia fringilla.</p>
-                </div>
-
-            </div>
             <div class="callout-hr"></div>
             <div class="container">
 
@@ -165,79 +153,8 @@ fringilla blandit quis quis enim.</p>
                         <span class="divider"></span>
                         <div class="clear"></div>
                     </div>
-                    <div class="four columns alpha">
-                        <ul class="pricing">
-                            <li class="title">Basic</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>13</span>
-                                <span class="decimal">99</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>16</strong> GB WebSpace</li>
-                            <li><strong>7</strong> Domain</li>
-                            <li><strong>100</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns">
-                        <ul class="pricing">
-                            <li class="title">Premium</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>19</span>
-                                <span class="decimal">97</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>19</strong> GB WebSpace</li>
-                            <li><strong>8</strong> Domain</li>
-                            <li><strong>100</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns">
-                        <ul class="pricing">
-                            <div class="recommended"></div>
-                            <li class="title">Platinum</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>69</span>
-                                <span class="decimal">95</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>25</strong> GB WebSpace</li>
-                            <li><strong>15</strong> Domain</li>
-                            <li><strong>Unlimited</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div class="four columns omega">
-                        <ul class="pricing">
-                            <li class="title">Point Made :)</li>
-                            <li class="price">
-                                <sup>$</sup>
-                                <span>99</span>
-                                <span class="decimal">95</span>
-                                <span class="divider">/</span>
-                                <span class="rate">month</span>
-                            </li>
-                            <li>MySQL</li>
-                            <li><strong>25</strong> GB WebSpace</li>
-                            <li><strong>15</strong> Domain</li>
-                            <li><strong>Unlimited</strong> Databases</li>
-                            <li><strong>24X7</strong> Support</li>
-                            <li class="purchase"><div class="button-wrap"><a href="#" class="medium-button button"><span>Buy Now!</span></a></div></li>
-                        </ul>
-                    </div>
+                    <?php  $this->widget('ext.widgets.deposits.DepositsWidget');?>
+
                     <div class="clear"></div>
 
                     <div class="two-thirds column alpha">
@@ -300,7 +217,7 @@ fringilla blandit quis quis enim.</p>
                 <div class="sixteen columns">
                     <span class="hr remove-bottom"></span>
                     <blockquote class="standard bottom">
-                        "Persist – don’t take no for an answer. If you’re happy to sit at your desk and not take any risk, you’ll be sitting at your desk for the next 20 years." <br />- David Rubenstein (Net Worth $2.8 Billion)
+                        <?php  $this->widget('ext.widgets.statements.StatementsWidget');?>
                     </blockquote>
                 </div>
             </div>
@@ -311,7 +228,6 @@ fringilla blandit quis quis enim.</p>
     <div class="foot-nav-bg"></div>
     <div class="content">
         <div class="patch"></div>
-        <div class="blur"></div>
         <div class="pattern">
             <div class="container">
                 <div class="stitch"></div>
@@ -319,42 +235,16 @@ fringilla blandit quis quis enim.</p>
                     <div class="first column alpha">
 
                         <div class="left">
-                            <div class="logo-caption"></div>
-                            <h5>Enzyme</h5>
-                            <p>
-                                Integer eu ante in arcu viverra vehicula donec tempus consequat faucibus. Donec ne thomp nibh egestas suscipit. Donec sed lacus at massa lorem
-                                pharetra id eleifend leo.
-                            </p>
-                            <p class="extra">
-                                Pellentesque quis felis neque, id adipiscing nunc. Ipsum elit, vitae tempus tellus. Class aptent taciti sociosq desis torquent per conubia nostra, per inceptos himenae dolar eget lacinia sem.
-                            </p>
+                            <div class="logo">
+                                <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Large Logo -->
+                            </div>
                         </div>
                     </div>
                     <div class="column ct">
-                        <h5>Recent Tweets:</h5>
-                        <ul class="twitter" id="twitter_update_list"><li>Twitter is loading</li></ul>
+
                     </div>
                     <div class="last column omega">
-                        <h5>Join our Mailing List</h5>
 
-                        <div class="input-wrapper">
-                            <input type="text" placeholder="Email..." id="email" name="email" />
-                        </div>
-                        <div class="right">
-                            <a href="#" class="button color"><span>Join</span></a>
-                        </div>
-                        <div class="clear"></div>
-                        <span class="hr"></span>
-                        <h5>Stay in Touch</h5>
-                        <ul class="sm foot">
-                            <li class="facebook"><a href="#facebook">Facebook</a></li>
-                            <li class="twitter"><a href="#twitter">LinkedIn</a></li>
-                            <li class="linkedin"><a href="#linkedin">Pinterest</a></li>
-                            <li class="pinterest"><a href="#pinterest">Pinterest</a></li>
-                            <li class="dribbble"><a href="#dribbble">Pinterest</a></li>
-                            <li class="flickr"><a href="#flickr">Pinterest</a></li>
-                            <li class="flavors"><a href="#flavors">Pinterest</a></li>
-                        </ul>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -363,14 +253,42 @@ fringilla blandit quis quis enim.</p>
                 <div class="foot-nav-bg"></div>
                 <div class="foot-nav">
                     <div class="copy">
-                        Coptyright © 2011-2012 Enzyme. By Empirical Themes - Remove upon purchase
+                        Copyright © 2014 <?php echo ( date('Y', time()) > 2014)? ' - '.date('Y', time()):'' ?>
+                        <?php echo Yii::app()->name ?>
                     </div>
                     <div class="nav">
-                        <a href="#">Home</a>
-                        <a href="#">Portfolio</a>
-                        <a href="#">Contact Us</a>
-                        <a href="#">Terms of Use</a>
-                        <a href="#">Privacy</a>
+
+                            <?php echo CHtml::link('Home', Yii::app()->createAbsoluteUrl('/')) ?>
+
+                            <?php echo CHtml::link('About Us', Yii::app()->createAbsoluteUrl('/about')) ?>
+
+                            <?php echo CHtml::link('Referral', Yii::app()->createAbsoluteUrl('/referral-program')) ?>
+
+                            <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
+
+                            <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
+
+                        <?php if ( !Yii::app()->user->isGuest ) : ?>
+                            <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+
+                                    <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                            <?php endif ?>
+                            <?php if ( Yii::app()->user->role == 'user' ) : ?>
+
+                                    <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
+
+                                    <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
+
+                            <?php endif ?>
+                        <?php else : ?>
+
+
+                                <?php echo CHtml::link('Login', Yii::app()->createAbsoluteUrl('/site/enter')) ?>
+
+                        <?php endif ?>
                     </div>
                 </div>
             </div>

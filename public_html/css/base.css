@@ -733,3 +733,12 @@
     .filter-container {
         text-align: center;
     }
+    .promo_materials textarea {
+        width: 380px;
+        height: 60px;
+        resize: none;
+    }
+    .promo_materials img {
+        border: 1px solid #666666;
+        margin-bottom: 10px;
+    }

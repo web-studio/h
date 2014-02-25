@@ -43,6 +43,7 @@ return array(
         'user'=>array(
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
+            'loginUrl'=>array('site/enter'),
         ),
         'authManager'=>array(
             'class'=>'PhpAuthManager',
@@ -113,16 +114,18 @@ return array(
             "username" => "rangeweb", //имя пользователя на сервере
             "password" => "82zczrnhw", //пароль
             "addreply" => "rangeweb@yandex.ru", //ваш е-mail
-            "replyto" => "yborschev@gmail.com", //e-mail ответа
+            "replyto" => "rangeweb@yandex.ru", //e-mail ответа
             "fromname" => "", //имя
-            "from" => "yborschev@gmail.com", //от кого
+            "from" => "rangeweb@yandex.ru", //от кого
             "charset" => "utf-8", //от кого
         ),
+        'sendMailType' => 2, // mail = 1, smtp = 2
+        'activationType' => 'email', // email or sms
         'CronSecretPhrase' => '7g65dwrh78wc6r7wgxr637TY6xhYUGYTYf9867HGVhghj',
         'perfectPayUrl' => 'https://perfectmoney.is/api/step1.asp', // URL для оплаты перфектмани
         'AccountID' => '3140075',
         'payee_account' => 'U4330448',
-        'PassPhrase' => '',
+        'PassPhrase' => 'Cecfybyj915',
         'AlternateCode' => '748GH678GFH896HJ465GH9ZQP',
         'payment_units' => 'USD',
         'max_amount_output' => '300',//максимальная сумма для вывода

@@ -1,17 +1,23 @@
 <?php
+$this->pageTitle = 'News';
+
 $this->breadcrumbs=array(
 	'News',
 );
-
-$this->menu=array(
-	array('label'=>'Create News','url'=>array('create')),
-	array('label'=>'Manage News','url'=>array('admin')),
-);
 ?>
 
-<h1>News</h1>
+    <div class="title-wrapper"  style="width: 577px; margin-left: 20px">
+        <div class="section-title">
+            <h4 class="title">All News</h4>
+        </div>
+        <span class="divider"></span>
+        <div class="clear"></div>
+    </div>
+
 
 <?php $this->widget('bootstrap.widgets.TbListView',array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
+    'template' => "{items}\n{pager}",
+    'htmlOptions'=>array('style'=>'padding: 0px'),
 )); ?>

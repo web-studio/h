@@ -3,7 +3,7 @@
 class PerfectMoneyController extends PrivateController
 {
 
-    public function actionStatus() {
+    public function actionStatus($invest=null) {
 
         if ( isset($_POST['PAYMENT_ID']) && isset($_POST['PAYEE_ACCOUNT']) && isset($_POST['PAYMENT_AMOUNT']) &&
             isset($_POST['PAYMENT_UNITS']) && isset($_POST['PAYMENT_BATCH_NUM']) && isset($_POST['PAYER_ACCOUNT']) &&
@@ -33,6 +33,8 @@ class PerfectMoneyController extends PrivateController
 
                 if($hash==$_POST['V2_HASH']){
 
+
+
                     if($_POST['PAYMENT_AMOUNT']==$transactionInComplete->amount && $_POST['PAYEE_ACCOUNT']==Yii::app()->params['payee_account'] && $_POST['PAYMENT_UNITS']==Yii::app()->params['payment_units']){
 
                         $transaction = new UserTransactions();
@@ -48,6 +50,47 @@ class PerfectMoneyController extends PrivateController
                         if ( $user->perfect_purse == null ) {
                             $user->perfect_purse = $transactionInComplete->payer;
                             $user->save();
+                        }
+
+                        if ( $invest != null ) {
+                            $deposit = UserDeposit::model()->findByAttributes(['transaction_id'=>$transaction_id, 'status'=>UserDeposit::STATUS_PENDING]);
+
+                            if ( $deposit != null ) {
+
+                                if ( ($transactionInComplete->amount + User::model()->getAmount($transactionInComplete->user_id)) >= $deposit->deposit_amount ) {
+
+                                    $deposit->status = 1;
+                                    $deposit->save();
+
+                                    //$expireDate = BankDay::getEndDate($deposit, $depositType->deposit_type_id, 'Y-m-d H:i:s');
+
+                                    $transaction = new UserTransactions();
+                                    $transaction->user_id = $transactionInComplete->user_id;
+                                    $transaction->amount = -$deposit->deposit_amount;
+                                    $transaction->amount_type = UserTransactions::AMOUNT_TYPE_INVESTMENT;
+                                    $transaction->reason = 'Investment to "' . DepositType::model()->getNameById($deposit->deposit_type_id) . '". Refund of deposit '. User::formatDate($deposit->expire);
+                                    $transaction->save();
+
+                                    if (  UserDeposit::model()->getCountDeposit($transactionInComplete->user_id) == 1 ) {
+                                        $referredBy = User::model()->isReferral($transactionInComplete->user_id);
+                                        if ( !empty($referredBy) ) {
+                                            if ( UserDeposit::model()->getAllAmountActiveDeposits($referredBy['user_id']) >= 1000 ) {
+                                                $refAmount = $deposit->deposit_amount * Referral::REF_PERCENT_PARTNER;
+                                            } else {
+                                                $refAmount = $deposit->deposit_amount * Referral::REF_PERCENT;
+                                            }
+
+                                            $transaction = new UserTransactions();
+                                            $transaction->user_id = $referredBy['user_id'];
+                                            $transaction->amount = $refAmount;
+                                            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_REFERRAL;
+                                            $transaction->reason = 'Profit referral of ' . User::getСropNameById(Yii::app()->user->id);
+                                            $transaction->ref_id = Yii::app()->user->id;
+                                            $transaction->save();
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/good_payment.log', 'ab+');
@@ -74,7 +117,7 @@ class PerfectMoneyController extends PrivateController
         }
     }
 
-    public function actionSuccess() {
+    public function actionSuccess($invest=null) {
 
         if ( !empty($_POST['PAYMENT_AMOUNT']) && !empty($_POST['PAYER_ACCOUNT']) && !empty($_POST['V2_HASH']) && !empty($_POST['PAYMENT_ID']) ) {
             //var_dump($_POST['V2_HASH']);die;
@@ -96,11 +139,17 @@ class PerfectMoneyController extends PrivateController
             }
 
             if ( $transaction->save() ) {*/
-                Yii::app()->user->setFlash('successMessage', 'The payment has been successfully completed');
+
             /*} else {
                 Yii::app()->user->setFlash('failMessage', 'Error');
             }*/
 
+            if ( $invest != null ) {
+                Yii::app()->user->setFlash('successMessage', 'Investing successful');
+                $this->redirect($this->createUrl('/private/investment'));
+            }
+
+            Yii::app()->user->setFlash('successMessage', 'The payment has been successfully completed');
             $this->redirect($this->createUrl('/private'));
         } else {
             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/login_attempt.log', 'a');
@@ -190,6 +239,13 @@ class PerfectMoneyController extends PrivateController
                             $outputTransaction->payee_account = $_POST['perfect_purse'];
                             $outputTransaction->save();
 
+                            $transaction = new UserTransactions();
+                            $transaction->amount = -$amount;
+                            $transaction->user_id = $user->id;
+                            $transaction->reason = 'Withdraw to Perfect Money account '. $user->perfect_purse;
+                            $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
+                            $transaction->payment_id = $payment_id;
+                            $transaction->save();
                             /*$subject = 'Ошибка! Вывод PerfectMoney';
                             $message = "Ошибка: ". $reply['ERROR'] ."\r\n
                                     ID Пользователя: ". Yii::app()->user->id ."\r\n
@@ -218,7 +274,7 @@ class PerfectMoneyController extends PrivateController
                             $transaction = new UserTransactions();
                             $transaction->amount = -$amount;
                             $transaction->user_id = $user->id;
-                            $transaction->reason = 'Withdraw to Perfect Money account';
+                            $transaction->reason = 'Withdraw to Perfect Money account '. $user->perfect_purse;
                             $transaction->amount_type = UserTransactions::AMOUNT_TYPE_OUTPUT;
                             $transaction->payment_id = $payment_id;
                             $transaction->save();

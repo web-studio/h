@@ -1,38 +1,23 @@
-<div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id),array('view','id'=>$data->id)); ?>
-	<br />
+<div style="margin: 0 20px 20px 20px;padding: 10px">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('title')); ?>:</b>
-	<?php echo CHtml::encode($data->title); ?>
-	<br />
+        <div class="blog">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('description')); ?>:</b>
-	<?php echo CHtml::encode($data->description); ?>
-	<br />
+            <h5><?php echo CHtml::link(CHtml::encode($data->title),array('view','id'=>$data->id)); ?></h5>
+            <div class="info">
+                DATE: <?php echo User::formatDate(CHtml::encode($data->created_time),true); ?>
+            </div>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('text')); ?>:</b>
-	<?php echo CHtml::encode($data->text); ?>
-	<br />
+            <p><?php echo CHtml::encode($data->description); ?></p>
+            <div class="foot">
+                <p class="right"><?php echo CHtml::link('Read More',array('view','id'=>$data->id)); ?></p>
+                <div class="clear"></div>
+            </div>
+        </div><!-- Blog Ends -->
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('image')); ?>:</b>
-	<?php echo CHtml::encode($data->image); ?>
-	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
-	<?php echo CHtml::encode($data->status); ?>
-	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('created_time')); ?>:</b>
-	<?php echo CHtml::encode($data->created_time); ?>
-	<br />
 
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('update_time')); ?>:</b>
-	<?php echo CHtml::encode($data->update_time); ?>
-	<br />
 
-	*/ ?>
 
 </div>

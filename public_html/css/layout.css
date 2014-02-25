@@ -677,7 +677,7 @@
 		border:1px solid #e3e2e2;
 		border-bottom:none;
 		margin:0;
-		padding:0 13px 0 13px;
+		padding:0 3px 0 3px;
 		text-align:center;
 		font-size:12px;
 		line-height:28px;
@@ -1298,7 +1298,7 @@
 		padding-left:39px;
 		width:284px;
 		padding-right:40px;
-		min-height:206px;
+		min-height:50px;
 	}
 	.footer p {
 		color:#d3d3d3;
@@ -1437,6 +1437,10 @@
 	.footer ul.social li img {
 		-moz-opacity:.50; filter:alpha(opacity=50); opacity:.50;
 	}
+
+    .footer .logo {
+        background-color: #2f86a8;
+    }
 	/* =========== General Footer Style Ends =========== */
 	/* =========== Secondary Footer Style Starts ======= */
 	.footer.style-2 .logo-caption, .footer.style-2 .logo-caption-overlay {

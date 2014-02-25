@@ -35,6 +35,7 @@ class RegisterForm extends CFormModel
             // username and password are required
             array('first_name, last_name, password, password_repeat, email', 'required'),
             array('email', 'email'),
+            array('password', 'length','min'=>8, 'tooShort'=> 'Minimum 8 characters', 'tooLong'=> 'Minimum 8 characters'),
             array('password_repeat', 'compare', 'compareAttribute'=>'password'),
             array('mobile, city, country, street, referral', 'safe')
         );
@@ -78,27 +79,44 @@ class RegisterForm extends CFormModel
         $user->city = $this->city;
         $user->street = $this->street;
         $user->role_id = UserRole::USER_ROLE;
+        $user->activekey = md5($this->password.microtime());
+        $user->status = User::STATUS_NOACTIVE;
 
-        $result = $user->save();
+        if ( $user->save() ) {
+            if ( Yii::app()->params['activationType'] == 'sms' ) {
 
-        if ( false === $result ) {
+            }
+
+            if (Yii::app()->params['activationType'] == 'email') {
+                $activation_url = Yii::app()->createAbsoluteUrl('/activation/?activekey='. $user->activekey. '&email='. $user->email);
+
+                $message = $user->first_name . ' ' . $user->last_name .' welcome to '. Yii::app()->name . '<br />Please activate you account go to '.
+                    '<a href="'.$activation_url.'">activation link</a>';
+
+                Email::sendMail($user->email,
+                    "Welcome to " . Yii::app()->name,
+                    $message
+                );
+            }
+
+            if ( $this->referral_id != null ) {
+                $referral = new Referral();
+                $referral->user_id = $this->referral_id;
+                $referral->ref_id = $user->id;
+                $referral->save();
+            }
+
+            $this->_identity=new UserIdentity($this->email,$this->password);
+            $this->_identity->authenticate();
+            $duration= 3600*24*30; // 30 days
+            Yii::app()->user->login($this->_identity, $duration);
+            return true;
+        } else {
             foreach ( $user->getErrors() as $field => $errors ) {
                 $this->addError($field, implode('<br />', $errors));
             }
             return false;
         }
 
-        if ( $this->referral_id != null ) {
-            $referral = new Referral();
-            $referral->user_id = $this->referral_id;
-            $referral->ref_id = $user->id;
-            $referral->save();
-        }
-
-        $this->_identity=new UserIdentity($this->email,$this->password);
-        $this->_identity->authenticate();
-        $duration= 3600*24*30; // 30 days
-        Yii::app()->user->login($this->_identity, $duration);
-        return true;
     }
 }

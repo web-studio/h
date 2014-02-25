@@ -47,7 +47,7 @@ class User extends CActiveRecord
 		return array(
 			array('role_id, status', 'numerical', 'integerOnly'=>true),
 			array('login, email, password, mobile, first_name, last_name, city, country, street, activekey, internal_purse, perfect_purse, secret', 'length', 'max'=>255),
-			array('createtime, updatetime, last_visit', 'safe'),
+			array('createtime, updatetime, last_visit, perfect_purse', 'safe'),
             array('login, email, mobile', 'unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -124,7 +124,7 @@ class User extends CActiveRecord
 
         if ( $this->getIsNewRecord() ) {
             $this->password = self::cryptPassword($this->password);
-            $this->status = User::STATUS_ACTIVE;
+
             $this->internal_purse = strrev(time()) + (mt_rand(10, 99) . mt_rand(10, 99));
         } else {
             $old_password = self::model()->findByPk($this->id)->password;
@@ -135,13 +135,16 @@ class User extends CActiveRecord
         }
         return parent::beforeSave();
     }
-
-    public function isReferral() {
+    // Является ли пользователь чьим-нибудь рефералом
+    public function isReferral($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT user_id
                 FROM " . Referral::model()->tableName() . "
-                WHERE ref_id=" . Yii::app()->user->id . "
+                WHERE ref_id=" . $user_id . "
                 ")->queryRow();
 
             return $result;
@@ -158,12 +161,15 @@ class User extends CActiveRecord
         }
     }
 
-    public function getAmount() {
+    public function getAmount($user_id=null) {
+        if ( $user_id == null ) {
+            $user_id = Yii::app()->user->id;
+        }
         if ( !$this->isNewRecord ) {
             $result = Yii::app()->db->createCommand("
                 SELECT amount_after
                 FROM " . UserTransactions::model()->tableName() . "
-                WHERE user_id=" . Yii::app()->user->id . "
+                WHERE user_id=" . $user_id . "
                 ORDER BY id DESC
                 LIMIT 1
                 ")->queryScalar();
@@ -173,7 +179,7 @@ class User extends CActiveRecord
             return 0;
         }
     }
-
+    // Возвращает обрезанное имя пользователя
     public static function getСropNameById($id) {
         $result = Yii::app()->db->createCommand()
             ->select('first_name, last_name')
@@ -189,6 +195,28 @@ class User extends CActiveRecord
         }
 
         return $result['first_name'] . ' ' . $last_name;
+    }
+
+    // Возвращает обрезанное имя пользователя
+    public static function getEmailById($id) {
+        $result = Yii::app()->db->createCommand()
+            ->select('email')
+            ->from(User::model()->tableName())
+            ->where('id=:id', array(':id'=>$id))
+            ->queryRow();
+
+        return $result['email'];
+    }
+
+    public static function getHomeLink() {
+        if ( Yii::app()->user->role == 'admin' ) {
+            $link = Yii::app()->createAbsoluteUrl('/admin');
+        } elseif ( Yii::app()->user->role == 'user' ) {
+            $link = Yii::app()->createAbsoluteUrl('/private');
+        } else {
+            $link = Yii::app()->createAbsoluteUrl('/');
+        }
+        return $link;
     }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
