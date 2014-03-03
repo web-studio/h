@@ -76,6 +76,8 @@ class AjaxController extends PrivateController
             $user->password = $_POST['password'];
             if ( $user->save() ) {
                 Yii::app()->user->setFlash('successMessage', 'Password was been changed');
+            } else {
+                Yii::app()->user->setFlash('warningMessage', 'Password was not been changed');
             }
 
         }

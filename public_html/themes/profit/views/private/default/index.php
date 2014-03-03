@@ -203,8 +203,8 @@ $this->breadcrumbs=array(
                 dataType: "json",
                 type: "POST",
                 success: function(data){
+                    $.fancybox.close({type: "inline", href: "#modalPassword"});
                     $(".password_message").show(200).delay(5000).hide(200);
-                    $.fancybox.close({type: "inline", href: "#modalPassword"})
                     $("#passwordOne").val('');
                     $("#passwordTwo").val('');
                 }
