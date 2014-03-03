@@ -1021,6 +1021,7 @@
 		padding-left:8px;
 		position:relative;
 		z-index:100;
+        min-height: 500px;
 	}
 	.body .sideborder {border-left: 1px solid #e7e6e6;height:200px;position:absolute;left:-17px;}
 	.body .sidebar.left .sideborder {border-left:0;border-right:1px solid #e7e6e6;height:160px;z-index:-20;right:-17px;}
