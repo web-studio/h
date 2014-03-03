@@ -152,7 +152,7 @@ class OutputTransactions extends CActiveRecord
         $criteria->compare('status',$this->status);
         $criteria->compare('error',$this->error,true);
         $criteria->addCondition('status='.OutputTransactions::STATUS_ERROR);
-
+        $criteria->order = 'ID DESC';
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));

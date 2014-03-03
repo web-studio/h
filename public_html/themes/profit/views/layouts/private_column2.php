@@ -1,7 +1,6 @@
 <?php $this->beginContent('//layouts/main') ?>
 
 <div class="twelve columns">
-
     <?php if (Yii::app()->user->hasFlash('successMessage')): ?>
         <div class="form-result message" style="">
             <p class="note success"><?php echo Yii::app()->user->getFlash('successMessage'); ?></p>
