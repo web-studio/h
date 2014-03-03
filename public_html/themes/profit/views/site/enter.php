@@ -1,11 +1,4 @@
 
-<?php
-$str = '10.08.1983';
-$date = explode(".", $str);
-$date = $date[2].'-'.$date[1].'-'.$date[0];
-var_dump($date);
-
-echo date('Y-m-d', strtotime('10.08.1983')) ?>
 <div class="seven columns">
     <div class="title-wrapper">
         <div class="section-title">
