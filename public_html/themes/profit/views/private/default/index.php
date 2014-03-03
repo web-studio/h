@@ -8,7 +8,10 @@ $this->breadcrumbs=array(
 ?>
 
 <div>
-
+    <div class="password_message" style="display: none">
+        <p class="note success"><?php echo Yii::app()->user->getFlash('successMessage'); ?></p>
+        <br>
+    </div>
 <div class="title-wrapper">
     <div class="section-title">
         <h4 class="title">Personal Information</h4>
@@ -187,9 +190,11 @@ $this->breadcrumbs=array(
     $("#savePassword").on("click", function(){
         var one = $("#passwordOne").val();
         var two = $("#passwordTwo").val();
+        var pasOne_length = one.replace(/\s+/g,'').length;
+        var pasTwo_length = two.replace(/\s+/g,'').length;
 
-        if ( one == '' && two == '' ){
-            $("#alert_edit_password").html("Enter the password").attr('style','color:red;margin-bottom:15px');
+        if ( pasOne_length < 6 && pasTwo_length < 6 ){
+            $("#alert_edit_password").html("Password must be at least 6 characters or equal").attr('style','color:red;margin-bottom:15px');
 
         } else if  ( one == two ){
             $.ajax({
@@ -198,9 +203,10 @@ $this->breadcrumbs=array(
                 dataType: "json",
                 type: "POST",
                 success: function(data){
+                    $(".password_message").show(200).delay(5000).hide(200);
                     $.fancybox.close({type: "inline", href: "#modalPassword"})
                     $("#passwordOne").val('');
-                   $("#passwordTwo").val('');
+                    $("#passwordTwo").val('');
                 }
             })
         } else {
