@@ -68,4 +68,47 @@ class AjaxController extends PrivateController
             }
         }
     }
+
+    public function actionBonusLink() {
+
+        if ( Yii::app()->request->isAjaxRequest ) {
+
+            if ( isset($_POST['link']) && isset($_POST['site_id']) ) {
+                $link = $_POST['link'];
+                $site_id = $_POST['site_id'];
+
+                $site = Yii::app()->db->createCommand()
+                    ->select('site.url')
+                    ->from('{{bonus_sites}} site')
+                    ->where("site.id=:site_id",[':site_id'=>$site_id])
+                    ->queryScalar();
+
+                $pos = strpos($link, $site);
+
+                if ( $pos === false ) {
+                    $errors = 1;
+                    $code = 'Bad link';
+                } else {
+                    $bonusProgram = new BonusProgram();
+                    $bonusProgram->user_id = Yii::app()->user->id;
+                    $bonusProgram->site_id = $site_id;
+                    $bonusProgram->link = $link;
+                    $bonusProgram->status = BonusProgram::STATUS_PENDING;
+                    if ( $bonusProgram->validate() && $bonusProgram->save() ) {
+                        $errors = 0;
+                        $code = 'Ok';
+                    } else {
+                        $errors = 1;
+                        $code = 'Bad link';
+                    }
+
+                }
+            }
+        }
+
+        echo CJSON::encode([
+            'errors'=>$errors,
+            'code' => $code,
+        ]);
+    }
 }

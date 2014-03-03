@@ -63,7 +63,7 @@ class DefaultController extends PrivateController
 
         if ( isset($_POST['deposit']) && isset($_POST['amount']) ) {
             $depositType = DepositType::model()->findByPk((int)$_POST['deposit']);
-            $amount = (int)$_POST['amount'];
+            $amount = UserTransactions::model()->replaceComma($_POST['amount']);
             if ( $amount <= User::model()->getAmount() ) {
                 if ( $amount >= $depositType->min_amount && $amount <= $depositType->max_amount ) {
                     $expireDate = BankDay::getEndDate('now', $depositType->days, 'Y-m-d H:i:s');

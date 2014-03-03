@@ -37,8 +37,7 @@ class UserDeposit extends CActiveRecord
 		return array(
 			array('user_id, reinvest, status, transaction_id', 'numerical', 'integerOnly'=>true),
 			array('deposit_type_id', 'length', 'max'=>255),
-			array('deposit_amount', 'length', 'max'=>10),
-			array('expire, date_create', 'safe'),
+			array('expire, date_create, deposit_amount', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, deposit_type_id, deposit_amount, expire, date_create, reinvest, status', 'safe', 'on'=>'search'),

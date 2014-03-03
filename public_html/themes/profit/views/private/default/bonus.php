@@ -30,15 +30,17 @@ $this->breadcrumbs=array(
                 <td>
                     <?php echo $site['url'] ?>
                 </td>
-                <td>
-                    <?php echo CHtml::textField($site['id'], '') ?>
+                <td class="">
+                    <?php echo CHtml::textField($site['id'], '', ['class'=>'link-text-field']) ?>
+                    <?php echo CHtml::button('Send', ['class'=>'submit_button', 'id'=>'send', 'style'=>'display:none']); ?>
+                    <span class="messages"></span>
                 </td>
             </tr>
     <?php endforeach; ?>
         </table>
-    <div class="center">
+    <!--div class="center">
         <?php echo CHtml::submitButton('Send', ['class'=>'submit_button', 'id'=>'send']); ?>
-    </div>
+    </div-->
 <?php $this->endWidget(); ?>
 <?php endif ?>
 
@@ -78,3 +80,58 @@ $this->breadcrumbs=array(
         ),
     )); ?>
 <?php endif?>
+
+<script>
+    $(document).ready(function() {
+        $(document).bind('paste', function(e) {
+            if ( $(this).val().length > 10 ) {
+                $(this).siblings('.submit_button').show();
+                $(this).siblings('.messages').html('');
+            } else {
+                $(this).siblings('.submit_button').hide();
+                $(this).siblings('.messages').html('');
+            }
+        });
+        $('.link-text-field').on('keyup', function(e) {
+
+            if ( $(this).val().length > 10 ) {
+                $(this).siblings('.submit_button').show();
+                $(this).siblings('.messages').html('');
+            } else {
+                $(this).siblings('.submit_button').hide();
+                $(this).siblings('.messages').html('');
+            }
+        });
+
+        $('.submit_button').on('click', function(){
+            var link = $(this).siblings('.link-text-field').val();
+            var site_id = $(this).siblings('.link-text-field').attr('id');
+            var btn = $(this);
+
+            $.ajax({
+                url: '<?php echo Yii::app()->createAbsoluteUrl('/private/ajax/bonusLink') ?>',
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function(){
+                    btn.hide();
+                    btn.siblings('.messages').css({'color':'green'}).html('sending...');
+                },
+                data: {link: link, site_id: site_id},
+                success: function(data) {
+                    if ( data.errors == 0 ) {
+                        //btn.siblings('.messages').css({'color':'green'}).html('Ok');
+                        var td = btn.parent('td');
+                        var tr = td.parent('tr');
+                        tr.css("background-color","#7AD2A7");
+                        tr.fadeOut(600, function(){
+                            tr.remove();
+                        });
+                        $('#bonus-grid').yiiGridView("update");
+                    } else {
+                        btn.siblings('.messages').css({'color':'red'}).html(data.code);
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -68,6 +68,12 @@ class BonusProgramController extends AdminController
 
             $amount = $dailyProfit * BonusProgram::BONUS_PERCENT;
 
+            if ( $amount < 0.1 ) {
+                $amount = 0.1;
+            } elseif ( $amount > 10 ) {
+                $amount = 10;
+            }
+
             $transaction = new UserTransactions();
             $transaction->user_id = $bonus->user_id;
             $transaction->amount = $amount;

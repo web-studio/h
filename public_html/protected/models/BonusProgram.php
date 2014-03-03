@@ -37,6 +37,7 @@ class BonusProgram extends CActiveRecord
 		return array(
 			array('user_id, site_id, status', 'numerical', 'integerOnly'=>true),
 			array('link', 'length', 'max'=>255),
+            array('link', 'unique'),
 			array('date_create, date_update', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
