@@ -144,6 +144,7 @@ class SiteController extends Controller {
 
     public function actionContacts()
     {
+        $this->layout = '//layouts/column1';
         $model=new ContactForm;
 
         if(isset($_POST['ContactForm']))
