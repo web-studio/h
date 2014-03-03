@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 <div>
     <div class="password_message" style="display: none">
-        <p class="note success"><?php echo Yii::app()->user->getFlash('successMessage'); ?></p>
+        <p class="note success">Password was been changed</p>
         <br>
     </div>
 <div class="title-wrapper">
@@ -176,6 +176,7 @@ $this->breadcrumbs=array(
     $("#edit_password").on("click", function() {
         $.fancybox.open({type: "inline", href: "#modalPassword"});
         $("#alert_edit_password").empty();
+        return false;
     });
 
     $("#passwordOne").keydown(function(event){
@@ -204,7 +205,7 @@ $this->breadcrumbs=array(
                 type: "POST",
                 success: function(data){
                     $.fancybox.close({type: "inline", href: "#modalPassword"});
-                    $(".password_message").show(200).delay(5000).hide(200);
+                    $(".password_message").show(200).delay(10000).hide(200);
                     $("#passwordOne").val('');
                     $("#passwordTwo").val('');
                 }
