@@ -181,24 +181,29 @@ class User extends CActiveRecord
         }
     }
     // Возвращает обрезанное имя пользователя
-    public static function getСropNameById($id) {
+    public static function getСropNameById($id, $crop=true) {
         $result = Yii::app()->db->createCommand()
             ->select('first_name, last_name')
             ->from(User::model()->tableName())
             ->where('id=:id', array(':id'=>$id))
             ->queryRow();
 
-        if ( strlen($result['last_name']) > 1 ) {
-            $delStr = -1*(strlen($result['last_name'])-1);
-            $last_name = substr_replace($result['last_name'],'.', $delStr);
+        if ( $crop ) {
+            if ( strlen($result['last_name']) > 1 ) {
+                $delStr = -1*(strlen($result['last_name'])-1);
+                $last_name = substr_replace($result['last_name'],'.', $delStr);
+            } else {
+                $last_name = $result['last_name'].'.';
+            }
+            return $result['first_name'] . ' ' . $last_name;
         } else {
-            $last_name = $result['last_name'].'.';
+            return $result['first_name'] . ' ' . $result['last_name'];
         }
 
-        return $result['first_name'] . ' ' . $last_name;
+
     }
 
-    // Возвращает обрезанное имя пользователя
+    //
     public static function getEmailById($id) {
         $result = Yii::app()->db->createCommand()
             ->select('email')
