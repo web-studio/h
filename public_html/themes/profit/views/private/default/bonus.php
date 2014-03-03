@@ -6,44 +6,50 @@ $this->breadcrumbs=array(
     $this->pageTitle
 );
 ?>
+<?php $depositAmount = UserDeposit::model()->getAllAmountActiveDeposits() ?>
+<?php if ( $depositAmount > 0 ) : ?>
+    <?php if ( !empty($sites) ) : ?>
+        <div class="title-wrapper">
+            <div class="section-title">
+                <h4 class="title">For every post you get 8% of the daily payments.</h4>
+            </div>
+            <span class="divider"></span>
+            <div class="clear"></div>
+        </div>
+            <span>Insert links to sites by appropriate field.</span>
+        <?php $form=$this->beginWidget('CActiveForm', array(
+            'id'=>'bonus-form',
+            'enableClientValidation'=>true,
+            'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+            ),
+        )); ?>
+            <table class="items table">
 
-<?php if ( !empty($sites) ) : ?>
-<div class="title-wrapper">
-    <div class="section-title">
-        <h4 class="title">For every post you get 8% of the daily payments.</h4>
+            <?php foreach ( $sites as $site ) : ?>
+                    <tr>
+                        <td>
+                            <?php echo $site['url'] ?>
+                        </td>
+                        <td class="">
+                            <?php echo CHtml::textField($site['id'], '', ['class'=>'link-text-field']) ?>
+                            <?php echo CHtml::button('Send', ['class'=>'submit_button', 'id'=>'send', 'style'=>'display:none']); ?>
+                            <span class="messages"></span>
+                        </td>
+                    </tr>
+            <?php endforeach; ?>
+                </table>
+            <!--div class="center">
+                <?php echo CHtml::submitButton('Send', ['class'=>'submit_button', 'id'=>'send']); ?>
+            </div-->
+        <?php $this->endWidget(); ?>
+    <?php endif ?>
+<?php else : ?>
+    <div class="form-result" style="">
+        <p class="note warning">The program operates only in the presence of active deposit</p>
+        <br>
     </div>
-    <span class="divider"></span>
-    <div class="clear"></div>
-</div>
-    <span>Insert links to sites by appropriate field.</span>
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'bonus-form',
-    'enableClientValidation'=>true,
-    'clientOptions'=>array(
-        'validateOnSubmit'=>true,
-    ),
-)); ?>
-    <table class="items table">
-
-    <?php foreach ( $sites as $site ) : ?>
-            <tr>
-                <td>
-                    <?php echo $site['url'] ?>
-                </td>
-                <td class="">
-                    <?php echo CHtml::textField($site['id'], '', ['class'=>'link-text-field']) ?>
-                    <?php echo CHtml::button('Send', ['class'=>'submit_button', 'id'=>'send', 'style'=>'display:none']); ?>
-                    <span class="messages"></span>
-                </td>
-            </tr>
-    <?php endforeach; ?>
-        </table>
-    <!--div class="center">
-        <?php echo CHtml::submitButton('Send', ['class'=>'submit_button', 'id'=>'send']); ?>
-    </div-->
-<?php $this->endWidget(); ?>
-<?php endif ?>
-
+<?php endif; ?>
 <?php if ( $bonusProgram->bonusSearch()->itemCount > 0 ):?>
     <div class="title-wrapper">
         <div class="section-title">
