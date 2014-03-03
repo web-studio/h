@@ -87,7 +87,7 @@ class BonusProgram extends CActiveRecord
     }
 
     public static function todayWasBonus($bonusSite_id){
-        $bonus = BonusProgram::model()->find(['select'=>'id', 'condition'=>"site_id=:site_id AND DATE_FORMAT(date_create, '%Y-%m-%d') = DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d')", 'params'=>[':site_id'=>$bonusSite_id]]);
+        $bonus = BonusProgram::model()->find(['select'=>'id', 'condition'=>"site_id=:site_id AND DATE_FORMAT(date_create, '%Y-%m-%d') = DATE_FORMAT('". date('Y-m-d', time()) ."', '%Y-%m-%d') AND user_id=:user_id", 'params'=>[':site_id'=>$bonusSite_id,':user_id'=>Yii::app()->user->id]]);
         if ( $bonus != null ) {
             return true;
         } else {
