@@ -257,6 +257,7 @@ class UserDeposit extends CActiveRecord
         $criteria->compare('status',$this->status);
         $criteria->compare('transaction_id',$this->transaction_id);
         $criteria->addCondition('user_id='. Yii::app()->user->id);
+        $criteria->order = 'ID DESC';
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
