@@ -49,6 +49,7 @@ class User extends CActiveRecord
 			array('login, email, password, mobile, first_name, last_name, city, country, street, activekey, internal_purse, perfect_purse, secret', 'length', 'max'=>255),
 			array('createtime, updatetime, last_visit, perfect_purse', 'safe'),
             array('login, email, mobile', 'unique'),
+            array('password', 'length', 'min'=>6),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, role_id, status, login, email, password, mobile, first_name, last_name, city, country, street, activekey, createtime, updatetime, last_visit, internal_purse, perfect_purse, secret', 'safe', 'on'=>'search'),

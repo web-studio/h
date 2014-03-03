@@ -69,6 +69,18 @@ class AjaxController extends PrivateController
         }
     }
 
+    public function actionEditPassword(){
+
+        if ( isset($_POST['password']) ) {
+            $user = User::model()->find(['select'=>'id, password','condition'=>'id=:user_id', 'params'=>[':user_id'=>Yii::app()->user->id]]);
+            $user->password = $_POST['password'];
+            if ( $user->save() ) {
+               // Yii::app()->user->setFlash('successMessage', 'Password was been changed');
+            }
+
+        }
+    }
+
     public function actionBonusLink() {
 
         if ( Yii::app()->request->isAjaxRequest ) {
