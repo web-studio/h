@@ -242,31 +242,6 @@ class DefaultController extends PrivateController
 
     public function actionBonus() {
 
-        if ( isset($_POST['yt0']) ) {
-            unset($_POST['yt0']);
-
-            foreach ( $_POST as $site_id=>$link ) {
-                $site = Yii::app()->db->createCommand()
-                    ->select('site.url')
-                    ->from('{{bonus_sites}} site')
-                    ->where("site.id=:site_id",[':site_id'=>$site_id])
-                    ->queryScalar();
-
-                $pos = strpos($link, $site);
-
-                if ( $pos === false ) {
-
-                } else {
-                    $bonusProgram = new BonusProgram();
-                    $bonusProgram->user_id = Yii::app()->user->id;
-                    $bonusProgram->site_id = $site_id;
-                    $bonusProgram->link = $link;
-                    $bonusProgram->status = BonusProgram::STATUS_PENDING;
-                    $bonusProgram->save();
-                }
-            }
-        }
-
         $bonusSites =  Yii::app()->db->createCommand()
             ->select('site.id, site.url')
             ->from('{{bonus_sites}} site')

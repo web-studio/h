@@ -45,7 +45,7 @@ $this->breadcrumbs=array(
 <input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
 <div class="clear"></div>
 <?php
-$this->widget('zii.widgets.jui.CJuiSlider', array(
+/*$this->widget('zii.widgets.jui.CJuiSlider', array(
     'value'=>$amount,
     'id'=>'amtSlider',
     // additional javascript options for the slider plugin
@@ -59,7 +59,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'style'=>'height:12px;width:300px;margin-bottom: 20px',
         //'class'=>'five columns'
     ),
-));
+));*/
 ?>
 <div class="clear"></div>
 <div class="center">
@@ -125,6 +125,8 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
     $(document).ready(function(){
         var old_val = '';
         var input_regexp = /^(\d+(\.\d{0,2})?)?$/;
+        var current_amount = <?php echo $amount ?>;
+
         $('#amt').keydown(function(e) {
 
             var val = $(this).val();
@@ -136,8 +138,17 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
                 if (!input_regexp.test(val)) {
                     $(this).val(old_val);
                 }
+
+                selectDeposit($(this).val());
+
+                if ( $(this).val() > current_amount  ) {
+                    $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
+                } else {
+                    $('#amount_alert').empty();
+                }
             });
 
+    });
         function check_deposit(){
             $(".deposit_select:not(:checked)").siblings().css("border","1px solid transparent");
             $(".deposit_select:checked").siblings().css("border","1px solid #404040");
@@ -191,7 +202,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             }
         }
 
-        $("#amt").on('change', function(){
+        /*$("#amt").on('change', function(){
             var current_amount = <?php echo $amount ?>;
 
             selectDeposit($(this).val());
@@ -203,8 +214,8 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
             } else {
                 $('#amount_alert').empty();
             }
-        })
-        $("#invest").on("click", function(){
+        })*/
+        $("#invest").on("click", function(e){
 
             selectDeposit($("#amt").val());
 
@@ -213,12 +224,12 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
              return false;
              }*/
 
-            if ( $("#amt").val() < 10 && $("#amt").val() > 30000 ) {
+            if ( $("#amt").val().length == 0 || $("#amt").val() < 10 || $("#amt").val() > 30000 ) {
                 $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
                 return false;
             }
         })
-    });
+
 
 
 

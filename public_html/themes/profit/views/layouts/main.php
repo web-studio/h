@@ -145,7 +145,10 @@
 </div>
 <div class="callout-hr"></div>
 <div class="container">
-<?php echo $content ?>
+    <div class="min-heigth-500">
+        <?php echo $content ?>
+    </div>
+
 
 
 

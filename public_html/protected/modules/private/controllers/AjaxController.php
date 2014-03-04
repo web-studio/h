@@ -99,19 +99,26 @@ class AjaxController extends PrivateController
                     $errors = 1;
                     $code = 'Bad link';
                 } else {
-                    $bonusProgram = new BonusProgram();
-                    $bonusProgram->user_id = Yii::app()->user->id;
-                    $bonusProgram->site_id = $site_id;
-                    $bonusProgram->link = $link;
-                    $bonusProgram->status = BonusProgram::STATUS_PENDING;
-                    if ( $bonusProgram->validate() && $bonusProgram->save() ) {
-                        $errors = 0;
-                        $code = 'Ok';
-                    } else {
+
+                    $findLink = BonusProgram::model()->find(['select'=>'id','condition'=>'link=:link AND status=:status', 'params'=>[':link'=>$_POST['link'], 'status'=>BonusProgram::STATUS_SUCCESS]]);
+
+                    if ( $findLink != null ) {
                         $errors = 1;
                         $code = 'Bad link';
+                    } else {
+                        $bonusProgram = new BonusProgram();
+                        $bonusProgram->user_id = Yii::app()->user->id;
+                        $bonusProgram->site_id = $site_id;
+                        $bonusProgram->link = $link;
+                        $bonusProgram->status = BonusProgram::STATUS_PENDING;
+                        if ( $bonusProgram->validate() && $bonusProgram->save() ) {
+                            $errors = 0;
+                            $code = 'Ok';
+                        } else {
+                            $errors = 1;
+                            $code = 'Bad link';
+                        }
                     }
-
                 }
             }
         }

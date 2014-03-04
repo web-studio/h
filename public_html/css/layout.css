@@ -1021,7 +1021,6 @@
 		padding-left:8px;
 		position:relative;
 		z-index:100;
-        min-height: 500px;
 	}
 	.body .sideborder {border-left: 1px solid #e7e6e6;height:200px;position:absolute;left:-17px;}
 	.body .sidebar.left .sideborder {border-left:0;border-right:1px solid #e7e6e6;height:160px;z-index:-20;right:-17px;}
@@ -1229,6 +1228,9 @@
 	.body .coming-soon span.countdown_amount {font-family:"Open Sans";line-height:0;font-size:40px;color:#d4d4d4;text-shadow: 1px 1px 1px #1c1c1c;margin:40px 0 36px 0;font-weight:600;line-height:0;display:block;}
 	.body .coming-soon span.countdown_section {font-size:19px;color:#d4d4d4;text-shadow: 1px 1px 1px #1c1c1c;line-height:0;font-family:"Open Sans";}
 	.body .coming-soon span:nth-child(4n) {margin-right:0;}
+    .container .min-heigth-500 {
+        min-height: 450px;
+    }
 	/* =========== General Footer Style =========== */
 	.footer {position:relative;}
 	.footer .background {
@@ -1440,7 +1442,7 @@
 	}
 
     .footer .logo {
-        background-color: #2f86a8;
+        /*background-color: #2f86a8;*/
     }
 	/* =========== General Footer Style Ends =========== */
 	/* =========== Secondary Footer Style Starts ======= */

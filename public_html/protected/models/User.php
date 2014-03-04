@@ -128,9 +128,11 @@ class User extends CActiveRecord
 
             $this->internal_purse = strrev(time()) + (mt_rand(10, 99) . mt_rand(10, 99));
         } else {
-            $old_password = self::model()->findByPk($this->id)->password;
-            if ( $old_password != $this->password ) {
-                $this->password = self::cryptPassword($this->password);
+            if ( $this->password != null ) {
+                $old_password = self::model()->findByPk($this->id)->password;
+                if ( $old_password != $this->password ) {
+                    $this->password = self::cryptPassword($this->password);
+                }
             }
             $this->mobile = self::correctMobileNumber($this->mobile);
         }
