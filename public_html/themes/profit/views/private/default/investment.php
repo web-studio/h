@@ -40,9 +40,9 @@ $this->breadcrumbs=array(
 
 <div id="amount_alert"></div>
 <?php $amount = User::model()->getAmount(); ?>
-<span style="font-weight: bold; font-size: 24px">Invest amount: </span>
-<span style="color:#217b9d; font-weight:bold;font-size: 24px;">$</span>
-<input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
+<span style="font-weight: bold; font-size: 18px">Invest amount: </span>
+<span style="color:#217b9d; font-weight:bold;font-size: 18px;">$</span>
+<input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="margin-top: 3px;  padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 18px; height: 20px; width: 100px; background-color: transparent" />
 <div class="clear"></div>
 <?php
 $this->widget('zii.widgets.jui.CJuiSlider', array(
