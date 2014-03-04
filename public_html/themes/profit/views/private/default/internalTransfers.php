@@ -20,9 +20,9 @@ $this->breadcrumbs=array(
 <?php $amount = User::model()->getAmount(); ?>
 <?php $internal_purse = '' ?>
 <div id="amount_alert"></div>
-    <span style="font-weight: bold; font-size: 24px">Transfer amount: </span>
-    <span style="color:#217b9d; font-weight:bold;font-size: 24px;">$</span>
-    <input type="text" name="amount" value="0" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
+    <span style="font-weight:bold;font-size: 18px;">Transfer amount: </span>
+    <span style="color:#217b9d; font-weight:bold;font-size: 18px;">$</span>
+    <input type="text" name="amount" value="0" id="amt" style="padding-left:0; margin-top: 3px; border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 18px; height: 20px; width: 100px; background-color: transparent" />
     <div class="clear"></div>
 <?php
 $this->widget('zii.widgets.jui.CJuiSlider', array(
@@ -35,7 +35,7 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
         'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
     ),
     'htmlOptions'=>array(
-        'style'=>'height:12px;width:325px;margin-bottom: 20чpx',
+        'style'=>'height:12px;width:325px;margin-bottom: 5px; margin-top: 11px ',
         //'class'=>'five columns'
     ),
 ));
@@ -44,8 +44,8 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 
 <div id="transfer_alert"></div>
 
-<span style="font-weight: bold; font-size: 24px">Internal purse: </span>
-    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="internal_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 147px; background-color: transparent" />
+<span style="font-weight: bold; font-size: 18px">Internal purse: </span>
+    <input type="text" name="internal_purse" value="<?php echo $internal_purse ?>" id="internal_purse" style="margin-top: 3px; padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 18px; height: 20px; width: 147px; background-color: transparent" />
 
 <div class="clear"></div>
     <div class="center" style="height: 40px;margin-bottom:10px">

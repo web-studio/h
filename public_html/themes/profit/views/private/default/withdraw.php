@@ -18,9 +18,9 @@ $this->breadcrumbs=array(
     )); ?>
     <div id="amount_alert"></div>
 
-    <span style="font-weight: bold; font-size: 24px">Amount for withdraw: </span>
-    <span style="color:#217b9d; font-weight:bold;font-size: 24px;">$</span>
-    <input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 100px; background-color: transparent" />
+    <span style="font-weight: bold; font-size: 18px">Amount for withdraw: </span>
+    <span style="color:#217b9d; font-weight:bold;font-size: 18px;">$</span>
+    <input type="text" name="amount" value="<?php echo $amount ?>" id="amt" style="margin-top: 3px; padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 18px; height: 20px; width: 100px; background-color: transparent" />
     <div class="clear"></div>
     <?php
     $this->widget('zii.widgets.jui.CJuiSlider', array(
@@ -33,7 +33,7 @@ $this->breadcrumbs=array(
             'slide'=>'js:function(event, ui) { $("#amt").val(ui.value).change();}'
         ),
         'htmlOptions'=>array(
-            'style'=>'height:12px;width:375px;margin-bottom: 20px',
+            'style'=>'height:12px;width:375px;margin-bottom: 20px;margin-top: 11px ',
             //'class'=>'five columns'
         ),
     ));
@@ -41,8 +41,8 @@ $this->breadcrumbs=array(
 
     <div id="transfer_alert"></div>
 
-    <span style="font-weight: bold; font-size: 24px">Perfect money: </span>
-    <input type="text" name="perfect_purse" value="<?php echo $user->perfect_purse ?>" id="perfect_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
+    <span style="font-weight: bold; font-size: 18px">Perfect money: </span>
+    <input type="text" name="perfect_purse" value="<?php echo $user->perfect_purse ?>" id="perfect_purse" style="margin-top: 3px;  padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 18px; height: 20px; width: 150px; background-color: transparent" />
 
 
     <div class="clear"></div>
