@@ -271,8 +271,9 @@ $('document').ready(function() {
 		});
 		// prevent from scrolling up the page
   		e.preventDefault();
-    }); 
-		
+    });
+
+
 }); // end of $(document).ready();
 
 $(window).load(function() {

@@ -204,7 +204,14 @@ class PerfectMoneyController extends PrivateController
 
                         $amount = UserTransactions::model()->replaceComma($_POST['amount']);
 
-                        $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $_POST['perfect_purse'] . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
+                        $perfect_purse = $_POST['perfect_purse'];
+
+                        if ( $user->perfect_purse == null || $user->perfect_purse == '' ) {
+                            $user->perfect_purse = $perfect_purse;
+                            $user->save();
+                        }
+
+                        $f=fopen('https://perfectmoney.is/acct/confirm.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'] . '&Payer_Account=' . Yii::app()->params['payee_account'] . '&Payee_Account=' . $perfect_purse . '&Amount=' . $amount . '&PAY_IN=' . $amount . ' &PAYMENT_ID=' . $payment_id, 'rb');
 
                         if($f===false){
                             $fp = fopen(Yii::getPathOfAlias('webroot.protected.payment_log') . '/withdraw.log', 'a');

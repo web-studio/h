@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
     <div id="transfer_alert"></div>
 
     <span style="font-weight: bold; font-size: 24px">Perfect money: </span>
-    <input type="text" name="perfect_purse" value="<?php echo $user->perfect_purse ?>" id="internal_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
+    <input type="text" name="perfect_purse" value="<?php echo $user->perfect_purse ?>" id="perfect_purse" style="padding-left:0;border:1px solid #d3d3d3; color:#217b9d; font-weight:bold;font-size: 24px; height: 30px; width: 150px; background-color: transparent" />
 
 
     <div class="clear"></div>
@@ -99,3 +99,32 @@ $this->breadcrumbs=array(
         ),
     )); ?>
 <?php endif?>
+<script>
+    $(document).ready(function(){
+
+        var old_val = '';
+        var input_regexp = /^(\d+(\.\d{0,2})?)?$/;
+        $('#amt').keydown(function(e) {
+
+            var val = $(this).val();
+            if (input_regexp.test(val)) {
+                old_val = $(this).val();
+            }
+        }).keyup(function(e) {
+                var val = $(this).val();
+                if (!input_regexp.test(val)) {
+                    $(this).val(old_val);
+                }
+            });
+
+
+        var regV = /U\d{7}$/;
+
+        $('#withdraw').on('click', function(e) {
+            if ( !$('#perfect_purse').val().match(regV) ) {
+                $('#transfer_alert').css({'color':'red'}).html('Incorrect Perfect Money Account');
+                return false;
+            }
+        });
+    });
+</script>

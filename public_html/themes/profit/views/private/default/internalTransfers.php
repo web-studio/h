@@ -125,45 +125,98 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
      }
      })*/
 
-    $("#amt").on('change', function(){
-        var current_amount = <?php echo $amount ?>;
+    $(document).ready(function(){
 
-        if ( $(this).val() > current_amount  ) {
-            $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
-        } else {
-            $('#amount_alert').empty();
-        }
-    })
+        var old_val = '';
+        var input_regexp = /^(\d+(\.\d{0,2})?)?$/;
+        $('#amt').keydown(function(e) {
 
-    $("#transfer").on("click", function() {
-        var amount = false;
-        var purse = false;
-        if ( $("#amt").val() == 0 || $("#amt").val() == '' ) {
-            $("#amount_alert").html("Enter the amount to transfer").attr('style','color:red;margin-bottom:15px');
-        } else if ( $("#amt").val() > <?php echo $amount ?> ) {
-            $("#amount_alert").html("Incorrect amount").attr('style','color:red;margin-bottom:15px');
-        } else {
-            amount = true;
-        }
+            var val = $(this).val();
+            if (input_regexp.test(val)) {
+                old_val = $(this).val();
+            }
+        }).keyup(function(e) {
+                var val = $(this).val();
+                if (!input_regexp.test(val)) {
+                    $(this).val(old_val);
+                }
+            });
 
-        if ( $("#internal_purse").val() == '' ) {
-            $("#transfer_alert").html("Enter the number of purse").attr('style','color:red;margin-bottom:15px');
-        } else {
-            purse = true;
-        }
 
-        if ( amount == true && purse == true ) {
-            $.fancybox.open({type: "inline", href: "#modal"})
-        }
+        $('#internal_purse').bind("change keyup input click", function() {
+            if ( this.value.length > 10 ) {
+                $(this).val(old_val);
+            } else if ( this.value.length == 10  ) {
+                $(this).css({'color':'#52B496'});
+                old_val = $(this).val();
+            } else {
+                $(this).css({'color':'#217b9d'});
+                if (this.value.match(/[^0-9]/g)) {
+
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                }
+            }
+
+        });
+/*
+        var input_regexp2 = /^\d+$/;
+        old_val = '';
+        $('#internal_purse').keyup(function(e) {
+
+            var val = $(this).val();
+            if ( val.length > 10 ) {
+                $(this).val(old_val);
+            } else if ( val.length == 10 && input_regexp2.test(val) ) {
+                    $(this).css({'color':'#52B496'});
+                    old_val = $(this).val();
+            } else {
+                if (!input_regexp2.test(val)) {
+                    $(this).val(old_val);
+                    $(this).css({'color':'#217b9d'});
+                }
+            }
+        });
+*/
+        $("#amt").on('change', function(){
+            var current_amount = <?php echo $amount ?>;
+
+            if ( $(this).val() > current_amount  ) {
+                $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
+            } else {
+                $('#amount_alert').empty();
+            }
+        })
+
+        $("#transfer").on("click", function() {
+            var amount = false;
+            var purse = false;
+            if ( $("#amt").val() == 0 || $("#amt").val() == '' ) {
+                $("#amount_alert").html("Enter the amount to transfer").attr('style','color:red;margin-bottom:15px');
+            } else if ( $("#amt").val() > <?php echo $amount ?> ) {
+                $("#amount_alert").html("Incorrect amount").attr('style','color:red;margin-bottom:15px');
+            } else {
+                amount = true;
+            }
+
+            if ( $("#internal_purse").val().length != 10 ) {
+                $("#transfer_alert").html("Enter the number of purse").attr('style','color:red;margin-bottom:15px');
+            } else {
+                $("#transfer_alert").html("")
+                purse = true;
+            }
+
+            if ( amount == true && purse == true ) {
+                $.fancybox.open({type: "inline", href: "#modal"})
+            }
+        });
+
+        $("#ok").on("click", function() {
+            $("#internalTransfers-form").submit();
+        });
+
+        $("#cancel").on("click", function() {
+            $.fancybox.close({type: "inline", href: "#modal"})
+            return false;
+        });
     });
-
-    $("#ok").on("click", function() {
-        $("#internalTransfers-form").submit();
-    });
-
-    $("#cancel").on("click", function() {
-        $.fancybox.close({type: "inline", href: "#modal"})
-        return false;
-    });
-
 </script>

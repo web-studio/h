@@ -140,6 +140,8 @@
                 <div class="nivo hide">
                     <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit.png" class="scale-with-grid" />
                     <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit2.png" class="scale-with-grid" />
+                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit3.png" class="scale-with-grid" />
+                    <img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/slider/yesprofit4.png" class="scale-with-grid" />
                 </div>
             </div>
 
@@ -233,11 +235,11 @@
             <div class="container">
                 <div class="stitch"></div>
                 <div class="sixteen columns">
-                    <div class="first column alpha">
+                    <div class="first column">
 
                         <div class="left">
                             <div class="logo">
-                                <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Large Logo -->
+                                <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo_footer.png" /></a><!-- Large Logo -->
                             </div>
                         </div>
                     </div>

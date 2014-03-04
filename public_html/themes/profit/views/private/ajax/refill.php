@@ -29,38 +29,55 @@
     <?php $this->endWidget(); ?>
 </div><!-- form -->
 <script>
+    $(document).ready(function(){
 
-    $("#refill_submit").on("click", function(evt){
-        evt.preventDefault();
-        $.ajax({
-            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillAmount") ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
-            success: function(data){
-                if ( data.status == 1 ) {
-                    $("#refill-form").submit();
-                } else {
-                    return false;
-                }
+        var old_val = '';
+        var input_regexp = /^(\d+(\.\d{0,2})?)?$/;
+        $('#PAYMENT_AMOUNT').keydown(function(e) {
+
+            var val = $(this).val();
+            if (input_regexp.test(val)) {
+                old_val = $(this).val();
             }
+        }).keyup(function(e) {
+                var val = $(this).val();
+                if (!input_regexp.test(val)) {
+                    $(this).val(old_val);
+                }
         });
 
+        $("#refill_submit").on("click", function(evt){
+            evt.preventDefault();
+            $.ajax({
+                url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillAmount") ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
+                success: function(data){
+                    if ( data.status == 1 ) {
+                        $("#refill-form").submit();
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+        });
+
+        function refill(){
+            $.ajax({
+                url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction") ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
+                success: function(data){
+                    if ( data.status == 1 ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+        }
     });
-
-    function refill(){
-        $.ajax({
-            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/refillTransaction") ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {amount:$("#PAYMENT_AMOUNT").val(), payment_id:$("#PAYMENT_ID").val()},
-            success: function(data){
-                if ( data.status == 1 ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-    }
 </script>

@@ -122,86 +122,104 @@ $this->widget('zii.widgets.jui.CJuiSlider', array(
 <?php endif; ?>
 <?php //echo CHtml::link('<span>Invest</span>', '#', ['class'=>'medium-button']) ?>
 <script>
-    function check_deposit(){
-        $(".deposit_select:not(:checked)").siblings().css("border","1px solid transparent");
-        $(".deposit_select:checked").siblings().css("border","1px solid #404040");
-    }
+    $(document).ready(function(){
+        var old_val = '';
+        var input_regexp = /^(\d+(\.\d{0,2})?)?$/;
+        $('#amt').keydown(function(e) {
 
-    function s_dep(id, min, max) {
-        $('#deposit' + id).attr('checked', 'checked');
-        $('#deposit_alert').empty();
-        check_deposit();
-
-        var current_amount = <?php echo $amount ?>;
-
-        //$("#amt").val(current_amount);
-
-        //$( "#amtSlider" ).slider( "option", "min", min );
-        //$( "#amtSlider" ).slider( "option", "max", max );
-
-        if ( current_amount < min ) {
-            $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
-        } else {
-            $('#amount_alert').empty();
-        }
-
-        if ( $("#amt").val() > max ) {
-            $("#amt").val(max)
-        } else if ( $("#amt").val() < min ) {
-            $("#amt").val(min)
-        }
-        /*$.ajax({
-            url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/getInvestAmount"); ?>',
-            type: 'POST',
-            data: {deposit_id: id},
-            success: function(html) {
-                $("#amount").html(html);
+            var val = $(this).val();
+            if (input_regexp.test(val)) {
+                old_val = $(this).val();
             }
-        });*/
-    }
+        }).keyup(function(e) {
+                var val = $(this).val();
+                if (!input_regexp.test(val)) {
+                    $(this).val(old_val);
+                }
+            });
 
-    function selectDeposit(amount) {
-        if ( amount >= 10.00 && amount <= 300.00  ) {
-            s_dep(1,10.00,300.00)
+        function check_deposit(){
+            $(".deposit_select:not(:checked)").siblings().css("border","1px solid transparent");
+            $(".deposit_select:checked").siblings().css("border","1px solid #404040");
         }
-        if ( amount >= 300.01 && amount <= 1500.00  ) {
-            s_dep(2,300.01,1500.00)
+
+        function s_dep(id, min, max) {
+            $('#deposit' + id).attr('checked', 'checked');
+            $('#deposit_alert').empty();
+            check_deposit();
+
+            var current_amount = <?php echo $amount ?>;
+
+            //$("#amt").val(current_amount);
+
+            //$( "#amtSlider" ).slider( "option", "min", min );
+            //$( "#amtSlider" ).slider( "option", "max", max );
+
+            if ( current_amount < min ) {
+                $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
+            } else {
+                $('#amount_alert').empty();
+            }
+
+            if ( $("#amt").val() > max ) {
+                $("#amt").val(max)
+            } else if ( $("#amt").val() < min ) {
+                $("#amt").val(min)
+            }
+            /*$.ajax({
+             url: '<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/getInvestAmount"); ?>',
+             type: 'POST',
+             data: {deposit_id: id},
+             success: function(html) {
+             $("#amount").html(html);
+             }
+             });*/
         }
-        if ( amount >= 1500.01 && amount <= 3000.00  ) {
-            s_dep(3,1500.01,3000.00)
+
+        function selectDeposit(amount) {
+            if ( amount >= 10.00 && amount <= 300.00  ) {
+                s_dep(1,10.00,300.00)
+            }
+            if ( amount >= 300.01 && amount <= 1500.00  ) {
+                s_dep(2,300.01,1500.00)
+            }
+            if ( amount >= 1500.01 && amount <= 3000.00  ) {
+                s_dep(3,1500.01,3000.00)
+            }
+            if ( amount >= 3000.01 && amount <= 30000.00  ) {
+                s_dep(4,3000.01,30000.00)
+            }
         }
-        if ( amount >= 3000.01 && amount <= 30000.00  ) {
-            s_dep(4,3000.01,30000.00)
-        }
-    }
 
-    $("#amt").on('change', function(){
-        var current_amount = <?php echo $amount ?>;
+        $("#amt").on('change', function(){
+            var current_amount = <?php echo $amount ?>;
 
-        selectDeposit($(this).val());
+            selectDeposit($(this).val());
 
-        $( "#amtSlider" ).slider( "option", "value", $(this).val() );
+            $( "#amtSlider" ).slider( "option", "value", $(this).val() );
 
-        if ( $(this).val() > current_amount  ) {
-            $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
-        } else {
-            $('#amount_alert').empty();
-        }
-    })
-    $("#invest").on("click", function(){
+            if ( $(this).val() > current_amount  ) {
+                $('#amount_alert').html('Your balance is not enough money to invest. Pay the remaining amount through Perfect Money').attr('style','color:red;margin-bottom:15px');
+            } else {
+                $('#amount_alert').empty();
+            }
+        })
+        $("#invest").on("click", function(){
 
-        selectDeposit($("#amt").val());
+            selectDeposit($("#amt").val());
 
-        /*if ( $('#invest-form input[type="radio"]').is(':checked') == false ) {
-            $('#deposit_alert').html('Select an investment program').attr('style','color:red;margin-bottom:15px');
-            return false;
-        }*/
+            /*if ( $('#invest-form input[type="radio"]').is(':checked') == false ) {
+             $('#deposit_alert').html('Select an investment program').attr('style','color:red;margin-bottom:15px');
+             return false;
+             }*/
 
-        if ( $("#amt").val() < 10 && $("#amt").val() > 30000 ) {
-            $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
-            return false;
-        }
-    })
+            if ( $("#amt").val() < 10 && $("#amt").val() > 30000 ) {
+                $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
+                return false;
+            }
+        })
+    });
+
 
 
 </script>

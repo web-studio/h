@@ -167,11 +167,11 @@
                 <div class="container">
                     <div class="stitch"></div>
                     <div class="sixteen columns">
-                        <div class="first column alpha">
+                        <div class="first column">
 
                             <div class="left">
                                 <div class="logo">
-                                    <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo.png" /></a><!-- Large Logo -->
+                                    <a href="<?php echo Yii::app()->getRequest()->getHostInfo() ?>"><img src="<?php echo Yii::app()->getRequest()->getHostInfo() ?>/images/logo_footer.png" /></a><!-- Large Logo -->
                                 </div>
                             </div>
                         </div>

@@ -132,6 +132,7 @@ $this->breadcrumbs=array(
 
 <div id="modalPerfectMoney" style="display: none;">
     <h4 class="title">Edit PM account</h4>
+    <div id="perfect_alert"></div>
     <div class="form">
         <div>
             <?php echo CHtml::textField('pm_account', $user->perfect_purse, ['id'=>'pm_account']) ?><br/>
@@ -142,6 +143,7 @@ $this->breadcrumbs=array(
 
 <div id="modalPassword" style="display: none;">
     <h4 class="title">Edit Password</h4>
+
     <div class="form">
         <div>
             <div>enter the new password two times</div>
@@ -160,17 +162,25 @@ $this->breadcrumbs=array(
     });
 
     $("#savePM").on("click", function() {
-        $.ajax({
-            url: "<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/editPerfectMoneyAccount") ?>",
-            data: {pm_account: $("#pm_account").val()},
-            dataType: "json",
-            type: "POST",
-            success: function(data){
-                $("#perfect").html(data.pm);
-                $.fancybox.close({type: "inline", href: "#modalPerfectMoney"})
-            }
-        });
-        return false;
+        var regV = /U\d{7}$/;
+        if ( !$('#pm_account').val().match(regV) ) {
+            $('#perfect_alert').css({'color':'red'}).html('Incorrect Perfect Money Account');
+            return false;
+        } else {
+            $('#perfect_alert').html('');
+            $.ajax({
+                url: "<?php echo Yii::app()->createAbsoluteUrl("/private/ajax/editPerfectMoneyAccount") ?>",
+                data: {pm_account: $("#pm_account").val()},
+                dataType: "json",
+                type: "POST",
+                success: function(data){
+                    $("#perfect").html(data.pm);
+                    $.fancybox.close({type: "inline", href: "#modalPerfectMoney"})
+                }
+            });
+            return false;
+        }
+
     });
 
     $("#edit_password").on("click", function() {
