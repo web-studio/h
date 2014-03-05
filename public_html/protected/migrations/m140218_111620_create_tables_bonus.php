@@ -6,9 +6,9 @@ class m140218_111620_create_tables_bonus extends CDbMigration
 	{
         $this->createTable('{{bonus_sites}}', [
             'id'=>'pk',
-            'url' => 'string',
-            'title' => 'string',
-            'status' => 'int'
+            'url' => 'varchar(50)',
+            'title' => 'varchar(100)',
+            'status' => 'tinyint(1)'
         ]);
 
         $this->insert('{{bonus_sites}}', [
@@ -49,12 +49,12 @@ class m140218_111620_create_tables_bonus extends CDbMigration
 
         $this->createTable('{{bonus_program}}', [
             'id' => 'pk',
-            'user_id' => 'int',
-            'site_id' => 'int',
-            'link' => 'string',
+            'user_id' => 'int(10)',
+            'site_id' => 'int(10)',
+            'link' => 'varchar(255)',
             'date_create' => 'datetime',
             'date_update' => 'datetime',
-            'status' => 'int'
+            'status' => 'tinyint(1)'
         ]);
 
 	}

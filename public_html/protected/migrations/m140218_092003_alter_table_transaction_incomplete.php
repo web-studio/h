@@ -4,8 +4,8 @@ class m140218_092003_alter_table_transaction_incomplete extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('{{user_transactions_incomplete}}', 'type', 'integer');
-        $this->addColumn('{{user_transactions_incomplete}}', 'status', 'integer');
+        $this->addColumn('{{user_transactions_incomplete}}', 'type', 'tinyint(1)');
+        $this->addColumn('{{user_transactions_incomplete}}', 'status', 'tinyint(1)');
 	}
 
 	public function down()

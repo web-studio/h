@@ -4,7 +4,7 @@ class m140217_182210_alter_table_user_deposits extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('{{user_deposits}}', 'transaction_id', 'integer');
+        $this->addColumn('{{user_deposits}}', 'transaction_id', 'int(10)');
 	}
 
 	public function down()

@@ -5,7 +5,7 @@ class m140209_133730_alter_table_users_add_column_update_time extends CDbMigrati
 	public function up()
 	{
         $this->addColumn('{{users}}', 'updatetime', 'datetime');
-        $this->addColumn('{{users}}', 'status', 'int');
+        $this->addColumn('{{users}}', 'status', 'tinyint(1)');
 	}
 
 	public function down()

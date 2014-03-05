@@ -4,7 +4,7 @@ class m140213_124715_alter_table_transaction_incomplete extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('{{user_transactions_incomplete}}', 'batch_num', 'string');
+        $this->addColumn('{{user_transactions_incomplete}}', 'batch_num', 'varchar(100)');
 	}
 
 	public function down()

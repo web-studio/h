@@ -4,7 +4,7 @@ class m140212_070122_alter_table_user_transactions extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('{{user_transactions}}', 'ref_id', 'int');
+        $this->addColumn('{{user_transactions}}', 'ref_id', 'int(10)');
 	}
 
 	public function down()
