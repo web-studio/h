@@ -38,7 +38,7 @@ class DefaultController extends PrivateController
         $referrals = Yii::app()->db->createCommand()
             ->select('ref_id')
             ->from(Referral::model()->tableName())
-            ->where('user_id=:user_id', array(':user_id'=>Yii::app()->user->id))
+            ->where('user_id=:user_id AND status=:status', array(':user_id'=>Yii::app()->user->id, 'status'=>User::STATUS_ACTIVE))
             ->queryAll();
 
 
@@ -66,9 +66,12 @@ class DefaultController extends PrivateController
             $amount = UserTransactions::model()->replaceComma($_POST['amount']);
             if ( $amount <= User::model()->getAmount() ) {
                 if ( $amount >= $depositType->min_amount && $amount <= $depositType->max_amount ) {
+
+                    $user_id = Yii::app()->user->id;
+
                     $expireDate = BankDay::getEndDate('now', $depositType->days, 'Y-m-d H:i:s');
                     $transaction = new UserTransactions();
-                    $transaction->user_id = Yii::app()->user->id;
+                    $transaction->user_id = $user_id;
                     $transaction->amount = -$amount;
                     $transaction->amount_type = UserTransactions::AMOUNT_TYPE_INVESTMENT;
                     $transaction->reason = 'Investment to "' . DepositType::model()->getNameById($depositType->id) . '". Refund of deposit '. User::formatDate($expireDate);
@@ -79,7 +82,7 @@ class DefaultController extends PrivateController
                         $deposit->deposit_amount = $amount;
                         $deposit->deposit_type_id = $depositType->id;
                         $deposit->expire = $expireDate;
-                        $deposit->user_id = Yii::app()->user->id;
+                        $deposit->user_id = $user_id;
                         $deposit->status = 1;
                         $deposit->reinvest = 0;
 
@@ -100,8 +103,8 @@ class DefaultController extends PrivateController
                                 $transaction->user_id = $referredBy['user_id'];
                                 $transaction->amount = $refAmount;
                                 $transaction->amount_type = UserTransactions::AMOUNT_TYPE_REFERRAL;
-                                $transaction->reason = 'Profit referral of ' . User::getСropNameById(Yii::app()->user->id);
-                                $transaction->ref_id = Yii::app()->user->id;
+                                $transaction->reason = 'Profit referral of ' . User::getСropNameById($user_id);
+                                $transaction->ref_id = $user_id;
                                 $transaction->save();
                             }
                         }
