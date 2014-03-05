@@ -1,3 +1,10 @@
+<?php
+$this->pageTitle = 'Support';
+
+$this->breadcrumbs=array(
+    $this->pageTitle
+);
+?>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'invest-form',
     'enableClientValidation'=>true,
