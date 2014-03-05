@@ -188,8 +188,8 @@ $this->breadcrumbs=array(
         }
 
         function selectDeposit(amount) {
-            if ( amount >= 10.00 && amount <= 300.00  ) {
-                s_dep(1,10.00,300.00)
+            if ( amount >= 0.10 && amount <= 300.00  ) {
+                s_dep(1,0.10,300.00)
             }
             if ( amount >= 300.01 && amount <= 1500.00  ) {
                 s_dep(2,300.01,1500.00)
@@ -224,7 +224,7 @@ $this->breadcrumbs=array(
              return false;
              }*/
 
-            if ( $("#amt").val().length == 0 || $("#amt").val() < 10 || $("#amt").val() > 30000 ) {
+            if ( $("#amt").val().length == 0 || $("#amt").val() < 0.1 || $("#amt").val() > 30000 ) {
                 $('#amount_alert').html('Incorrect amount').attr('style','color:red;margin-bottom:15px');
                 return false;
             }
