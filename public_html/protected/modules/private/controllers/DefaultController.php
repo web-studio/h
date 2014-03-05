@@ -263,4 +263,39 @@ class DefaultController extends PrivateController
             'sites'=>$sites,
         ]);
     }
+
+    public function actionSupport() {
+
+        $supportForm = new SupportForm();
+
+        if ( isset($_POST['SupportForm']) ) {
+
+            $email = Yii::app()->db->createCommand()
+                ->select('email')
+                ->from(User::model()->tableName())
+                ->where('id=:id', array(':id'=>Yii::app()->user->id))
+                ->queryScalar();
+
+            $message = '<html><body>User ID:'. Yii::app()->user->id .'<br>
+                        Email: ' . $email .'<br>
+                        Subject: ' . $_POST['SupportForm']['subject'] .'<br>
+                        Message: ' . $_POST['SupportForm']['message'] . '</body></html> ';
+
+            $res = Email::sendMail(Yii::app()->params['adminEmail'],
+                'Support message by ' . $email,
+                $message
+            );
+
+            if ( $res ) {
+                Yii::app()->user->setFlash('successMessage', 'Message sent successfully. In the near future administrator will contact you');
+            } else {
+                Yii::app()->user->setFlash('failMessage', 'Message was not sent');
+            }
+
+        }
+
+        $this->render('support', [
+            'supportForm'=>$supportForm
+        ]);
+    }
 }

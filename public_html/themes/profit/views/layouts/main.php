@@ -67,11 +67,11 @@
                             <li>
                                 <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
                             </li>
-                            <li>
-                                <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
-                            </li>
                             <?php if ( !Yii::app()->user->isGuest ) : ?>
                                 <?php if ( Yii::app()->user->role == 'admin' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('Support', Yii::app()->createAbsoluteUrl('/support')) ?>
+                                    </li>
                                     <li>
                                         <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
                                     </li>
@@ -80,6 +80,9 @@
                                     </li>
                                 <?php endif ?>
                                 <?php if ( Yii::app()->user->role == 'user' ) : ?>
+                                    <li>
+                                        <?php echo CHtml::link('Support', Yii::app()->createAbsoluteUrl('/support')) ?>
+                                    </li>
                                     <li>
                                         <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
                                     </li>
@@ -204,18 +207,17 @@
 
                             <?php echo CHtml::link('FAQ', Yii::app()->createAbsoluteUrl('/faq')) ?>
 
-                            <?php echo CHtml::link('Contacts', Yii::app()->createAbsoluteUrl('/contacts')) ?>
 
                             <?php if ( !Yii::app()->user->isGuest ) : ?>
                                 <?php if ( Yii::app()->user->role == 'admin' ) : ?>
-
+                                    <?php echo CHtml::link('Support', Yii::app()->createAbsoluteUrl('/support')) ?>
                                     <?php echo CHtml::link('Admin', Yii::app()->createAbsoluteUrl('/admin')) ?>
 
                                     <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
 
                                 <?php endif ?>
                                 <?php if ( Yii::app()->user->role == 'user' ) : ?>
-
+                                    <?php echo CHtml::link('Support', Yii::app()->createAbsoluteUrl('/support')) ?>
                                     <?php echo CHtml::link('My account', Yii::app()->createAbsoluteUrl('/private')) ?>
 
                                     <?php echo CHtml::link('Logout', Yii::app()->createAbsoluteUrl('/site/logout')) ?>
