@@ -146,7 +146,6 @@
                 </div>
             </div>
 
-            <div class="callout-hr"></div>
             <div class="container">
 
                 <div class="sixteen columns">
