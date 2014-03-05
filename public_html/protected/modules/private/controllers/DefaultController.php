@@ -38,7 +38,7 @@ class DefaultController extends PrivateController
         $referrals = Yii::app()->db->createCommand()
             ->select('ref_id')
             ->from(Referral::model()->tableName())
-            ->where('user_id=:user_id AND status=:status', array(':user_id'=>Yii::app()->user->id, 'status'=>User::STATUS_ACTIVE))
+            ->where('user_id=:user_id', array(':user_id'=>Yii::app()->user->id))
             ->queryAll();
 
 

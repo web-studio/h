@@ -151,7 +151,7 @@ class OutputTransactions extends CActiveRecord
         $criteria->compare('created_time',$this->created_time,true);
         $criteria->compare('status',$this->status);
         $criteria->compare('error',$this->error,true);
-        $criteria->addCondition('status='.OutputTransactions::STATUS_ERROR);
+        $criteria->addCondition('user_id='.Yii::app()->user->id.' AND (status='.OutputTransactions::STATUS_ERROR .' OR status='.OutputTransactions::STATUS_SUCCESS . ')');
         $criteria->order = 'ID DESC';
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
