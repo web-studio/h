@@ -5,10 +5,20 @@ class UserController extends AdminController
 
 	public function actionView($id)
 	{
+        $userDeposits = new UserDeposit('depositSearchById');
+        if(isset($_GET['UserDeposit'])) {
+            $userDeposits->attributes=$_GET['UserDeposit'];
+        }
 
+        $outputTransactions = new OutputTransactions('outputSearchById');
+        if(isset($_GET['OutputTransactions'])) {
+            $outputTransactions->attributes=$_GET['OutputTransactions'];
+        }
 
 		$this->render('view',array(
 			'user'=>$this->loadModel($id),
+            'deposits'=>$userDeposits,
+            'output'=>$outputTransactions,
 		));
 	}
 
@@ -120,4 +130,14 @@ class UserController extends AdminController
 			Yii::app()->end();
 		}
 	}
+
+    public function actionEditPasswordUsers(){
+
+        if ( isset($_POST['user_id']) ) {
+            $user = User::model()->find(['select'=>'id, password','condition'=>'id=:user_id', 'params'=>[':user_id'=>$_POST['user_id']]]);
+            $user->password = $_POST['password'];
+            $user->save();
+
+        }
+    }
 }

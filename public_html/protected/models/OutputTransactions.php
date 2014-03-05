@@ -157,6 +157,29 @@ class OutputTransactions extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    public function outputSearchById($id)
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('payee_account_name',$this->payee_account_name,true);
+        $criteria->compare('payee_account',$this->payee_account,true);
+        $criteria->compare('payment_amount',$this->payment_amount,true);
+        $criteria->compare('payment_batch_num',$this->payment_batch_num,true);
+        $criteria->compare('payment_id',$this->payment_id,true);
+        $criteria->compare('created_time',$this->created_time,true);
+        $criteria->compare('status',$this->status);
+        $criteria->compare('error',$this->error,true);
+        $criteria->addCondition('status='.OutputTransactions::STATUS_SUCCESS . ' AND user_id = ' . $id);
+        $criteria->order = 'ID DESC';
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

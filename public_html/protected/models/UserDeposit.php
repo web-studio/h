@@ -262,6 +262,28 @@ class UserDeposit extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    public function depositSearchById($id)
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('deposit_type_id',$this->deposit_type_id,true);
+        $criteria->compare('deposit_amount',$this->deposit_amount,true);
+        $criteria->compare('expire',$this->expire,true);
+        $criteria->compare('date_create',$this->date_create,true);
+        $criteria->compare('reinvest',$this->reinvest);
+        $criteria->compare('status',self::STATUS_ACTIVE);
+        $criteria->compare('transaction_id',$this->transaction_id);
+        $criteria->addCondition('user_id='. $id);
+        $criteria->order = 'ID DESC';
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
