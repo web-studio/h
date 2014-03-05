@@ -1,6 +1,6 @@
 <?php
 
-class PerfectMoneyController extends PrivateController
+class PerfectMoneyController extends Controller
 {
 
     public function actionStatus($invest=null) {
