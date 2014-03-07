@@ -115,7 +115,7 @@ class MoneyController extends AdminController
                     $html .= '<td>'.$item[8].'</td>';
                 $html .= '</tr>';
             }
-        $html .= '<table>';
+        $html .= '</table>';
        // }
 
         $this->render('history', array(
