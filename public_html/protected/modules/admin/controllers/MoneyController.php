@@ -76,12 +76,12 @@ class MoneyController extends AdminController
         while(!feof($f)) array_push($lines, trim(fgets($f)));
 
         fclose($f);
-
+        $html = '';
         // try parsing data to array
         if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
 
             // print error message
-            echo $lines[0];
+            $html .= $lines[0];
 
         }else{
 
@@ -92,22 +92,22 @@ class MoneyController extends AdminController
 
                 $item=explode(",", $lines[$i], 9);
                 if(count($item)!=9) continue; // line is invalid - pass to next one
-                $item_named['Time']=$item[0];
-                $item_named['Type']=$item[1];
-                $item_named['Batch']=$item[2];
-                $item_named['Currency']=$item[3];
-                $item_named['Amount']=$item[4];
-                $item_named['Fee']=$item[5];
-                $item_named['Payer Account']=$item[6];
-                $item_named['Payee Account']=$item[7];
-                $item_named['Memo']=$item[8];
-                array_push($history, $item_named);
+                $html .= $item[0];
+                $html .= $item[1];
+                $html .= $item[2];
+                $html .= $item[3];
+                $html .= $item[4];
+                $html .= $item[5];
+                $html .= $item[6];
+                $html .= $item[7];
+                $html .= $item[8];
+
             }
 
         }
 
         $this->render('history', array(
-            'history'=>$history
+            'history'=>$html
         ));
     }
 }
