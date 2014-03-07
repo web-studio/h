@@ -77,7 +77,17 @@ class MoneyController extends AdminController
 
         fclose($f);
         var_dump($lines);
-        $html = '';
+        $html = '<table><thead>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Batch</th>
+            <th>Currency</th>
+            <th>Amount</th>
+            <th>Fee</th>
+            <th>Payer Account</th>
+            <th>Payee Account</th>
+            <th>Memo</th>
+        </thead>';
         // try parsing data to array
         /*if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
 
@@ -90,19 +100,20 @@ class MoneyController extends AdminController
             $history=array();
             $n=count($lines);
             for($i=1; $i<$n; $i++){
-
-                $item=explode(",", $lines[$i], 9);
-                if(count($item)!=9) continue; // line is invalid - pass to next one
-                $html .= $item[0];
-                $html .= $item[1];
-                $html .= $item[2];
-                $html .= $item[3];
-                $html .= $item[4];
-                $html .= $item[5];
-                $html .= $item[6];
-                $html .= $item[7];
-                $html .= $item[8];
-
+                
+                $html .= '<tr>';
+                    $item=explode(",", $lines[$i], 9);
+                    if(count($item)!=9) continue; // line is invalid - pass to next one
+                    $html .= '<td>'.$item[0].'</td>';
+                    $html .= '<td>'.$item[1].'</td>';
+                    $html .= '<td>'.$item[2].'</td>';
+                    $html .= '<td>'.$item[3].'</td>';
+                    $html .= '<td>'.$item[4].'</td>';
+                    $html .= '<td>'.$item[5].'</td>';
+                    $html .= '<td>'.$item[6].'</td>';
+                    $html .= '<td>'.$item[7].'</td>';
+                    $html .= '<td>'.$item[8].'</td>';
+                $html .= '</tr';
             }
 
        // }
