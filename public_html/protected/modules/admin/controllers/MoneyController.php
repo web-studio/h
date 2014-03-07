@@ -17,7 +17,7 @@ class MoneyController extends AdminController
             ->from(UserDeposit::model()->tableName())
             ->group('DATE(expire)')
             ->order('expire ASC')
-            ->where("status=1 AND expire>=NOW() AND expire<=DATE('" . date('Y-m-d', strtotime($this->date) ) . "')")
+            ->where("status=1 AND expire>=NOW() AND DATE(expire)<=DATE('" . date('Y-m-d', strtotime($this->date) ) . "')")
             ->queryAll();
 
         /*$deposits = new CActiveDataProvider('UserDeposit',
