@@ -1,8 +1,10 @@
 
-<table class="">
-    <tr>
-        <?php foreach ( $balances as $purse=>$value ) : ?>
+<table class="items table">
+
+    <?php foreach ( $balances as $purse=>$value ) : ?>
+        <tr>
             <td><?= $purse ?></td><td><?= $value ?></td>
-        <?php endforeach ?>
-    </tr>
+        </tr>
+    <?php endforeach ?>
+
 </table>

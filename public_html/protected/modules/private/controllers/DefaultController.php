@@ -184,20 +184,20 @@ class DefaultController extends PrivateController
         if ( isset($_POST['internal_purse']) && isset($_POST['amount']) ) {
 
             $user = User::model()->findByAttributes(['internal_purse'=>$_POST['internal_purse']]);
-            $amount = (int)$_POST['amount'];
+            $amount = $_POST['amount'];
 
             if ( $amount <= User::model()->getAmount() && $amount != 0 && $user != null ) {
                 //Транзакции получателя
             $transaction_receiver = new UserTransactions();
             $transaction_receiver->user_id = $user->id;
-            $transaction_receiver->amount = $_POST['amount'];
+            $transaction_receiver->amount = $amount;
             $transaction_receiver->amount_type = UserTransactions::AMOUNT_TYPE_TRANSFER;
             $transaction_receiver->reason = 'Transfer from ' . User::getСropNameById(Yii::app()->user->id);
                 if  ( $transaction_receiver->save() ) {
                     //Транзакции отправителя
                     $transaction_sender = new UserTransactions();
                     $transaction_sender->user_id = Yii::app()->user->id;
-                    $transaction_sender->amount = -$_POST['amount'];
+                    $transaction_sender->amount = -$amount;
                     $transaction_sender->amount_type = UserTransactions::AMOUNT_TYPE_TRANSFER;
                     $transaction_sender->reason = 'Transfer to ' . User::getСropNameById($user->id);
                     $transaction_sender->receiver_id = $user->id;

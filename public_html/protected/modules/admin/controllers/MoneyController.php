@@ -2,6 +2,40 @@
 
 class MoneyController extends AdminController
 {
+    public $expirationDate = 7;
+
+    public function actionIndex()
+    {
+        if ( isset($_POST['day']) && !empty($_POST['day'])) {
+            $this->expirationDate = $_POST['day'];
+        }
+
+        $deps = Yii::app()->db->createCommand()
+            ->select('expire, SUM(deposit_amount) as amount')
+            ->from(UserDeposit::model()->tableName())
+            ->group('DATE(expire)')
+            ->order('expire ASC')
+            ->where("status=1 AND expire>=NOW() AND expire<=DATE('" . date('Y-m-d h:i:s', time() + $this->expirationDate * 86400) . "')")
+            ->queryAll();
+
+        /*$deposits = new CActiveDataProvider('UserDeposit',
+            array(
+                'criteria' => array(
+                    'condition' => 't.status=1',
+                ),
+                'pagination' => array(
+                    'pageSize' => 30,
+                    'pageVar' => 'page',
+                ),
+
+            ));*/
+
+        $this->render('index', array(
+            'deps' => $deps,
+            //'deposits' => $deposits,
+        ));
+    }
+
     public function actionBalance() {
         // trying to open URL to process PerfectMoney Spend request
         $f=fopen('https://perfectmoney.is/acct/balance.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'], 'rb');
