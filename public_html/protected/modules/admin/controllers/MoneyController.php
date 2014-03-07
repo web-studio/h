@@ -69,12 +69,14 @@ class MoneyController extends AdminController
             echo 'error openning url';
         }
 
+
+
         // getting data to array (line per item)
         $lines=array();
         while(!feof($f)) array_push($lines, trim(fgets($f)));
 
         fclose($f);
-
+        var_dump($lines);die;
         // try parsing data to array
         if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
 
