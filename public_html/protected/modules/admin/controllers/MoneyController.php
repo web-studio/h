@@ -76,7 +76,7 @@ class MoneyController extends AdminController
         while(!feof($f)) array_push($lines, trim(fgets($f)));
 
         fclose($f);
-        var_dump($lines);
+
         $html = '<table><thead>
             <th>Time</th>
             <th>Type</th>
