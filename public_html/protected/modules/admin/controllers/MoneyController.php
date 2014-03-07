@@ -76,7 +76,7 @@ class MoneyController extends AdminController
         while(!feof($f)) array_push($lines, trim(fgets($f)));
 
         fclose($f);
-        var_dump($lines);die;
+        var_dump($lines);
         $html = '';
         // try parsing data to array
         /*if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
