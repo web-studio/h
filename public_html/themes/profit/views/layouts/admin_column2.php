@@ -41,10 +41,11 @@
         <?php
         $this->widget('zii.widgets.CMenu', array(
             'items'=> array(
-                array('label'=>'Money','url'=>'#', 'items'=>[
+                /*array('label'=>'Money','url'=>'#', 'items'=>[
                     array('label'=>'Perfect balance','url'=>array('/admin/money/balance')),
-                    //array('label'=>'Sites','url'=>array('/admin/bonusSites')),
-                ]),
+                    array('label'=>'Sites','url'=>array('/admin/bonusSites')),
+                ]),*/
+                array('label'=>'Money','url'=>array('/admin/money')),
                 array('label'=>'Users','url'=>array('/admin/user')),
                 array('label'=>'Referrals','url'=>array('/admin/referral')),
                 array('label'=>'User deposits','url'=>array('/admin/userDeposit')),

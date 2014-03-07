@@ -20,26 +20,6 @@ class MoneyController extends AdminController
             ->where("status=1 AND expire>=NOW() AND DATE(expire)<=DATE('" . date('Y-m-d', strtotime($this->date) ) . "')")
             ->queryAll();
 
-        /*$deposits = new CActiveDataProvider('UserDeposit',
-            array(
-                'criteria' => array(
-                    'condition' => 't.status=1',
-                ),
-                'pagination' => array(
-                    'pageSize' => 30,
-                    'pageVar' => 'page',
-                ),
-
-            ));*/
-
-        $this->render('index', array(
-            'deps' => $deps,
-            'date' => $this->date,
-        ));
-    }
-
-    public function actionBalance() {
-        // trying to open URL to process PerfectMoney Spend request
         $f=fopen('https://perfectmoney.is/acct/balance.asp?AccountID=' . Yii::app()->params['AccountID'] . '&PassPhrase=' . Yii::app()->params['PassPhrase'], 'rb');
 
         if($f===false){
@@ -65,8 +45,17 @@ class MoneyController extends AdminController
             $balances[$key]=$item[2];
         }
 
-        $this->render('balance', array(
+        $this->render('index', array(
+            'deps' => $deps,
+            'date' => $this->date,
             'balances' => $balances,
+        ));
+    }
+
+    public function actionBalance() {
+
+        $this->render('balance', array(
+
         ));
     }
 }

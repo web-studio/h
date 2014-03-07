@@ -1,3 +1,15 @@
+<table class="items table">
+        <thead>
+            <th>Purse</th><th>Amount</th>
+        </thead>
+    <?php foreach ( $balances as $purse=>$value ) : ?>
+        <tr>
+            <td><?= $purse ?></td><td><?= $value ?></td>
+        </tr>
+    <?php endforeach ?>
+
+</table>
+
 <p>
     Overall balance users:
     <span class='stat-value'><?php echo User::model()->allAmount; ?>$</span>
