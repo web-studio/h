@@ -11,8 +11,8 @@
 </table>
 
 <p>
-    Overall balance users:
-    <span class='stat-value'><?php echo User::model()->allAmount; ?>$</span>
+    <strong>Overall balance users:</strong>
+    <span class='stat-value'>$<?php echo User::model()->allAmount; ?></span>
 </p>
 
 
@@ -33,14 +33,10 @@
             'showAnim' => 'fold',
             'changeMonth' => true,
             'changeYear' => true,
-            //'showOtherMonths'=>true,
-            //'language' => Yii::app()->getLanguage(),
             'dateFormat' => 'yy-mm-dd',
-            //'showButtonPanel' => true,
-            //'showOn' => 'both',
-            //'buttonImageOnly' => true,
+            'minDate' => 'new Date',
             'beforeShow' => "js:function() {
-
+                    $('.ui-datepicker').css('font-size', '0.9em');
                     $('.ui-datepicker-div').css('z-index', 9999);
             }",
             'onSelect' => "js:function() {
@@ -60,9 +56,9 @@
 
 <table class='table table-bordered table-striped'>
     <thead>
-    <tr>
-        <td>Date</td><td>Amount</td>
-    </tr>
+
+        <th>Date</th><th>Amount</th>
+
     </thead>
     <?php foreach( $deps as $deposit ) : ?>
         <tr>
