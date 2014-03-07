@@ -79,13 +79,13 @@ class MoneyController extends AdminController
         var_dump($lines);die;
         $html = '';
         // try parsing data to array
-        if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
+        /*if($lines[0]!='Time,Type,Batch,Currency,Amount,Fee,Payer Account,Payee Account,Memo'){
 
             // print error message
             $html .= $lines[0];
 
         }else{
-
+*/
             // do parsing
             $history=array();
             $n=count($lines);
@@ -105,7 +105,7 @@ class MoneyController extends AdminController
 
             }
 
-        }
+       // }
 
         $this->render('history', array(
             'history'=>$html
