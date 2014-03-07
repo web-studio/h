@@ -288,7 +288,7 @@
 	.body {
 		width:100%;
 		position:relative;
-		z-index:90;
+		z-index:10;
 	}
 	.body .body-round {
 		background:url(../images/design/bodyTop-960.png) left top no-repeat transparent;

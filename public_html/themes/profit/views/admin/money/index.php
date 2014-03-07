@@ -4,21 +4,52 @@
 </p>
 
 
-<h3>List closure deposits <a href='javascript:;' onclick="$('#form').show(300);" id='day' title='Click to change'>
-        <?php echo $this->expirationDate; ?></a> <?php echo User::model()->declension($this->expirationDate, ' day', ' day', ' days')?>:</h3>
-<div id='form' style='display:none'>
+
+<div id='form'>
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'day-form',
         'enableAjaxValidation'=>false,
     )); ?>
-    <?php echo CHtml::textField('day',''); ?>
-    <?php echo CHtml::submitButton('Изменить', array('class' => 'btn btn-large')); ?>
+    List of deposits by the end of
+    <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+        'id' => 'day',
+        'name' => 'day',
+        'value' => $date,
+        'language' => 'ru',
+        // additional javascript options for the date picker plugin
+        'options' => array(
+            'showAnim' => 'fold',
+            'changeMonth' => true,
+            'changeYear' => true,
+            //'showOtherMonths'=>true,
+            //'language' => Yii::app()->getLanguage(),
+            'dateFormat' => 'yy-mm-dd',
+            //'showButtonPanel' => true,
+            //'showOn' => 'both',
+            //'buttonImageOnly' => true,
+            'beforeShow' => "js:function() {
+
+                    $('.ui-datepicker-div').css('z-index', 9999);
+            }",
+            'onSelect' => "js:function() {
+
+                   $('#day-form').submit();
+            }",
+        ),
+        'htmlOptions' => array(
+
+            'class' => 'input-small input-mask-date',
+
+        ),
+    )); ?>
     <?php $this->endWidget(); ?>
 </div>
+
+
 <table class='table table-bordered table-striped'>
     <thead>
     <tr>
-        <td>Дата</td><td>Сумма</td>
+        <td>Date</td><td>Amount</td>
     </tr>
     </thead>
     <?php foreach( $deps as $deposit ) : ?>

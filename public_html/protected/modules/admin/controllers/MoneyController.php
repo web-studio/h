@@ -2,12 +2,14 @@
 
 class MoneyController extends AdminController
 {
-    public $expirationDate = 7;
+    public $date;
 
     public function actionIndex()
     {
         if ( isset($_POST['day']) && !empty($_POST['day'])) {
-            $this->expirationDate = $_POST['day'];
+            $this->date = $_POST['day'];
+        } else {
+            $this->date = date('Y-m-d', time()+(7*86400));
         }
 
         $deps = Yii::app()->db->createCommand()
@@ -15,11 +17,9 @@ class MoneyController extends AdminController
             ->from(UserDeposit::model()->tableName())
             ->group('DATE(expire)')
             ->order('expire ASC')
-            ->where("status=1 AND expire>=NOW() AND expire<=DATE('" . date('Y-m-d h:i:s', time() + $this->expirationDate * 86400) . "')")
+            ->where("status=1 AND expire>=NOW() AND expire<=DATE('" . date('Y-m-d', strtotime($this->date) ) . "')")
             ->queryAll();
-        if ( isset($_POST) ) {
-           var_dump($deps);
-        }
+
         /*$deposits = new CActiveDataProvider('UserDeposit',
             array(
                 'criteria' => array(
@@ -34,7 +34,7 @@ class MoneyController extends AdminController
 
         $this->render('index', array(
             'deps' => $deps,
-            //'deposits' => $deposits,
+            'date' => $this->date,
         ));
     }
 
