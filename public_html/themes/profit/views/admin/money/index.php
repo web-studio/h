@@ -22,7 +22,7 @@
         'id'=>'day-form',
         'enableAjaxValidation'=>false,
     )); ?>
-    List of deposits by the end of
+    <strong>List of deposits by the end of</strong>
     <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
         'id' => 'day',
         'name' => 'day',
@@ -47,7 +47,7 @@
         'htmlOptions' => array(
 
             'class' => 'input-small input-mask-date',
-
+            'style'=>'cursor:pointer; background-color: transparent; padding:0 1px 0 1px;margin:0 0 3px 2px;border-top:0;border-left:0;border-right:0;border-bottom: 1px dashed #217b9d;box-shadow:none;color:#217b9d;width:75px;font-weight:bold'
         ),
     )); ?>
     <?php $this->endWidget(); ?>
