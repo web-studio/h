@@ -17,7 +17,7 @@ class MoneyController extends AdminController
             ->order('expire ASC')
             ->where("status=1 AND expire>=NOW() AND expire<=DATE('" . date('Y-m-d h:i:s', time() + $this->expirationDate * 86400) . "')")
             ->queryAll();
-
+        var_dump($deps);die;
         /*$deposits = new CActiveDataProvider('UserDeposit',
             array(
                 'criteria' => array(
