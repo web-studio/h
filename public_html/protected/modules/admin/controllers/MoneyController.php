@@ -100,7 +100,7 @@ class MoneyController extends AdminController
             $history=array();
             $n=count($lines);
             for($i=1; $i<$n; $i++){
-                
+
                 $html .= '<tr>';
                     $item=explode(",", $lines[$i], 9);
                     if(count($item)!=9) continue; // line is invalid - pass to next one
@@ -113,9 +113,9 @@ class MoneyController extends AdminController
                     $html .= '<td>'.$item[6].'</td>';
                     $html .= '<td>'.$item[7].'</td>';
                     $html .= '<td>'.$item[8].'</td>';
-                $html .= '</tr';
+                $html .= '</tr>';
             }
-
+        $html .= '<table>';
        // }
 
         $this->render('history', array(
