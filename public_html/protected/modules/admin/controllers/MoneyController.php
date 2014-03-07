@@ -53,7 +53,7 @@ class MoneyController extends AdminController
     }
 
     public function actionPerfectHistory($start_date, $end_date) {
-
+        $this->layout='//layouts/blank';
         $startmonth = date('m', strtotime($start_date));
         $startday = date('d', strtotime($start_date));
         $startyear = date('Y', strtotime($start_date));
